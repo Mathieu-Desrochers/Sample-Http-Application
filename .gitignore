@@ -1,3 +1,9 @@
 # Build Folders
 bin
 obj
+
+# Test Results
+TestResults
+
+# User Settings
+*.suo
