@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<dataAccessComponent name="Session">
+  <columns>
+    <column name="SessionID" csharpType="int" sqlDbType="Int" isPrimaryKey="true" />
+    <column name="SessionCode" csharpType="string" sqlDbType="NVarChar" sqlDbTypeSize="50" isUnique="true">
+      <testValues>
+        <testValue1>"Session-A"</testValue1>
+        <testValue2>"Session-B"</testValue2>
+        <testValue3>"Session-C"</testValue3>
+      </testValues>
+    </column>
+    <column name="Name" csharpType="string" sqlDbType="NVarChar" sqlDbTypeSize="50">
+      <testValues>
+        <testValue1>"Session Alpha"</testValue1>
+        <testValue2>"Session Beta"</testValue2>
+        <testValue3>"Session Charlie"</testValue3>
+      </testValues>
+    </column>
+    <column name="StartDate" csharpType="DateTime" sqlDbType="DateTime">
+      <testValues>
+        <testValue1>new DateTime(2001, 1, 1, 1, 1, 1)</testValue1>
+        <testValue2>new DateTime(2002, 2, 2, 2, 2, 2)</testValue2>
+        <testValue3>new DateTime(2003, 3, 3, 3, 3, 3)</testValue3>
+      </testValues>
+    </column>
+  </columns>
+  <queries>
+    <query name="ReadBySessionID" results="single">
+      <summary>Reads the single Session data row matching the specified SessionID.</summary>
+      <parameters>
+        <parameter name="SessionID" csharpType="int" sqlDbType="Int" />
+      </parameters>
+    </query>
+    <query name="ReadBySessionCode" results="single">
+      <summary>Reads the single Session data row matching the specified SessionCode.</summary>
+      <parameters>
+        <parameter name="SessionCode" csharpType="string" sqlDbType="NVarChar" sqlDbTypeSize="50" />
+      </parameters>
+    </query>
+  </queries>
+</dataAccessComponent>

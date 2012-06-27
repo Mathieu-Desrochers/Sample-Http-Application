@@ -30,7 +30,7 @@ namespace SampleHttpApplication.DataAccessComponents.Code.Session
             sessionDataRow.SessionCode = (string)sqlDataReader["SessionCode"];
             sessionDataRow.Name = (string)sqlDataReader["Name"];
             sessionDataRow.StartDate = (DateTime)sqlDataReader["StartDate"];
-            
+
             // Return the Session data row.
             return sessionDataRow;
         }

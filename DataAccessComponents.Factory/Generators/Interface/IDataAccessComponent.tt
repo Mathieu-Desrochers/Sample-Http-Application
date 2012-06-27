@@ -1,0 +1,58 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ include file="..\Common.tt" #>
+<#@ output extension=".cs" #>
+<#
+    string xmlPath = Host.ResolvePath(@"..\Blueprint.xml");
+    XElement xml = XElement.Load(xmlPath);
+#>
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SampleHttpApplication.DataAccessComponents.Interface.<#= (string)xml.Attribute("name") #>
+{
+    /// <summary>
+    /// Represents a <#= (string)xml.Attribute("name") #> data access component.
+    /// </summary>
+    public interface I<#= (string)xml.Attribute("name") #>DataAccessComponent
+    {
+        /// <summary>
+        /// Creates the specified <#= (string)xml.Attribute("name") #> data row.
+        /// </summary>
+        Task Create(IDatabaseConnection databaseConnection, <#= (string)xml.Attribute("name") #>DataRow <#= CamelCased((string)xml.Attribute("name")) #>DataRow);
+
+<# foreach (XElement query in xml.Element("queries").Elements("query").Where(query => (string)query.Attribute("results") == "single")) { #>
+        /// <summary>
+        /// <#= (string)query.Element("summary") #>
+        /// </summary>
+        Task<<#= (string)xml.Attribute("name") #>DataRow> <#= (string)query.Attribute("name") #>(IDatabaseConnection databaseConnection<# foreach (XElement parameter in query.Elements("parameters").Elements("parameter")) { #>, <#= (string)parameter.Attribute("type") #> <#= (string)parameter.Attribute("name") #><# } #>);
+
+<# } #>
+<# foreach (XElement query in xml.Element("queries").Elements("query").Where(query => (string)query.Attribute("results") == "multiple")) { #>
+        /// <summary>
+        /// <#= (string)query.Element("summary") #>
+        /// </summary>
+        Task<<#= (string)xml.Attribute("name") #>DataRow[]> <#= (string)query.Attribute("name") #>(IDatabaseConnection databaseConnection<# foreach (XElement parameter in query.Elements("parameters").Elements("parameter")) { #>, <#= (string)parameter.Attribute("type") #> <#= (string)parameter.Attribute("name") #><# } #>);
+
+<# } #>
+        /// <summary>
+        /// Updates the specified <#= (string)xml.Attribute("name") #> data row.
+        /// </summary>
+        Task Update(IDatabaseConnection databaseConnection, <#= (string)xml.Attribute("name") #>DataRow <#= CamelCased((string)xml.Attribute("name")) #>DataRow);
+
+        /// <summary>
+        /// Deletes the specified <#= (string)xml.Attribute("name") #> data row.
+        /// </summary>
+        Task Delete(IDatabaseConnection databaseConnection, <#= (string)xml.Attribute("name") #>DataRow <#= CamelCased((string)xml.Attribute("name")) #>DataRow);
+    }
+}

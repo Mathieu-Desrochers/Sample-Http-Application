@@ -7,3 +7,9 @@ TestResults
 
 # User Settings
 *.suo
+
+# Generated Code Files
+Common.cs
+DataRow.cs
+IDataAccessComponent.cs
+DataAccessComponent.cs

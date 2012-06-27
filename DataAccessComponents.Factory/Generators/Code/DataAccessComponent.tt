@@ -1,0 +1,200 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ include file="..\Common.tt" #>
+<#@ output extension=".cs" #>
+<#
+    string xmlPath = Host.ResolvePath(@"..\Blueprint.xml");
+    XElement xml = XElement.Load(xmlPath);
+#>
+
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using SampleHttpApplication.DataAccessComponents.Interface;
+using SampleHttpApplication.DataAccessComponents.Interface.<#= (string)xml.Attribute("name") #>;
+
+namespace SampleHttpApplication.DataAccessComponents.Code.<#= (string)xml.Attribute("name") #>
+{
+    /// <summary>
+    /// Represents a <#= (string)xml.Attribute("name") #> data access component.
+    /// </summary>
+    public class <#= (string)xml.Attribute("name") #>DataAccessComponent : I<#= (string)xml.Attribute("name") #>DataAccessComponent
+    {
+        /// <summary>
+        /// Gets the values from the specified SQL data reader.
+        /// </summary>
+        private <#= (string)xml.Attribute("name") #>DataRow GetSqlDataReaderValues(SqlDataReader sqlDataReader)
+        {
+            // Build the <#= (string)xml.Attribute("name") #> data row.
+            <#= (string)xml.Attribute("name") #>DataRow <#= CamelCased((string)xml.Attribute("name")) #>DataRow = new <#= (string)xml.Attribute("name") #>DataRow();
+
+            // Read the values.
+<# foreach (XElement column in xml.Element("columns").Elements("column")) { #>
+            <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)column.Attribute("name") #> = (<#= (string)column.Attribute("csharpType") #>)sqlDataReader["<#= (string)column.Attribute("name") #>"];
+<# } #>
+            
+            // Return the <#= (string)xml.Attribute("name") #> data row.
+            return <#= CamelCased((string)xml.Attribute("name")) #>DataRow;
+        }
+
+        /// <summary>
+        /// Sets the parameter values on the specified SQL command.
+        /// </summary>
+        private void SetSqlCommandParameterValues(SqlCommand sqlCommand, <#= (string)xml.Attribute("name") #>DataRow <#= CamelCased((string)xml.Attribute("name")) #>DataRow, bool setPrimaryKeyValue)
+        {
+            // Set the primary key if requested.
+            if (setPrimaryKeyValue)
+            {
+                sqlCommand.Parameters.Add("@<#= CamelCased((string)PrimaryKeyColumn(xml).Attribute("name")) #>", SqlDbType.<#= (string)PrimaryKeyColumn(xml).Attribute("sqlDbType") #><# if (PrimaryKeyColumn(xml).Attribute("sqlDbTypeSize") != null) { #>, <#= (string)PrimaryKeyColumn(xml).Attribute("sqlDbTypeSize") #><# } #>).Value = <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)xml.Attribute("name") #>ID;
+            }
+
+            // Set the other parameters.
+<# foreach (XElement column in NonPrimaryKeyColumns(xml)) { #>
+            sqlCommand.Parameters.Add("@<#= CamelCased((string)column.Attribute("name")) #>", SqlDbType.<#= (string)column.Attribute("sqlDbType") #><# if (column.Attribute("sqlDbTypeSize") != null) { #>, <#= (string)column.Attribute("sqlDbTypeSize") #><# } #>).Value = <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)column.Attribute("name") #>;
+<# } #>
+        }
+
+        /// <summary>
+        /// Creates the specified <#= (string)xml.Attribute("name") #> data row.
+        /// </summary>
+        public async Task Create(IDatabaseConnection databaseConnection, <#= (string)xml.Attribute("name") #>DataRow <#= CamelCased((string)xml.Attribute("name")) #>DataRow)
+        {
+            // Build the SQL command.
+            using (SqlCommand sqlCommand = new SqlCommand("INSERT INTO [<#= (string)xml.Attribute("name") #>] VALUES (<# ForEachSeparated(NonPrimaryKeyColumns(xml), (column) => { #>@<#= CamelCased((string)column.Attribute("name")) #><# }, () => {#>, <#}); #>); SELECT CAST(SCOPE_IDENTITY() AS INT);"))
+            {
+                // Use the specified database connection.
+                SqlConnection sqlConnection = (databaseConnection as DatabaseConnection).SqlConnection;
+                sqlCommand.Connection = sqlConnection;
+
+                // Set the SQL command parameter values.
+                this.SetSqlCommandParameterValues(sqlCommand, <#= CamelCased((string)xml.Attribute("name")) #>DataRow, setPrimaryKeyValue: false);
+
+                // Execute the SQL command.
+                int <#= CamelCased((string)xml.Attribute("name")) #>ID = (int)await sqlCommand.ExecuteScalarAsync();
+
+                // Assign the generated <#= (string)xml.Attribute("name") #> ID.
+                <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)xml.Attribute("name") #>ID = <#= CamelCased((string)xml.Attribute("name")) #>ID;
+            }
+        }
+
+<# foreach (XElement query in xml.Element("queries").Elements("query").Where(query => (string)query.Attribute("results") == "single")) { #>
+        /// <summary>
+        /// <#= (string)query.Element("summary") #>
+        /// </summary>
+        public async Task<<#= (string)xml.Attribute("name") #>DataRow> <#= (string)query.Attribute("name") #>(IDatabaseConnection databaseConnection<# foreach (XElement parameter in query.Elements("parameters").Elements("parameter")) { #>, <#= (string)parameter.Attribute("csharpType") #> <#= CamelCased((string)parameter.Attribute("name")) #><# } #>)
+        {
+            // Build the SQL command.
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [<#= (string)xml.Attribute("name") #>] WHERE ;"))
+            {
+                // Use the specified database connection.
+                SqlConnection sqlConnection = (databaseConnection as DatabaseConnection).SqlConnection;
+                sqlCommand.Connection = sqlConnection;
+
+                // Set the SQL command parameter values.
+<# foreach (XElement parameter in query.Elements("parameters").Elements("parameter")) { #>
+                sqlCommand.Parameters.Add("@<#= CamelCased((string)parameter.Attribute("name")) #>", SqlDbType.<#= (string)parameter.Attribute("sqlDbType") #><# if (parameter.Attribute("sqlDbTypeSize") != null) { #>, <#= (string)parameter.Attribute("sqlDbTypeSize") #><# } #>).Value = <#= CamelCased((string)parameter.Attribute("name")) #>;
+<# } #>
+
+                // Execute the SQL command.
+                SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync();
+
+                // Read the <#= (string)xml.Attribute("name") #> data row.
+                <#= (string)xml.Attribute("name") #>DataRow <#= CamelCased((string)xml.Attribute("name")) #>DataRow = null;
+                if (await sqlDataReader.ReadAsync())
+                {
+                    <#= CamelCased((string)xml.Attribute("name")) #>DataRow = this.GetSqlDataReaderValues(sqlDataReader);
+                }
+
+                // Return the <#= (string)xml.Attribute("name") #> data row.
+                return <#= CamelCased((string)xml.Attribute("name")) #>DataRow;
+            }
+        }
+
+<# } #>
+<# foreach (XElement query in xml.Element("queries").Elements("query").Where(query => (string)query.Attribute("results") == "multiple")) { #>
+        /// <summary>
+        /// <#= (string)query.Element("summary") #>
+        /// </summary>
+        public async Task<<#= (string)xml.Attribute("name") #>DataRow[]> <#= (string)query.Attribute("name") #>(IDatabaseConnection databaseConnection<# foreach (XElement parameter in query.Elements("parameters").Elements("parameter")) { #>, <#= (string)parameter.Attribute("csharpType") #> <#= CamelCased((string)parameter.Attribute("name")) #><# } #>)
+        {
+            // Build the SQL command.
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [<#= (string)xml.Attribute("name") #>] WHERE ;"))
+            {
+                // Use the specified database connection.
+                SqlConnection sqlConnection = (databaseConnection as DatabaseConnection).SqlConnection;
+                sqlCommand.Connection = sqlConnection;
+
+                // Set the SQL command parameter values.
+<# foreach (XElement parameter in query.Elements("parameters").Elements("parameter")) { #>
+                sqlCommand.Parameters.Add("@<#= CamelCased((string)parameter.Attribute("name")) #>", SqlDbType.<#= (string)parameter.Attribute("sqlDbType") #><# if (parameter.Attribute("sqlDbTypeSize") != null) { #>, <#= (string)parameter.Attribute("sqlDbTypeSize") #><# } #>).Value = <#= CamelCased((string)parameter.Attribute("name")) #>;
+<# } #>
+
+                // Execute the SQL command.
+                SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync();
+
+                // Read the <#= (string)xml.Attribute("name") #> data rows.
+                List<<#= (string)xml.Attribute("name") #>DataRow> <#= CamelCased((string)xml.Attribute("name")) #>DataRows = new List<<#= (string)xml.Attribute("name") #>DataRow>();
+                while (await sqlDataReader.ReadAsync())
+                {
+                    <#= (string)xml.Attribute("name") #>DataRow <#= CamelCased((string)xml.Attribute("name")) #>DataRow = this.GetSqlDataReaderValues(sqlDataReader);
+                    <#= CamelCased((string)xml.Attribute("name")) #>DataRows.Add(<#= CamelCased((string)xml.Attribute("name")) #>DataRow);
+                }
+
+                // Return the <#= (string)xml.Attribute("name") #> data rows.
+                return <#= CamelCased((string)xml.Attribute("name")) #>DataRows.ToArray();
+            }
+        }
+
+<# } #>
+        /// <summary>
+        /// Updates the specified <#= (string)xml.Attribute("name") #> data row.
+        /// </summary>
+        public async Task Update(IDatabaseConnection databaseConnection, <#= (string)xml.Attribute("name") #>DataRow <#= CamelCased((string)xml.Attribute("name")) #>DataRow)
+        {
+            // Build the SQL command.
+            using (SqlCommand sqlCommand = new SqlCommand("UPDATE [<#= (string)xml.Attribute("name") #>] SET <# ForEachSeparated(NonPrimaryKeyColumns(xml), (column) => { #>[<#= (string)column.Attribute("name") #>] = @<#= CamelCased((string)column.Attribute("name")) #><# }, () => {#>, <#}); #> WHERE [<#= (string)xml.Attribute("name") #>ID] = @<#= CamelCased((string)xml.Attribute("name")) #>ID;"))
+            {
+                // Use the specified database connection.
+                SqlConnection sqlConnection = (databaseConnection as DatabaseConnection).SqlConnection;
+                sqlCommand.Connection = sqlConnection;
+
+                // Set the SQL command parameter values.
+                this.SetSqlCommandParameterValues(sqlCommand, <#= CamelCased((string)xml.Attribute("name")) #>DataRow, setPrimaryKeyValue: true);
+
+                // Execute the SQL command.
+                await sqlCommand.ExecuteScalarAsync();
+            }
+        }
+
+        /// <summary>
+        /// Deletes the specified <#= (string)xml.Attribute("name") #> data row.
+        /// </summary>
+        public async Task Delete(IDatabaseConnection databaseConnection, <#= (string)xml.Attribute("name") #>DataRow <#= CamelCased((string)xml.Attribute("name")) #>DataRow)
+        {
+            // Build the SQL command.
+            using (SqlCommand sqlCommand = new SqlCommand("DELETE FROM [<#= (string)xml.Attribute("name") #>] WHERE [<#= (string)xml.Attribute("name") #>ID] = @<#= CamelCased((string)xml.Attribute("name")) #>ID;"))
+            {
+                // Use the specified database connection.
+                SqlConnection sqlConnection = (databaseConnection as DatabaseConnection).SqlConnection;
+                sqlCommand.Connection = sqlConnection;
+
+                // Set the SQL command parameter values.
+                sqlCommand.Parameters.Add("@<#= CamelCased((string)xml.Attribute("name")) #>ID", SqlDbType.Int).Value = <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)xml.Attribute("name") #>ID;
+
+                // Execute the SQL command.
+                await sqlCommand.ExecuteScalarAsync();
+            }
+        }
+    }
+}

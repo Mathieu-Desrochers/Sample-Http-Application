@@ -1,0 +1,38 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ include file="..\Common.tt" #>
+<#@ output extension=".cs" #>
+<#
+    string xmlPath = Host.ResolvePath(@"..\Blueprint.xml");
+    XElement xml = XElement.Load(xmlPath);
+#>
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SampleHttpApplication.DataAccessComponents.Interface.<#= (string)xml.Attribute("name") #>
+{
+    /// <summary>
+    /// Represents a <#= (string)xml.Attribute("name") #> data row.
+    /// </summary>
+    public class <#= (string)xml.Attribute("name") #>DataRow
+    {
+<# ForEachSeparated(xml.Element("columns").Elements("column"), (column) => { #>
+        /// <summary>
+        /// Gets or sets the <#= (string)column.Attribute("name") #>.
+        /// </summary>
+        public <#= (string)column.Attribute("csharpType") #> <#= (string)column.Attribute("name") #>;
+<# }, () => { #>
+
+<# }); #>
+    }
+}

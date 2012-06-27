@@ -1,0 +1,49 @@
+﻿<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Xml.Linq" #><#+
+	
+	public string CamelCased(string text)
+	{
+		return text.Substring(0, 1).ToLower() + text.Substring(1);
+	}
+
+	public void ForEachSeparated(IEnumerable<XElement> elements, Action<XElement> elementAction, Action separatorAction)
+	{
+		if (elements.Count() == 0)
+		{
+			return;
+		}
+
+		foreach (XElement element in elements.Take(elements.Count() - 1))
+		{
+			elementAction(element);
+			separatorAction();
+		}
+
+		elementAction(elements.Skip(elements.Count() - 1).Single());
+	}
+
+	public XElement PrimaryKeyColumn(XElement xml)
+	{
+		return xml.Element("columns").Elements("column").Where(column => (string)column.Attribute("isPrimaryKey") == "true").Single();
+	}
+
+	public XElement[] NonPrimaryKeyColumns(XElement xml)
+	{
+		return xml.Element("columns").Elements("column").Where(column => (string)column.Attribute("isPrimaryKey") != "true").ToArray();
+	}
+
+	public XElement[] ForeignKeyColumns(XElement xml)
+	{
+		return xml.Element("columns").Elements("column").Where(column => (string)column.Attribute("isForeignKey") == "true").ToArray();
+	}
+
+	public XElement[] UniqueColumns(XElement xml)
+	{
+		return xml.Element("columns").Elements("column").Where(column => (string)column.Attribute("isUnique") == "true").ToArray();
+	}
+#>
