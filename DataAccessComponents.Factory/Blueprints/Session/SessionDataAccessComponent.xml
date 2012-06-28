@@ -12,7 +12,7 @@
     <column name="Name" csharpType="string" sqlDbType="NVarChar" sqlDbTypeSize="50">
       <testValues>
         <testValue1>"Session Alpha"</testValue1>
-        <testValue2>"Session Beta"</testValue2>
+        <testValue2>"Session Bravo"</testValue2>
         <testValue3>"Session Charlie"</testValue3>
       </testValues>
     </column>

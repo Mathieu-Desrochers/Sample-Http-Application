@@ -71,7 +71,7 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.Session
             // Provide a value for all the columns.
             if (sessionCode == default(string)) { sessionCode = Guid.NewGuid().ToString(); }
             if (name == default(string)) { name = String.Empty; }
-            if (startDate == default(DateTime)) { startDate = new DateTime(2000, 1, 1); }
+            if (startDate == default(DateTime)) { startDate = new DateTime(2001, 1, 1); }
 
             // Insert the row.
             int sessionID = InsertWithValues(sessionCode, name, startDate);

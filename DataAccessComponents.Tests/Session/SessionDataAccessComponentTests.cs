@@ -43,8 +43,8 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.Session
         {
             // Build the Session data row.
             SessionDataRow sessionDataRow = new SessionDataRow();
-            sessionDataRow.SessionCode = "Session-Code-A";
-            sessionDataRow.Name = "Name-A";
+            sessionDataRow.SessionCode = "Session-A";
+            sessionDataRow.Name = "Session Alpha";
             sessionDataRow.StartDate = new DateTime(2001, 1, 1, 1, 1, 1);
 
             // Build the database connection.
@@ -64,8 +64,8 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.Session
             // Validate the Session data row was inserted in the database.
             SessionTestTable.AssertPresence(
                 sessionDataRow.SessionID,
-                "Session-Code-A",
-                "Name-A",
+                "Session-A",
+                "Session Alpha",
                 new DateTime(2001, 1, 1, 1, 1, 1));
         }
 
@@ -76,12 +76,12 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.Session
         public void Create_ShouldThrowException_GivenDuplicateSessionCode()
         {
             // Insert the duplicate Session data row in the database.
-            int sessionID = SessionTestTable.InsertPlaceholder(sessionCode: "Session-Code-A");
+            int sessionID = SessionTestTable.InsertPlaceholder(sessionCode: "Session-A");
 
             // Build the Session data row.
             SessionDataRow sessionDataRow = new SessionDataRow();
-            sessionDataRow.SessionCode = "Session-Code-A";
-            sessionDataRow.Name = "Name-A";
+            sessionDataRow.SessionCode = "Session-A";
+            sessionDataRow.Name = "Session Alpha";
             sessionDataRow.StartDate = new DateTime(2001, 1, 1, 1, 1, 1);
 
             // Build the database connection.
@@ -115,8 +115,8 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.Session
         {
             // Insert the Session data row in the database.
             int sessionID = SessionTestTable.InsertWithValues(
-                "Session-Code-A",
-                "Session A",
+                "Session-A",
+                "Session Alpha",
                 new DateTime(2001, 1, 1, 1, 1, 1));
 
             // Build the database connection.
@@ -134,8 +134,8 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.Session
             // Validate the Session data row.
             Assert.IsNotNull(sessionDataRow);
             Assert.AreEqual(sessionID, sessionDataRow.SessionID);
-            Assert.AreEqual("Session-Code-A", sessionDataRow.SessionCode);
-            Assert.AreEqual("Session A", sessionDataRow.Name);
+            Assert.AreEqual("Session-A", sessionDataRow.SessionCode);
+            Assert.AreEqual("Session Alpha", sessionDataRow.Name);
             Assert.AreEqual(new DateTime(2001, 1, 1, 1, 1, 1), sessionDataRow.StartDate);
         }
 
@@ -147,8 +147,8 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.Session
         {
             // Insert the Session data row in the database.
             int sessionID = SessionTestTable.InsertWithValues(
-                "Session-Code-A",
-                "Session A",
+                "Session-A",
+                "Session Alpha",
                 new DateTime(2001, 1, 1, 1, 1, 1));
 
             // Build the database connection.
@@ -175,8 +175,8 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.Session
         {
             // Insert the Session data row in the database.
             int sessionID = SessionTestTable.InsertWithValues(
-                "Session-Code-A",
-                "Session A",
+                "Session-A",
+                "Session Alpha",
                 new DateTime(2001, 1, 1, 1, 1, 1));
 
             // Build the database connection.
@@ -188,14 +188,14 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.Session
 
                 // Read the Session data row.
                 SessionDataAccessComponent sessionDataAccessComponent = new SessionDataAccessComponent();
-                sessionDataRow = sessionDataAccessComponent.ReadBySessionCode(databaseConnection, "Session-Code-A").Result;
+                sessionDataRow = sessionDataAccessComponent.ReadBySessionCode(databaseConnection, "Session-A").Result;
             }
 
             // Validate the Session data row.
             Assert.IsNotNull(sessionDataRow);
             Assert.AreEqual(sessionID, sessionDataRow.SessionID);
-            Assert.AreEqual("Session-Code-A", sessionDataRow.SessionCode);
-            Assert.AreEqual("Session A", sessionDataRow.Name);
+            Assert.AreEqual("Session-A", sessionDataRow.SessionCode);
+            Assert.AreEqual("Session Alpha", sessionDataRow.Name);
             Assert.AreEqual(new DateTime(2001, 1, 1, 1, 1, 1), sessionDataRow.StartDate);
         }
 
@@ -206,9 +206,9 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.Session
         public void ReadBySessionCode_ShouldReturnNull()
         {
             // Insert the Session data row in the database.
-            int SessionCode = SessionTestTable.InsertWithValues(
-                "Session-Code-A",
-                "Session A",
+            int sessionID = SessionTestTable.InsertWithValues(
+                "Session-A",
+                "Session Alpha",
                 new DateTime(2001, 1, 1, 1, 1, 1));
 
             // Build the database connection.
@@ -220,7 +220,7 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.Session
 
                 // Read the Session data row.
                 SessionDataAccessComponent sessionDataAccessComponent = new SessionDataAccessComponent();
-                sessionDataRow = sessionDataAccessComponent.ReadBySessionCode(databaseConnection, "Session-Code-B").Result;
+                sessionDataRow = sessionDataAccessComponent.ReadBySessionCode(databaseConnection, "").Result;
             }
 
             // Validate the Session data row.
@@ -235,15 +235,15 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.Session
         {
             // Insert the Session data row in the database.
             int sessionID = SessionTestTable.InsertWithValues(
-                "Session-Code-A",
-                "Session A",
+                "Session-A",
+                "Session Alpha",
                 new DateTime(2001, 1, 1, 1, 1, 1));
 
             // Build the Session data row.
             SessionDataRow sessionDataRow = new SessionDataRow();
             sessionDataRow.SessionID = sessionID;
-            sessionDataRow.SessionCode = "Session-Code-B";
-            sessionDataRow.Name = "Session B";
+            sessionDataRow.SessionCode = "Session-B";
+            sessionDataRow.Name = "Session Bravo";
             sessionDataRow.StartDate = new DateTime(2002, 2, 2, 2, 2, 2);
 
             // Build the database connection.
@@ -259,9 +259,9 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.Session
 
             // Validate the Session data row was updated in the database.
             SessionTestTable.AssertPresence(
-                sessionDataRow.SessionID,
-                "Session-Code-B",
-                "Session B",
+                sessionID,
+                "Session-B",
+                "Session Bravo",
                 new DateTime(2002, 2, 2, 2, 2, 2));
         }
 
@@ -273,18 +273,18 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.Session
         {
             // Insert the Session data row in the database.
             int sessionID = SessionTestTable.InsertWithValues(
-                "Session-Code-A",
-                "Session A",
+                "Session-A",
+                "Session Alpha",
                 new DateTime(2001, 1, 1, 1, 1, 1));
 
             // Insert the duplicate Session data row in the database.
-            int duplicateSessionID = SessionTestTable.InsertPlaceholder(sessionCode: "Session-Code-B");
+            int duplicateSessionID = SessionTestTable.InsertPlaceholder(sessionCode: "Session-B");
 
             // Build the Session data row.
             SessionDataRow sessionDataRow = new SessionDataRow();
             sessionDataRow.SessionID = sessionID;
-            sessionDataRow.SessionCode = "Session-Code-B";
-            sessionDataRow.Name = "Session B";
+            sessionDataRow.SessionCode = "Session-B";
+            sessionDataRow.Name = "Session Bravo";
             sessionDataRow.StartDate = new DateTime(2002, 2, 2, 2, 2, 2);
 
             // Build the database connection.
@@ -298,7 +298,7 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.Session
                     // Update the Session data row.
                     SessionDataAccessComponent sessionDataAccessComponent = new SessionDataAccessComponent();
                     sessionDataAccessComponent.Update(databaseConnection, sessionDataRow).Wait();
-
+                    
                     // Validate an exception was thrown.
                     Assert.Fail();
                 }
@@ -318,16 +318,16 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.Session
         {
             // Insert the Session data row in the database.
             int sessionID = SessionTestTable.InsertWithValues(
-                "Session-Code-A",
-                "Session A",
+                "Session-A",
+                "Session Alpha",
                 new DateTime(2001, 1, 1, 1, 1, 1));
 
             // Build the Session data row.
             SessionDataRow sessionDataRow = new SessionDataRow();
             sessionDataRow.SessionID = sessionID;
-            sessionDataRow.SessionCode = "Session-Code-B";
-            sessionDataRow.Name = "Session B";
-            sessionDataRow.StartDate = new DateTime(2002, 2, 2, 2, 2, 2);
+            sessionDataRow.SessionCode = "Session-A";
+            sessionDataRow.Name = "Session Alpha";
+            sessionDataRow.StartDate = new DateTime(2001, 1, 1, 1, 1, 1);
 
             // Build the database connection.
             using (DatabaseConnection databaseConnection = new DatabaseConnection(TestDatabase.ConnectionString))

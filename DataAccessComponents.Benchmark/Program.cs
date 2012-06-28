@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace SampleHttpApplication.DataAccessComponents.Benchmark
         private static void BlockingDatabaseOperations()
         {
             // Build the database connection.
-            using (SqlConnection sqlConnection = new SqlConnection("Data Source=localhost;Initial Catalog=SampleHttpApplication;Integrated Security=True"))
+            using (SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["SampleHttpApplication"].ConnectionString))
             {
                 // Open the database connection.
                 sqlConnection.Open();
@@ -49,7 +50,7 @@ namespace SampleHttpApplication.DataAccessComponents.Benchmark
         private async static Task NonBlockingDatabaseOperations()
         {
             // Build the database connection.
-            using (SqlConnection sqlConnection = new SqlConnection("Data Source=localhost;Initial Catalog=SampleHttpApplication;Integrated Security=True"))
+            using (SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["SampleHttpApplication"].ConnectionString))
             {
                 // Open the database connection.
                 await sqlConnection.OpenAsync();

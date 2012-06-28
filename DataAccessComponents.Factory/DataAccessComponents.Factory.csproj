@@ -59,15 +59,23 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>IDataAccessComponent.tt</DependentUpon>
     </Compile>
+    <Compile Include="Generators\Tests\DataAccessComponentTests.cs">
+      <DependentUpon>DataAccessComponentTests.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Tests\TestTable.cs">
+      <DependentUpon>TestTable.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Blueprints\Session\SessionDataAccessComponent.xml" />
     <Content Include="Generators\Blueprint.xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Generators\Tests\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Generators\Code\DataAccessComponent.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -84,6 +92,14 @@
     <None Include="Generators\Interface\IDataAccessComponent.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>IDataAccessComponent.cs</LastGenOutput>
+    </None>
+    <None Include="Generators\Tests\DataAccessComponentTests.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DataAccessComponentTests.cs</LastGenOutput>
+    </None>
+    <None Include="Generators\Tests\TestTable.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TestTable.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

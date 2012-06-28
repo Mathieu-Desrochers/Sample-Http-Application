@@ -28,8 +28,7 @@ CPU utilization: 19 %
 
 We can see that the benefits of not making the CPUs wait are twofold.
 
-First, they can start more concurrent IO requests, which reduces
+First, they can issue more concurrent IO requests, which reduces
 the time required to perform the complete set of database operations.
-
 Second, they are able to execute other lines of code, which augments
 the CPU utilization and makes better use of the available hardware.

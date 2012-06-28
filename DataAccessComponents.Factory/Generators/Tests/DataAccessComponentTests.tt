@@ -1,0 +1,873 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ include file="..\Common.tt" #>
+<#@ output extension=".cs" #>
+<#
+    string xmlPath = Host.ResolvePath(@"..\Blueprint.xml");
+    XElement xml = XElement.Load(xmlPath);
+#>
+
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Transactions;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using SampleHttpApplication.DataAccessComponents.Code;
+using SampleHttpApplication.DataAccessComponents.Code.<#= (string)xml.Attribute("name") #>;
+using SampleHttpApplication.DataAccessComponents.Interface.<#= (string)xml.Attribute("name") #>;
+
+namespace SampleHttpApplication.DataAccessComponents.Tests.<#= (string)xml.Attribute("name") #>
+{
+    /// <summary>
+    /// Tests for the <#= (string)xml.Attribute("name") #> data access component.
+    /// </summary>
+    [TestClass]
+    public class <#= (string)xml.Attribute("name") #>DataAccessComponentTests
+    {
+        /// <summary>
+        /// The transaction scope.
+        /// </summary>
+        private TransactionScope transactionScope;
+
+        /// <summary>
+        /// Starts a transaction before every test.
+        /// </summary>
+        [TestInitialize]
+        public void SetUp()
+        {
+            this.transactionScope = new TransactionScope();
+        }
+
+        /// <summary>
+        /// Tests the Create method.
+        /// </summary>
+        [TestMethod]
+        public void Create_ShouldSucceed()
+        {
+<# if (ForeignKeyColumns(xml).Length > 0) { #>
+            // Insert the master data rows in the database.
+<# foreach (XElement foreignKeyColumn in ForeignKeyColumns(xml)) { #>
+            int <#= CamelCased((string)foreignKeyColumn.Attribute("name")) #> = <#= (string)foreignKeyColumn.Element("masterDataAccessComponent").Attribute("name") #>TestTable.InsertPlaceholder();
+<# } #>
+
+<# } #>
+            // Build the <#= (string)xml.Attribute("name") #> data row.
+            <#= (string)xml.Attribute("name") #>DataRow <#= CamelCased((string)xml.Attribute("name")) #>DataRow = new <#= (string)xml.Attribute("name") #>DataRow();
+<# foreach (XElement column in NonPrimaryKeyColumns(xml)) { #>
+<# if ((string)column.Attribute("isForeignKey") == "true") { #>
+            <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)column.Attribute("name") #> = <#= CamelCased((string)column.Attribute("name")) #>;
+<# } else { #>
+            <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)column.Attribute("name") #> = <#= (string)column.Element("testValues").Element("testValue1") #>;
+<# } #>
+<# } #>
+
+            // Build the database connection.
+            using (DatabaseConnection databaseConnection = new DatabaseConnection(TestDatabase.ConnectionString))
+            {
+                // Open the database connection.
+                databaseConnection.Open().Wait();
+
+                // Create the <#= (string)xml.Attribute("name") #> data row.
+                <#= (string)xml.Attribute("name") #>DataAccessComponent <#= CamelCased((string)xml.Attribute("name")) #>DataAccessComponent = new <#= (string)xml.Attribute("name") #>DataAccessComponent();
+                <#= CamelCased((string)xml.Attribute("name")) #>DataAccessComponent.Create(databaseConnection, <#= CamelCased((string)xml.Attribute("name")) #>DataRow).Wait();
+            }
+
+            // Validate the <#= (string)xml.Attribute("name") #>ID was generated.
+            Assert.AreNotEqual(0, <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)xml.Attribute("name") #>ID);
+
+            // Validate the <#= (string)xml.Attribute("name") #> data row was inserted in the database.
+            <#= (string)xml.Attribute("name") #>TestTable.AssertPresence(
+                <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)xml.Attribute("name") #>ID,
+<# ForEachSeparated(NonPrimaryKeyColumns(xml), (column) => { 
+            if ((string)column.Attribute("isForeignKey") == "true") { #>
+                <#= CamelCased((string)column.Attribute("name")) #><# 
+            } else { #>
+                <#= (string)column.Element("testValues").Element("testValue1") #><#
+            }}, () => { #>,
+<# }); #>);
+        }
+
+<# foreach (XElement invalidForeignKeyColumn in ForeignKeyColumns(xml)) { #>
+        /// <summary>
+        /// Tests the Create method.
+        /// </summary>
+        [TestMethod]
+        public void Create_ShouldThrowException_GivenInvalid<#= (string)invalidForeignKeyColumn.Attribute("name") #>()
+        {
+<# if (ForeignKeyColumns(xml).Length > 0) { #>
+            // Insert the master data rows in the database.
+<# foreach (XElement foreignKeyColumn in ForeignKeyColumns(xml)) { #>
+            int <#= CamelCased((string)foreignKeyColumn.Attribute("name")) #> = <#= (string)foreignKeyColumn.Element("masterDataAccessComponent").Attribute("name") #>TestTable.InsertPlaceholder();
+<# } #>
+
+<# } #>
+            // Build the <#= (string)xml.Attribute("name") #> data row.
+            <#= (string)xml.Attribute("name") #>DataRow <#= CamelCased((string)xml.Attribute("name")) #>DataRow = new <#= (string)xml.Attribute("name") #>DataRow();
+<# foreach (XElement column in NonPrimaryKeyColumns(xml)) { #>
+<# if (column == invalidForeignKeyColumn) { #>
+            <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)column.Attribute("name") #> = ;
+<# } else if ((string)column.Attribute("isForeignKey") == "true") { #>
+            <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)column.Attribute("name") #> = <#= CamelCased((string)column.Attribute("name")) #>;
+<# } else { #>
+            <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)column.Attribute("name") #> = <#= (string)column.Element("testValues").Element("testValue1") #>;
+<# } #>
+<# } #>
+
+            // Build the database connection.
+            using (DatabaseConnection databaseConnection = new DatabaseConnection(TestDatabase.ConnectionString))
+            {
+                // Open the database connection.
+                databaseConnection.Open().Wait();
+
+                try
+                {
+                    // Create the <#= (string)xml.Attribute("name") #> data row.
+                    <#= (string)xml.Attribute("name") #>DataAccessComponent <#= CamelCased((string)xml.Attribute("name")) #>DataAccessComponent = new <#= (string)xml.Attribute("name") #>DataAccessComponent();
+                    <#= CamelCased((string)xml.Attribute("name")) #>DataAccessComponent.Create(databaseConnection, <#= CamelCased((string)xml.Attribute("name")) #>DataRow).Wait();
+
+                    // Validate an exception was thrown.
+                    Assert.Fail();
+                }
+                catch (AggregateException ex)
+                {
+                    // Validate an SQL exception was thrown.
+                    Assert.IsInstanceOfType(ex.InnerExceptions[0], typeof(SqlException));
+                }
+            }
+        }
+
+<# } #>
+<# foreach (XElement uniqueColumn in UniqueColumns(xml)) { #>
+        /// <summary>
+        /// Tests the Create method.
+        /// </summary>
+        [TestMethod]
+        public void Create_ShouldThrowException_GivenDuplicate<#= (string)uniqueColumn.Attribute("name") #>()
+        {
+<# if (ForeignKeyColumns(xml).Length > 0) { #>
+            // Insert the master data rows in the database.
+<# foreach (XElement foreignKeyColumn in ForeignKeyColumns(xml)) { #>
+            int <#= CamelCased((string)foreignKeyColumn.Attribute("name")) #> = <#= (string)foreignKeyColumn.Element("masterDataAccessComponent").Attribute("name") #>TestTable.InsertPlaceholder();
+<# } #>
+
+<# } #>
+            // Insert the duplicate <#= (string)xml.Attribute("name") #> data row in the database.
+            int <#= CamelCased((string)xml.Attribute("name")) #>ID = <#= (string)xml.Attribute("name") #>TestTable.InsertPlaceholder(<#= CamelCased((string)uniqueColumn.Attribute("name")) #>: );
+
+            // Build the <#= (string)xml.Attribute("name") #> data row.
+            <#= (string)xml.Attribute("name") #>DataRow <#= CamelCased((string)xml.Attribute("name")) #>DataRow = new <#= (string)xml.Attribute("name") #>DataRow();
+<# foreach (XElement column in NonPrimaryKeyColumns(xml)) { #>
+<# if (column == uniqueColumn) { #>
+            <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)column.Attribute("name") #> = ;
+<# } else if ((string)column.Attribute("isForeignKey") == "true") { #>
+            <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)column.Attribute("name") #> = <#= CamelCased((string)column.Attribute("name")) #>;
+<# } else { #>
+            <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)column.Attribute("name") #> = <#= (string)column.Element("testValues").Element("testValue1") #>;
+<# } #>
+<# } #>
+
+            // Build the database connection.
+            using (DatabaseConnection databaseConnection = new DatabaseConnection(TestDatabase.ConnectionString))
+            {
+                // Open the database connection.
+                databaseConnection.Open().Wait();
+
+                try
+                {
+                    // Create the <#= (string)xml.Attribute("name") #> data row.
+                    <#= (string)xml.Attribute("name") #>DataAccessComponent <#= CamelCased((string)xml.Attribute("name")) #>DataAccessComponent = new <#= (string)xml.Attribute("name") #>DataAccessComponent();
+                    <#= CamelCased((string)xml.Attribute("name")) #>DataAccessComponent.Create(databaseConnection, <#= CamelCased((string)xml.Attribute("name")) #>DataRow).Wait();
+
+                    // Validate an exception was thrown.
+                    Assert.Fail();
+                }
+                catch (AggregateException ex)
+                {
+                    // Validate an SQL exception was thrown.
+                    Assert.IsInstanceOfType(ex.InnerExceptions[0], typeof(SqlException));
+                }
+            }
+        }
+
+<# } #>
+<# foreach (XElement query in xml.Element("queries").Elements("query").Where(query => (string)query.Attribute("results") == "single")) { #>
+        /// <summary>
+        /// Tests the <#= (string)query.Attribute("name") #> method.
+        /// </summary>
+        [TestMethod]
+        public void <#= (string)query.Attribute("name") #>_ShouldReturnDataRow()
+        {
+<# if (ForeignKeyColumns(xml).Length > 0) { #>
+            // Insert the master data rows in the database.
+<# foreach (XElement foreignKeyColumn in ForeignKeyColumns(xml)) { #>
+            int <#= CamelCased((string)foreignKeyColumn.Attribute("name")) #> = <#= (string)foreignKeyColumn.Element("masterDataAccessComponent").Attribute("name") #>TestTable.InsertPlaceholder();
+<# } #>
+
+<# } #>
+            // Insert the <#= (string)xml.Attribute("name") #> data row in the database.
+            int <#= CamelCased((string)xml.Attribute("name")) #>ID = <#= (string)xml.Attribute("name") #>TestTable.InsertWithValues(
+<# ForEachSeparated(NonPrimaryKeyColumns(xml), (column) => { 
+            if ((string)column.Attribute("isForeignKey") == "true") { #>
+                <#= CamelCased((string)column.Attribute("name")) #><# 
+            } else { #>
+                <#= (string)column.Element("testValues").Element("testValue1") #><#
+            }}, () => { #>,
+<# }); #>);
+
+            // Build the database connection.
+            <#= (string)xml.Attribute("name") #>DataRow <#= CamelCased((string)xml.Attribute("name")) #>DataRow = null;
+            using (DatabaseConnection databaseConnection = new DatabaseConnection(TestDatabase.ConnectionString))
+            {
+                // Open the database connection.
+                databaseConnection.Open().Wait();
+
+                // Read the <#= (string)xml.Attribute("name") #> data row.
+                <#= (string)xml.Attribute("name") #>DataAccessComponent <#= CamelCased((string)xml.Attribute("name")) #>DataAccessComponent = new <#= (string)xml.Attribute("name") #>DataAccessComponent();
+                <#= CamelCased((string)xml.Attribute("name")) #>DataRow = <#= CamelCased((string)xml.Attribute("name")) #>DataAccessComponent.<#= (string)query.Attribute("name") #>(databaseConnection, ).Result;
+            }
+
+            // Validate the <#= (string)xml.Attribute("name") #> data row.
+            Assert.IsNotNull(<#= CamelCased((string)xml.Attribute("name")) #>DataRow);
+            Assert.AreEqual(<#= CamelCased((string)xml.Attribute("name")) #>ID, <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)xml.Attribute("name") #>ID);
+<# foreach (XElement column in NonPrimaryKeyColumns(xml)) { #>
+<# if ((string)column.Attribute("isForeignKey") == "true") { #>
+            Assert.AreEqual(<#= CamelCased((string)column.Attribute("name")) #>, <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)column.Attribute("name") #>);
+<# } else { #>
+            Assert.AreEqual(<#= (string)column.Element("testValues").Element("testValue1") #>, <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)column.Attribute("name") #>);
+<# } #>
+<# } #>
+        }
+
+        /// <summary>
+        /// Tests the <#= (string)query.Attribute("name") #> method.
+        /// </summary>
+        [TestMethod]
+        public void <#= (string)query.Attribute("name") #>_ShouldReturnNull()
+        {
+<# if (ForeignKeyColumns(xml).Length > 0) { #>
+            // Insert the master data rows in the database.
+<# foreach (XElement foreignKeyColumn in ForeignKeyColumns(xml)) { #>
+            int <#= CamelCased((string)foreignKeyColumn.Attribute("name")) #> = <#= (string)foreignKeyColumn.Element("masterDataAccessComponent").Attribute("name") #>TestTable.InsertPlaceholder();
+<# } #>
+
+<# } #>
+            // Insert the <#= (string)xml.Attribute("name") #> data row in the database.
+            int <#= CamelCased((string)xml.Attribute("name")) #>ID = <#= (string)xml.Attribute("name") #>TestTable.InsertWithValues(
+<# ForEachSeparated(NonPrimaryKeyColumns(xml), (column) => { 
+            if ((string)column.Attribute("isForeignKey") == "true") { #>
+                <#= CamelCased((string)column.Attribute("name")) #><# 
+            } else { #>
+                <#= (string)column.Element("testValues").Element("testValue1") #><#
+            }}, () => { #>,
+<# }); #>);
+
+            // Build the database connection.
+            <#= (string)xml.Attribute("name") #>DataRow <#= CamelCased((string)xml.Attribute("name")) #>DataRow = null;
+            using (DatabaseConnection databaseConnection = new DatabaseConnection(TestDatabase.ConnectionString))
+            {
+                // Open the database connection.
+                databaseConnection.Open().Wait();
+
+                // Read the <#= (string)xml.Attribute("name") #> data row.
+                <#= (string)xml.Attribute("name") #>DataAccessComponent <#= CamelCased((string)xml.Attribute("name")) #>DataAccessComponent = new <#= (string)xml.Attribute("name") #>DataAccessComponent();
+                <#= CamelCased((string)xml.Attribute("name")) #>DataRow = <#= CamelCased((string)xml.Attribute("name")) #>DataAccessComponent.<#= (string)query.Attribute("name") #>(databaseConnection, ).Result;
+            }
+
+            // Validate the <#= (string)xml.Attribute("name") #> data row.
+            Assert.IsNull(<#= CamelCased((string)xml.Attribute("name")) #>DataRow);
+        }
+
+<# } #>
+<# foreach (XElement query in xml.Element("queries").Elements("query").Where(query => (string)query.Attribute("results") == "multiple")) { #>
+        /// <summary>
+        /// Tests the <#= (string)query.Attribute("name") #> method.
+        /// </summary>
+        [TestMethod]
+        public void <#= (string)query.Attribute("name") #>_ShouldReturnZeroDataRows()
+        {
+<# if (ForeignKeyColumns(xml).Length > 0) { #>
+            // Insert the first master data rows in the database.
+<# foreach (XElement foreignKeyColumn in ForeignKeyColumns(xml)) { #>
+            int first<#= (string)foreignKeyColumn.Attribute("name") #> = <#= (string)foreignKeyColumn.Element("masterDataAccessComponent").Attribute("name") #>TestTable.InsertPlaceholder();
+<# } #>
+
+<# } #>
+            // Insert the first <#= (string)xml.Attribute("name") #> data row in the database.
+            int first<#= (string)xml.Attribute("name") #>ID = <#= (string)xml.Attribute("name") #>TestTable.InsertWithValues(
+<# ForEachSeparated(NonPrimaryKeyColumns(xml), (column) => { 
+            if ((string)column.Attribute("isForeignKey") == "true") { #>
+                first<#= (string)column.Attribute("name") #><# 
+            } else { #>
+                <#= (string)column.Element("testValues").Element("testValue1") #><#
+            }}, () => { #>,
+<# }); #>);
+
+<# if (ForeignKeyColumns(xml).Length > 0) { #>
+            // Insert the second master data rows in the database.
+<# foreach (XElement foreignKeyColumn in ForeignKeyColumns(xml)) { #>
+            int second<#= (string)foreignKeyColumn.Attribute("name") #> = <#= (string)foreignKeyColumn.Element("masterDataAccessComponent").Attribute("name") #>TestTable.InsertPlaceholder();
+<# } #>
+
+<# } #>
+            // Insert the second <#= (string)xml.Attribute("name") #> data row in the database.
+            int second<#= (string)xml.Attribute("name") #>ID = <#= (string)xml.Attribute("name") #>TestTable.InsertWithValues(
+<# ForEachSeparated(NonPrimaryKeyColumns(xml), (column) => { 
+            if ((string)column.Attribute("isForeignKey") == "true") { #>
+                second<#= (string)column.Attribute("name") #><# 
+            } else { #>
+                <#= (string)column.Element("testValues").Element("testValue2") #><#
+            }}, () => { #>,
+<# }); #>);
+
+<# if (ForeignKeyColumns(xml).Length > 0) { #>
+            // Insert the third master data rows in the database.
+<# foreach (XElement foreignKeyColumn in ForeignKeyColumns(xml)) { #>
+            int third<#= (string)foreignKeyColumn.Attribute("name") #> = <#= (string)foreignKeyColumn.Element("masterDataAccessComponent").Attribute("name") #>TestTable.InsertPlaceholder();
+<# } #>
+
+<# } #>
+            // Insert the third <#= (string)xml.Attribute("name") #> data row in the database.
+            int third<#= (string)xml.Attribute("name") #>ID = <#= (string)xml.Attribute("name") #>TestTable.InsertWithValues(
+<# ForEachSeparated(NonPrimaryKeyColumns(xml), (column) => { 
+            if ((string)column.Attribute("isForeignKey") == "true") { #>
+                third<#= (string)column.Attribute("name") #><# 
+            } else { #>
+                <#= (string)column.Element("testValues").Element("testValue3") #><#
+            }}, () => { #>,
+<# }); #>);
+
+            // Build the database connection.
+            <#= (string)xml.Attribute("name") #>DataRow[] <#= CamelCased((string)xml.Attribute("name")) #>DataRows = null;
+            using (DatabaseConnection databaseConnection = new DatabaseConnection(TestDatabase.ConnectionString))
+            {
+                // Open the database connection.
+                databaseConnection.Open().Wait();
+
+                // Read the <#= (string)xml.Attribute("name") #> data rows.
+                <#= (string)xml.Attribute("name") #>DataAccessComponent <#= CamelCased((string)xml.Attribute("name")) #>DataAccessComponent = new <#= (string)xml.Attribute("name") #>DataAccessComponent();
+                <#= CamelCased((string)xml.Attribute("name")) #>DataRows = <#= CamelCased((string)xml.Attribute("name")) #>DataAccessComponent.<#= (string)query.Attribute("name") #>(databaseConnection, ).Result;
+            }
+
+            // Validate the <#= (string)xml.Attribute("name") #> data rows.
+            Assert.IsNotNull(<#= CamelCased((string)xml.Attribute("name")) #>DataRows);
+            Assert.AreEqual(0, <#= CamelCased((string)xml.Attribute("name")) #>DataRows.Length);
+        }
+        
+        /// <summary>
+        /// Tests the <#= (string)query.Attribute("name") #> method.
+        /// </summary>
+        [TestMethod]
+        public void <#= (string)query.Attribute("name") #>_ShouldReturnOneDataRow()
+        {
+<# if (ForeignKeyColumns(xml).Length > 0) { #>
+            // Insert the first master data rows in the database.
+<# foreach (XElement foreignKeyColumn in ForeignKeyColumns(xml)) { #>
+            int first<#= (string)foreignKeyColumn.Attribute("name") #> = <#= (string)foreignKeyColumn.Element("masterDataAccessComponent").Attribute("name") #>TestTable.InsertPlaceholder();
+<# } #>
+
+<# } #>
+            // Insert the first <#= (string)xml.Attribute("name") #> data row in the database.
+            int first<#= (string)xml.Attribute("name") #>ID = <#= (string)xml.Attribute("name") #>TestTable.InsertWithValues(
+<# ForEachSeparated(NonPrimaryKeyColumns(xml), (column) => { 
+            if ((string)column.Attribute("isForeignKey") == "true") { #>
+                first<#= (string)column.Attribute("name") #><# 
+            } else { #>
+                <#= (string)column.Element("testValues").Element("testValue1") #><#
+            }}, () => { #>,
+<# }); #>);
+
+<# if (ForeignKeyColumns(xml).Length > 0) { #>
+            // Insert the second master data rows in the database.
+<# foreach (XElement foreignKeyColumn in ForeignKeyColumns(xml)) { #>
+            int second<#= (string)foreignKeyColumn.Attribute("name") #> = <#= (string)foreignKeyColumn.Element("masterDataAccessComponent").Attribute("name") #>TestTable.InsertPlaceholder();
+<# } #>
+
+<# } #>
+            // Insert the second <#= (string)xml.Attribute("name") #> data row in the database.
+            int second<#= (string)xml.Attribute("name") #>ID = <#= (string)xml.Attribute("name") #>TestTable.InsertWithValues(
+<# ForEachSeparated(NonPrimaryKeyColumns(xml), (column) => { 
+            if ((string)column.Attribute("isForeignKey") == "true") { #>
+                second<#= (string)column.Attribute("name") #><# 
+            } else { #>
+                <#= (string)column.Element("testValues").Element("testValue2") #><#
+            }}, () => { #>,
+<# }); #>);
+
+<# if (ForeignKeyColumns(xml).Length > 0) { #>
+            // Insert the third master data rows in the database.
+<# foreach (XElement foreignKeyColumn in ForeignKeyColumns(xml)) { #>
+            int third<#= (string)foreignKeyColumn.Attribute("name") #> = <#= (string)foreignKeyColumn.Element("masterDataAccessComponent").Attribute("name") #>TestTable.InsertPlaceholder();
+<# } #>
+
+<# } #>
+            // Insert the third <#= (string)xml.Attribute("name") #> data row in the database.
+            int third<#= (string)xml.Attribute("name") #>ID = <#= (string)xml.Attribute("name") #>TestTable.InsertWithValues(
+<# ForEachSeparated(NonPrimaryKeyColumns(xml), (column) => { 
+            if ((string)column.Attribute("isForeignKey") == "true") { #>
+                third<#= (string)column.Attribute("name") #><# 
+            } else { #>
+                <#= (string)column.Element("testValues").Element("testValue3") #><#
+            }}, () => { #>,
+<# }); #>);
+
+            // Build the database connection.
+            <#= (string)xml.Attribute("name") #>DataRow[] <#= CamelCased((string)xml.Attribute("name")) #>DataRows = null;
+            using (DatabaseConnection databaseConnection = new DatabaseConnection(TestDatabase.ConnectionString))
+            {
+                // Open the database connection.
+                databaseConnection.Open().Wait();
+
+                // Read the <#= (string)xml.Attribute("name") #> data rows.
+                <#= (string)xml.Attribute("name") #>DataAccessComponent <#= CamelCased((string)xml.Attribute("name")) #>DataAccessComponent = new <#= (string)xml.Attribute("name") #>DataAccessComponent();
+                <#= CamelCased((string)xml.Attribute("name")) #>DataRows = <#= CamelCased((string)xml.Attribute("name")) #>DataAccessComponent.<#= (string)query.Attribute("name") #>(databaseConnection, ).Result;
+            }
+
+            // Validate the <#= (string)xml.Attribute("name") #> data rows.
+            Assert.IsNotNull(<#= CamelCased((string)xml.Attribute("name")) #>DataRows);
+            Assert.AreEqual(1, <#= CamelCased((string)xml.Attribute("name")) #>DataRows.Length);
+
+            // Validate the first <#= (string)xml.Attribute("name") #> data row.
+            Assert.AreEqual(first<#=(string)xml.Attribute("name") #>ID, <#= CamelCased((string)xml.Attribute("name")) #>DataRows[0].<#= (string)xml.Attribute("name") #>ID);
+<# foreach (XElement column in NonPrimaryKeyColumns(xml)) { #>
+<# if ((string)column.Attribute("isForeignKey") == "true") { #>
+            Assert.AreEqual(first<#= (string)column.Attribute("name") #>, <#= CamelCased((string)xml.Attribute("name")) #>DataRows[0].<#= (string)column.Attribute("name") #>);
+<# } else { #>
+            Assert.AreEqual(<#= (string)column.Element("testValues").Element("testValue1") #>, <#= CamelCased((string)xml.Attribute("name")) #>DataRows[0].<#= (string)column.Attribute("name") #>);
+<# } #>
+<# } #>
+        }
+
+        /// <summary>
+        /// Tests the <#= (string)query.Attribute("name") #> method.
+        /// </summary>
+        [TestMethod]
+        public void <#= (string)query.Attribute("name") #>_ShouldReturnMultipleDataRows()
+        {
+<# if (ForeignKeyColumns(xml).Length > 0) { #>
+            // Insert the first master data rows in the database.
+<# foreach (XElement foreignKeyColumn in ForeignKeyColumns(xml)) { #>
+            int first<#= (string)foreignKeyColumn.Attribute("name") #> = <#= (string)foreignKeyColumn.Element("masterDataAccessComponent").Attribute("name") #>TestTable.InsertPlaceholder();
+<# } #>
+
+<# } #>
+            // Insert the first <#= (string)xml.Attribute("name") #> data row in the database.
+            int first<#= (string)xml.Attribute("name") #>ID = <#= (string)xml.Attribute("name") #>TestTable.InsertWithValues(
+<# ForEachSeparated(NonPrimaryKeyColumns(xml), (column) => { 
+            if ((string)column.Attribute("isForeignKey") == "true") { #>
+                first<#= (string)column.Attribute("name") #><# 
+            } else { #>
+                <#= (string)column.Element("testValues").Element("testValue1") #><#
+            }}, () => { #>,
+<# }); #>);
+
+<# if (ForeignKeyColumns(xml).Length > 0) { #>
+            // Insert the second master data rows in the database.
+<# foreach (XElement foreignKeyColumn in ForeignKeyColumns(xml)) { #>
+            int second<#= (string)foreignKeyColumn.Attribute("name") #> = <#= (string)foreignKeyColumn.Element("masterDataAccessComponent").Attribute("name") #>TestTable.InsertPlaceholder();
+<# } #>
+
+<# } #>
+            // Insert the second <#= (string)xml.Attribute("name") #> data row in the database.
+            int second<#= (string)xml.Attribute("name") #>ID = <#= (string)xml.Attribute("name") #>TestTable.InsertWithValues(
+<# ForEachSeparated(NonPrimaryKeyColumns(xml), (column) => { 
+            if ((string)column.Attribute("isForeignKey") == "true") { #>
+                second<#= (string)column.Attribute("name") #><# 
+            } else { #>
+                <#= (string)column.Element("testValues").Element("testValue2") #><#
+            }}, () => { #>,
+<# }); #>);
+
+<# if (ForeignKeyColumns(xml).Length > 0) { #>
+            // Insert the third master data rows in the database.
+<# foreach (XElement foreignKeyColumn in ForeignKeyColumns(xml)) { #>
+            int third<#= (string)foreignKeyColumn.Attribute("name") #> = <#= (string)foreignKeyColumn.Element("masterDataAccessComponent").Attribute("name") #>TestTable.InsertPlaceholder();
+<# } #>
+
+<# } #>
+            // Insert the third <#= (string)xml.Attribute("name") #> data row in the database.
+            int third<#= (string)xml.Attribute("name") #>ID = <#= (string)xml.Attribute("name") #>TestTable.InsertWithValues(
+<# ForEachSeparated(NonPrimaryKeyColumns(xml), (column) => { 
+            if ((string)column.Attribute("isForeignKey") == "true") { #>
+                third<#= (string)column.Attribute("name") #><# 
+            } else { #>
+                <#= (string)column.Element("testValues").Element("testValue3") #><#
+            }}, () => { #>,
+<# }); #>);
+
+            // Build the database connection.
+            <#= (string)xml.Attribute("name") #>DataRow[] <#= CamelCased((string)xml.Attribute("name")) #>DataRows = null;
+            using (DatabaseConnection databaseConnection = new DatabaseConnection(TestDatabase.ConnectionString))
+            {
+                // Open the database connection.
+                databaseConnection.Open().Wait();
+
+                // Read the <#= (string)xml.Attribute("name") #> data rows.
+                <#= (string)xml.Attribute("name") #>DataAccessComponent <#= CamelCased((string)xml.Attribute("name")) #>DataAccessComponent = new <#= (string)xml.Attribute("name") #>DataAccessComponent();
+                <#= CamelCased((string)xml.Attribute("name")) #>DataRows = <#= CamelCased((string)xml.Attribute("name")) #>DataAccessComponent.<#= (string)query.Attribute("name") #>(databaseConnection, ).Result;
+            }
+
+            // Validate the <#= (string)xml.Attribute("name") #> data rows.
+            Assert.IsNotNull(<#= CamelCased((string)xml.Attribute("name")) #>DataRows);
+            Assert.AreEqual(3, <#= CamelCased((string)xml.Attribute("name")) #>DataRows.Length);
+
+            // Validate the first <#= (string)xml.Attribute("name") #> data row.
+            Assert.AreEqual(first<#=(string)xml.Attribute("name") #>ID, <#= CamelCased((string)xml.Attribute("name")) #>DataRows[0].<#= (string)xml.Attribute("name") #>ID);
+<# foreach (XElement column in NonPrimaryKeyColumns(xml)) { #>
+<# if ((string)column.Attribute("isForeignKey") == "true") { #>
+            Assert.AreEqual(first<#= (string)column.Attribute("name") #>, <#= CamelCased((string)xml.Attribute("name")) #>DataRows[0].<#= (string)column.Attribute("name") #>);
+<# } else { #>
+            Assert.AreEqual(<#= (string)column.Element("testValues").Element("testValue1") #>, <#= CamelCased((string)xml.Attribute("name")) #>DataRows[0].<#= (string)column.Attribute("name") #>);
+<# } #>
+<# } #>
+
+            // Validate the second <#= (string)xml.Attribute("name") #> data row.
+            Assert.AreEqual(second<#= (string)xml.Attribute("name") #>ID, <#= CamelCased((string)xml.Attribute("name")) #>DataRows[1].<#= (string)xml.Attribute("name") #>ID);
+<# foreach (XElement column in NonPrimaryKeyColumns(xml)) { #>
+<# if ((string)column.Attribute("isForeignKey") == "true") { #>
+            Assert.AreEqual(second<#= (string)column.Attribute("name") #>, <#= CamelCased((string)xml.Attribute("name")) #>DataRows[1].<#= (string)column.Attribute("name") #>);
+<# } else { #>
+            Assert.AreEqual(<#= (string)column.Element("testValues").Element("testValue2") #>, <#= CamelCased((string)xml.Attribute("name")) #>DataRows[1].<#= (string)column.Attribute("name") #>);
+<# } #>
+<# } #>
+
+            // Validate the third <#= (string)xml.Attribute("name") #> data row.
+            Assert.AreEqual(third<#= (string)xml.Attribute("name") #>ID, <#= CamelCased((string)xml.Attribute("name")) #>DataRows[2].<#= (string)xml.Attribute("name") #>ID);
+<# foreach (XElement column in NonPrimaryKeyColumns(xml)) { #>
+<# if ((string)column.Attribute("isForeignKey") == "true") { #>
+            Assert.AreEqual(third<#= (string)column.Attribute("name") #>, <#= CamelCased((string)xml.Attribute("name")) #>DataRows[2].<#= (string)column.Attribute("name") #>);
+<# } else { #>
+            Assert.AreEqual(<#= (string)column.Element("testValues").Element("testValue3") #>, <#= CamelCased((string)xml.Attribute("name")) #>DataRows[2].<#= (string)column.Attribute("name") #>);
+<# } #>
+<# } #>
+        }
+
+<# } #>
+        /// <summary>
+        /// Tests the Update method.
+        /// </summary>
+        [TestMethod]
+        public void Update_ShouldSucceed()
+        {
+<# if (ForeignKeyColumns(xml).Length > 0) { #>
+            // Insert the first master data rows in the database.
+<# foreach (XElement foreignKeyColumn in ForeignKeyColumns(xml)) { #>
+            int first<#= (string)foreignKeyColumn.Attribute("name") #> = <#= (string)foreignKeyColumn.Element("masterDataAccessComponent").Attribute("name") #>TestTable.InsertPlaceholder();
+<# } #>
+
+            // Insert the second master data rows in the database.
+<# foreach (XElement foreignKeyColumn in ForeignKeyColumns(xml)) { #>
+            int second<#= (string)foreignKeyColumn.Attribute("name") #> = <#= (string)foreignKeyColumn.Element("masterDataAccessComponent").Attribute("name") #>TestTable.InsertPlaceholder();
+<# } #>
+
+<# } #>
+            // Insert the <#= (string)xml.Attribute("name") #> data row in the database.
+            int <#= CamelCased((string)xml.Attribute("name")) #>ID = <#= (string)xml.Attribute("name") #>TestTable.InsertWithValues(
+<# ForEachSeparated(NonPrimaryKeyColumns(xml), (column) => { 
+            if ((string)column.Attribute("isForeignKey") == "true") { #>
+                first<#= (string)column.Attribute("name") #><# 
+            } else { #>
+                <#= (string)column.Element("testValues").Element("testValue1") #><#
+            }}, () => { #>,
+<# }); #>);
+
+            // Build the <#= (string)xml.Attribute("name") #> data row.
+            <#= (string)xml.Attribute("name") #>DataRow <#= CamelCased((string)xml.Attribute("name")) #>DataRow = new <#= (string)xml.Attribute("name") #>DataRow();
+            <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)PrimaryKeyColumn(xml).Attribute("name") #> = <#= CamelCased((string)PrimaryKeyColumn(xml).Attribute("name")) #>;
+<# foreach (XElement column in NonPrimaryKeyColumns(xml)) { #>
+<# if ((string)column.Attribute("isForeignKey") == "true") { #>
+            <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)column.Attribute("name") #> = second<#= (string)column.Attribute("name") #>;
+<# } else { #>
+            <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)column.Attribute("name") #> = <#= (string)column.Element("testValues").Element("testValue2") #>;
+<# } #>
+<# } #>
+
+            // Build the database connection.
+            using (DatabaseConnection databaseConnection = new DatabaseConnection(TestDatabase.ConnectionString))
+            {
+                // Open the database connection.
+                databaseConnection.Open().Wait();
+
+                // Update the <#= (string)xml.Attribute("name") #> data row.
+                <#= (string)xml.Attribute("name") #>DataAccessComponent <#= CamelCased((string)xml.Attribute("name")) #>DataAccessComponent = new <#= (string)xml.Attribute("name") #>DataAccessComponent();
+                <#= CamelCased((string)xml.Attribute("name")) #>DataAccessComponent.Update(databaseConnection, <#= CamelCased((string)xml.Attribute("name")) #>DataRow).Wait();
+            }
+
+            // Validate the <#= (string)xml.Attribute("name") #> data row was updated in the database.
+            <#= (string)xml.Attribute("name") #>TestTable.AssertPresence(
+                <#= CamelCased((string)xml.Attribute("name")) #>ID,
+<# ForEachSeparated(NonPrimaryKeyColumns(xml), (column) => {
+            if ((string)column.Attribute("isForeignKey") == "true") { #>
+                second<#= (string)column.Attribute("name") #><# 
+            } else { #>
+                <#= (string)column.Element("testValues").Element("testValue2") #><#
+            }}, () => { #>,
+<# }); #>);
+        }
+
+<# foreach (XElement invalidForeignKeyColumn in ForeignKeyColumns(xml)) { #>
+        /// <summary>
+        /// Tests the Update method.
+        /// </summary>
+        [TestMethod]
+        public void Update_ShouldThrowException_GivenInvalid<#= (string)invalidForeignKeyColumn.Attribute("name") #>()
+        {
+<# if (ForeignKeyColumns(xml).Length > 0) { #>
+            // Insert the first master data rows in the database.
+<# foreach (XElement foreignKeyColumn in ForeignKeyColumns(xml)) { #>
+            int first<#= (string)foreignKeyColumn.Attribute("name") #> = <#= (string)foreignKeyColumn.Element("masterDataAccessComponent").Attribute("name") #>TestTable.InsertPlaceholder();
+<# } #>
+
+            // Insert the second master data rows in the database.
+<# foreach (XElement foreignKeyColumn in ForeignKeyColumns(xml)) { #>
+            int second<#= (string)foreignKeyColumn.Attribute("name") #> = <#= (string)foreignKeyColumn.Element("masterDataAccessComponent").Attribute("name") #>TestTable.InsertPlaceholder();
+<# } #>
+
+<# } #>
+            // Insert the <#= (string)xml.Attribute("name") #> data row in the database.
+            int <#= CamelCased((string)xml.Attribute("name")) #>ID = <#= (string)xml.Attribute("name") #>TestTable.InsertWithValues(
+<# ForEachSeparated(NonPrimaryKeyColumns(xml), (column) => { 
+            if ((string)column.Attribute("isForeignKey") == "true") { #>
+                first<#= (string)column.Attribute("name") #><# 
+            } else { #>
+                <#= (string)column.Element("testValues").Element("testValue1") #><#
+            }}, () => { #>,
+<# }); #>);
+
+            // Build the <#= (string)xml.Attribute("name") #> data row.
+            <#= (string)xml.Attribute("name") #>DataRow <#= CamelCased((string)xml.Attribute("name")) #>DataRow = new <#= (string)xml.Attribute("name") #>DataRow();
+            <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)PrimaryKeyColumn(xml).Attribute("name") #> = <#= CamelCased((string)PrimaryKeyColumn(xml).Attribute("name")) #>;
+<# foreach (XElement column in NonPrimaryKeyColumns(xml)) { #>
+<# if (column == invalidForeignKeyColumn) { #>
+            <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)column.Attribute("name") #> = ;
+<# } else if ((string)column.Attribute("isForeignKey") == "true") { #>
+            <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)column.Attribute("name") #> = second<#= (string)column.Attribute("name") #>;
+<# } else { #>
+            <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)column.Attribute("name") #> = <#= (string)column.Element("testValues").Element("testValue2") #>;
+<# } #>
+<# } #>
+
+            // Build the database connection.
+            using (DatabaseConnection databaseConnection = new DatabaseConnection(TestDatabase.ConnectionString))
+            {
+                // Open the database connection.
+                databaseConnection.Open().Wait();
+
+                try
+                {
+                    // Update the <#= (string)xml.Attribute("name") #> data row.
+                    <#= (string)xml.Attribute("name") #>DataAccessComponent <#= CamelCased((string)xml.Attribute("name")) #>DataAccessComponent = new <#= (string)xml.Attribute("name") #>DataAccessComponent();
+                    <#= CamelCased((string)xml.Attribute("name")) #>DataAccessComponent.Update(databaseConnection, <#= CamelCased((string)xml.Attribute("name")) #>DataRow).Wait();
+                    
+                    // Validate an exception was thrown.
+                    Assert.Fail();
+                }
+                catch (AggregateException ex)
+                {
+                    // Validate an SQL exception was thrown.
+                    Assert.IsInstanceOfType(ex.InnerExceptions[0], typeof(SqlException));
+                }
+            }
+        }
+
+<# } #>
+<# foreach (XElement uniqueColumn in UniqueColumns(xml)) { #>
+        /// <summary>
+        /// Tests the Update method.
+        /// </summary>
+        [TestMethod]
+        public void Update_ShouldThrowException_GivenDuplicate<#= (string)uniqueColumn.Attribute("name") #>()
+        {
+<# if (ForeignKeyColumns(xml).Length > 0) { #>
+            // Insert the first master data rows in the database.
+<# foreach (XElement foreignKeyColumn in ForeignKeyColumns(xml)) { #>
+            int first<#= (string)foreignKeyColumn.Attribute("name") #> = <#= (string)foreignKeyColumn.Element("masterDataAccessComponent").Attribute("name") #>TestTable.InsertPlaceholder();
+<# } #>
+
+            // Insert the second master data rows in the database.
+<# foreach (XElement foreignKeyColumn in ForeignKeyColumns(xml)) { #>
+            int second<#= (string)foreignKeyColumn.Attribute("name") #> = <#= (string)foreignKeyColumn.Element("masterDataAccessComponent").Attribute("name") #>TestTable.InsertPlaceholder();
+<# } #>
+
+<# } #>
+            // Insert the <#= (string)xml.Attribute("name") #> data row in the database.
+            int <#= CamelCased((string)xml.Attribute("name")) #>ID = <#= (string)xml.Attribute("name") #>TestTable.InsertWithValues(
+<# ForEachSeparated(NonPrimaryKeyColumns(xml), (column) => { 
+            if ((string)column.Attribute("isForeignKey") == "true") { #>
+                first<#= (string)column.Attribute("name") #><# 
+            } else { #>
+                <#= (string)column.Element("testValues").Element("testValue1") #><#
+            }}, () => { #>,
+<# }); #>);
+
+            // Insert the duplicate <#= (string)xml.Attribute("name") #> data row in the database.
+            int duplicate<#= (string)PrimaryKeyColumn(xml).Attribute("name") #> = <#= (string)xml.Attribute("name") #>TestTable.InsertPlaceholder(<#= CamelCased((string)uniqueColumn.Attribute("name")) #>: );
+
+            // Build the <#= (string)xml.Attribute("name") #> data row.
+            <#= (string)xml.Attribute("name") #>DataRow <#= CamelCased((string)xml.Attribute("name")) #>DataRow = new <#= (string)xml.Attribute("name") #>DataRow();
+            <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)PrimaryKeyColumn(xml).Attribute("name") #> = <#= CamelCased((string)PrimaryKeyColumn(xml).Attribute("name")) #>;
+<# foreach (XElement column in NonPrimaryKeyColumns(xml)) { #>
+<# if (column == uniqueColumn) { #>
+            <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)column.Attribute("name") #> = ;
+<# } else if ((string)column.Attribute("isForeignKey") == "true") { #>
+            <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)column.Attribute("name") #> = second<#= (string)column.Attribute("name") #>;
+<# } else { #>
+            <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)column.Attribute("name") #> = <#= (string)column.Element("testValues").Element("testValue2") #>;
+<# } #>
+<# } #>
+
+            // Build the database connection.
+            using (DatabaseConnection databaseConnection = new DatabaseConnection(TestDatabase.ConnectionString))
+            {
+                // Open the database connection.
+                databaseConnection.Open().Wait();
+
+                try
+                {
+                    // Update the <#= (string)xml.Attribute("name") #> data row.
+                    <#= (string)xml.Attribute("name") #>DataAccessComponent <#= CamelCased((string)xml.Attribute("name")) #>DataAccessComponent = new <#= (string)xml.Attribute("name") #>DataAccessComponent();
+                    <#= CamelCased((string)xml.Attribute("name")) #>DataAccessComponent.Update(databaseConnection, <#= CamelCased((string)xml.Attribute("name")) #>DataRow).Wait();
+                    
+                    // Validate an exception was thrown.
+                    Assert.Fail();
+                }
+                catch (AggregateException ex)
+                {
+                    // Validate an SQL exception was thrown.
+                    Assert.IsInstanceOfType(ex.InnerExceptions[0], typeof(SqlException));
+                }
+            }
+        }
+
+<# } #>
+        /// <summary>
+        /// Tests the Delete method.
+        /// </summary>
+        [TestMethod]
+        public void Delete_ShouldSucceed()
+        {
+<# if (ForeignKeyColumns(xml).Length > 0) { #>
+            // Insert the master data rows in the database.
+<# foreach (XElement foreignKeyColumn in ForeignKeyColumns(xml)) { #>
+            int <#= CamelCased((string)foreignKeyColumn.Attribute("name")) #> = <#= (string)foreignKeyColumn.Element("masterDataAccessComponent").Attribute("name") #>TestTable.InsertPlaceholder();
+<# } #>
+
+<# } #>
+            // Insert the <#= (string)xml.Attribute("name") #> data row in the database.
+            int <#= CamelCased((string)xml.Attribute("name")) #>ID = <#= (string)xml.Attribute("name") #>TestTable.InsertWithValues(
+<# ForEachSeparated(NonPrimaryKeyColumns(xml), (column) => { 
+            if ((string)column.Attribute("isForeignKey") == "true") { #>
+                <#= CamelCased((string)column.Attribute("name")) #><# 
+            } else { #>
+                <#= (string)column.Element("testValues").Element("testValue1") #><#
+            }}, () => { #>,
+<# }); #>);
+
+            // Build the <#= (string)xml.Attribute("name") #> data row.
+            <#= (string)xml.Attribute("name") #>DataRow <#= CamelCased((string)xml.Attribute("name")) #>DataRow = new <#= (string)xml.Attribute("name") #>DataRow();
+            <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)xml.Attribute("name") #>ID = <#= CamelCased((string)xml.Attribute("name")) #>ID;
+<# foreach (XElement column in NonPrimaryKeyColumns(xml)) { #>
+<# if ((string)column.Attribute("isForeignKey") == "true") { #>
+            <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)column.Attribute("name") #> = <#= CamelCased((string)column.Attribute("name")) #>;
+<# } else { #>
+            <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)column.Attribute("name") #> = <#= (string)column.Element("testValues").Element("testValue1") #>;
+<# } #>
+<# } #>
+
+            // Build the database connection.
+            using (DatabaseConnection databaseConnection = new DatabaseConnection(TestDatabase.ConnectionString))
+            {
+                // Open the database connection.
+                databaseConnection.Open().Wait();
+
+                // Delete the <#= (string)xml.Attribute("name") #> data row.
+                <#= (string)xml.Attribute("name") #>DataAccessComponent <#= CamelCased((string)xml.Attribute("name")) #>DataAccessComponent = new <#= (string)xml.Attribute("name") #>DataAccessComponent();
+                <#= CamelCased((string)xml.Attribute("name")) #>DataAccessComponent.Delete(databaseConnection, <#= CamelCased((string)xml.Attribute("name")) #>DataRow).Wait();
+            }
+
+            // Validate the <#= (string)xml.Attribute("name") #> data row was deleted in the database.
+            <#= (string)xml.Attribute("name") #>TestTable.AssertAbsence(<#= CamelCased((string)xml.Attribute("name")) #>ID);
+        }
+
+<# foreach (XElement detailsDataAccessComponent in PrimaryKeyColumn(xml).Elements("detailsDataAccessComponents").Elements("detailsDataAccessComponent")) { #>
+        /// <summary>
+        /// Tests the Delete method.
+        /// </summary>
+        [TestMethod]
+        public void Delete_ShouldThrowException_Given<#= (string)detailsDataAccessComponent.Attribute("name") #>Details()
+        {
+<# if (ForeignKeyColumns(xml).Length > 0) { #>
+            // Insert the master data rows in the database.
+<# foreach (XElement foreignKeyColumn in ForeignKeyColumns(xml)) { #>
+            int <#= CamelCased((string)foreignKeyColumn.Attribute("name")) #> = <#= (string)foreignKeyColumn.Element("masterDataAccessComponent").Attribute("name") #>TestTable.InsertPlaceholder();
+<# } #>
+
+<# } #>
+            // Insert the <#= (string)xml.Attribute("name") #> data row in the database.
+            int <#= CamelCased((string)xml.Attribute("name")) #>ID = <#= (string)xml.Attribute("name") #>TestTable.InsertWithValues(
+<# ForEachSeparated(NonPrimaryKeyColumns(xml), (column) => { 
+            if ((string)column.Attribute("isForeignKey") == "true") { #>
+                <#= CamelCased((string)column.Attribute("name")) #><# 
+            } else { #>
+                <#= (string)column.Element("testValues").Element("testValue1") #><#
+            }}, () => { #>,
+<# }); #>);
+
+            // Insert the details <#= (string)detailsDataAccessComponent.Attribute("name") #> data row in the database.
+            int <#= CamelCased((string)detailsDataAccessComponent.Attribute("name")) #>ID = <#= (string)detailsDataAccessComponent.Attribute("name") #>TestTable.InsertPlaceholder(<#= CamelCased((string)xml.Attribute("name")) #>ID: <#= CamelCased((string)xml.Attribute("name")) #>ID);
+
+            // Build the <#= (string)xml.Attribute("name") #> data row.
+            <#= (string)xml.Attribute("name") #>DataRow <#= CamelCased((string)xml.Attribute("name")) #>DataRow = new <#= (string)xml.Attribute("name") #>DataRow();
+            <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)xml.Attribute("name") #>ID = <#= CamelCased((string)xml.Attribute("name")) #>ID;
+<# foreach (XElement column in NonPrimaryKeyColumns(xml)) { #>
+<# if ((string)column.Attribute("isForeignKey") == "true") { #>
+            <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)column.Attribute("name") #> = <#= CamelCased((string)column.Attribute("name")) #>;
+<# } else { #>
+            <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)column.Attribute("name") #> = <#= (string)column.Element("testValues").Element("testValue1") #>;
+<# } #>
+<# } #>
+
+            // Build the database connection.
+            using (DatabaseConnection databaseConnection = new DatabaseConnection(TestDatabase.ConnectionString))
+            {
+                // Open the database connection.
+                databaseConnection.Open().Wait();
+
+                try
+                {
+                    // Delete the <#= (string)xml.Attribute("name") #> data row.
+                    <#= (string)xml.Attribute("name") #>DataAccessComponent <#= CamelCased((string)xml.Attribute("name")) #>DataAccessComponent = new <#= (string)xml.Attribute("name") #>DataAccessComponent();
+                    <#= CamelCased((string)xml.Attribute("name")) #>DataAccessComponent.Delete(databaseConnection, <#= CamelCased((string)xml.Attribute("name")) #>DataRow).Wait();
+                    
+                    // Validate an exception was thrown.
+                    Assert.Fail();
+                }
+                catch (AggregateException ex)
+                {
+                    // Validate an SQL exception was thrown.
+                    Assert.IsInstanceOfType(ex.InnerExceptions[0], typeof(SqlException));
+                }
+            }
+        }
+
+<# } #>
+        /// <summary>
+        /// Rollbacks the transaction after every test.
+        /// </summary>
+        [TestCleanup]
+        public void TearDown()
+        {
+            this.transactionScope.Dispose();
+        }
+    }
+}

@@ -1,0 +1,152 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ include file="..\Common.tt" #>
+<#@ output extension=".cs" #>
+<#
+    string xmlPath = Host.ResolvePath(@"..\Blueprint.xml");
+    XElement xml = XElement.Load(xmlPath);
+#>
+
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace SampleHttpApplication.DataAccessComponents.Tests.<#= (string)xml.Attribute("name") #>
+{
+    /// <summary>
+    /// Represents the <#= (string)xml.Attribute("name") #> test table.
+    /// </summary>
+    public static class <#= (string)xml.Attribute("name") #>TestTable
+    {
+        /// <summary>
+        /// Asserts the presence of the specified row. 
+        /// </summary>
+        public static void AssertPresence(<# ForEachSeparated(xml.Element("columns").Elements("column"), (column) => { #><#= (string)column.Attribute("csharpType") #> <#= CamelCased((string)column.Attribute("name")) #><# }, () => { #>, <# }); #>)
+        {
+            // Open the data reader.
+            string commandText = String.Format("SELECT * FROM [<#= (string)xml.Attribute("name") #>] WHERE [<#= (string)xml.Attribute("name") #>ID] = {0};", <#= CamelCased((string)xml.Attribute("name")) #>ID);
+            using (SqlDataReader sqlDataReader = TestDatabase.ExecuteReader(commandText))
+            {
+                // Assert the presence of the row.
+                Assert.IsTrue(sqlDataReader.Read());
+<# foreach (XElement column in xml.Element("columns").Elements("column")) { #>
+                Assert.AreEqual(<#= CamelCased((string)column.Attribute("name")) #>, (<#= (string)column.Attribute("csharpType") #>)sqlDataReader["<#= (string)column.Attribute("name") #>"]);
+<# } #>
+
+                // Assert there is only one row.
+                Assert.IsFalse(sqlDataReader.Read());
+            }
+        }
+
+        /// <summary>
+        /// Asserts the absence of the specified row.
+        /// </summary>
+        public static void AssertAbsence(int <#= CamelCased((string)PrimaryKeyColumn(xml).Attribute("name")) #>)
+        {
+            // Open the data reader.
+            string commandText = String.Format("SELECT * FROM [<#= (string)xml.Attribute("name") #>] WHERE [<#= (string)xml.Attribute("name") #>ID] = {0};", <#= CamelCased((string)xml.Attribute("name")) #>);
+            using (SqlDataReader sqlDataReader = TestDatabase.ExecuteReader(commandText))
+            {
+                // Assert the absence of the row.
+                Assert.IsFalse(sqlDataReader.Read());
+            }
+        }
+
+        /// <summary>
+        /// Inserts the specified row.
+        /// </summary>
+        public static int InsertWithValues(<# ForEachSeparated(NonPrimaryKeyColumns(xml), (column) => { #><#= (string)column.Attribute("csharpType") #> <#= CamelCased((string)column.Attribute("name")) #><# }, () => { #>, <# }); #>)
+        {
+            // Insert the row.
+            string commandText = String.Format("INSERT INTO [<#= (string)xml.Attribute("name") #>] VALUES(<# ForEachSeparated(NonPrimaryKeyColumns(xml), (column) => { #><#= GetInsertionToken(xml, column) #><# }, () => { #>, <# }); #>); SELECT CAST(SCOPE_IDENTITY() AS INT);", <# ForEachSeparated(NonPrimaryKeyColumns(xml), (column) => { #><#= CamelCased((string)column.Attribute("name")) #><# }, () => { #>, <# }); #>);
+            int <#= CamelCased((string)xml.Attribute("name")) #>ID = TestDatabase.ExecuteScalar<int>(commandText);
+
+            // Return the generated ID.
+            return <#= CamelCased((string)xml.Attribute("name")) #>ID;
+        }
+
+        /// <summary>
+        /// Inserts a placeholder row.
+        /// </summary>
+        public static int InsertPlaceholder(<# ForEachSeparated(NonPrimaryKeyColumns(xml), (column) => { #><#= (string)column.Attribute("csharpType") #> <#= CamelCased((string)column.Attribute("name")) #> = default(<#= (string)column.Attribute("csharpType") #>)<# }, () => { #>, <# }); #>)
+        {
+            // Provide a value for all the columns.
+<# foreach (XElement column in NonPrimaryKeyColumns(xml)) { #>
+<# if ((string)column.Attribute("isForeignKey") == "true") { #>
+            if (<#= CamelCased((string)column.Attribute("name")) #> == default(<#= (string)column.Attribute("csharpType") #>)) { <#= CamelCased((string)column.Attribute("name")) #> = <#= (string)column.Element("masterDataAccessComponent").Attribute("name") #>TestTable.InsertPlaceholder(); }
+<# } else if ((string)column.Attribute("isUnique") == "true") { #>
+            if (<#= CamelCased((string)column.Attribute("name")) #> == default(<#= (string)column.Attribute("csharpType") #>)) { <#= CamelCased((string)column.Attribute("name")) #> = <#= GetUniquePlaceholderValue(column) #>; }
+<# } else { #>
+            if (<#= CamelCased((string)column.Attribute("name")) #> == default(<#= (string)column.Attribute("csharpType") #>)) { <#= CamelCased((string)column.Attribute("name")) #> = <#= GetPlaceholderValue(column) #>; }
+<# } #>
+<# } #>
+
+            // Insert the row.
+            int <#= CamelCased((string)xml.Attribute("name")) #>ID = InsertWithValues(<# ForEachSeparated(NonPrimaryKeyColumns(xml), (column) => { #><#= CamelCased((string)column.Attribute("name")) #><# }, () => { #>, <# }); #>);
+
+            // Return the generated ID.
+            return <#= CamelCased((string)xml.Attribute("name")) #>ID;
+        }
+    }
+}
+<#+
+    Dictionary<string, string> insertionTokenFormats = new Dictionary<string, string>()
+    {
+        { "bool", "'{{{0}}}'" },
+        { "DateTime", "'{{{0}:yyyy-MM-dd hh:mm:ss}}'" },
+        { "decimal", "{{{0}}}" },
+        { "Guid", "'{{{0}}}'" },
+        { "int", "{{{0}}}" },
+        { "string", "'{{{0}}}'" }
+    };
+
+    public string GetInsertionToken(XElement xml, XElement column)
+    {
+        string insertionTokenFormat = insertionTokenFormats[(string)column.Attribute("csharpType")];
+        string insertionToken = String.Format(insertionTokenFormat, Array.IndexOf(NonPrimaryKeyColumns(xml), column));
+        return insertionToken;
+    }
+
+    Dictionary<string, string> placeHolderValues = new Dictionary<string, string>()
+    {
+        { "bool", "false" },
+        { "DateTime", "new DateTime(2001, 1, 1)" },
+        { "decimal", "0.00m" },
+        { "Guid", "Guid.Empty" },
+        { "int", "0" },
+        { "string", "String.Empty" }
+    };
+
+    public string GetPlaceholderValue(XElement column)
+    {
+        string placeHolderValue = placeHolderValues[(string)column.Attribute("csharpType")];
+        return placeHolderValue;
+    }
+
+    Dictionary<string, string> uniquePlaceHolderValues = new Dictionary<string, string>()
+    {
+        { "bool", "false" },
+        { "DateTime", "DateTime.Now" },
+        { "decimal", "new Random().Next()" },
+        { "Guid", "Guid.NewGuid()" },
+        { "int", "new Random().Next()" },
+        { "string", "Guid.NewGuid().ToString()" }
+    };
+
+    public string GetUniquePlaceholderValue(XElement column)
+    {
+        string uniquePlaceHolderValue = uniquePlaceHolderValues[(string)column.Attribute("csharpType")];
+        return uniquePlaceHolderValue;
+    }
+#>

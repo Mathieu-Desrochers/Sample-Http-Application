@@ -13,3 +13,5 @@ Common.cs
 DataRow.cs
 IDataAccessComponent.cs
 DataAccessComponent.cs
+DataAccessComponentTests.cs
+TestTable.cs
