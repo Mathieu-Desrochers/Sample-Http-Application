@@ -1,0 +1,63 @@
+﻿
+    // Mock the creation of the Session data row.
+    testHarness.MockedSessionDataAccessComponent
+        .Setup(mock => mock.Create(
+            It.IsAny<IDatabaseConnection>(),
+            It.Is<SessionDataRow>(sessionDataRow =>
+            (
+                sessionDataRow.SessionCode ==  &&
+                sessionDataRow.Name ==  &&
+                sessionDataRow.StartDate == 
+            ))))
+        .Callback((IDatabaseConnection databaseConnection, SessionDataRow sessionDataRow) =>
+        {
+            sessionDataRow.SessionID = ;
+        })
+        .Verifiable();
+
+    // Mock the reading of the Session data row.
+    testHarness.MockedSessionDataAccessComponent
+        .Setup(mock => mock.ReadBySessionID(It.IsAny<IDatabaseConnection>(), ))
+        .Returns(new SessionDataRow()
+        {
+            SessionID = ,
+            SessionCode = ,
+            Name = ,
+            StartDate = 
+        })
+        .Verifiable();
+
+    // Mock the reading of the Session data row.
+    testHarness.MockedSessionDataAccessComponent
+        .Setup(mock => mock.ReadBySessionCode(It.IsAny<IDatabaseConnection>(), ))
+        .Returns(new SessionDataRow()
+        {
+            SessionID = ,
+            SessionCode = ,
+            Name = ,
+            StartDate = 
+        })
+        .Verifiable();
+
+    // Mock the update of the Session data row.
+    testHarness.MockedSessionDataAccessComponent
+        .Setup(mock => mock.Update(
+            It.IsAny<IDatabaseConnection>(),
+            It.Is<SessionDataRow>(sessionDataRow =>
+            (
+                sessionDataRow.SessionID ==  &&
+                sessionDataRow.SessionCode ==  &&
+                sessionDataRow.Name ==  &&
+                sessionDataRow.StartDate == 
+            ))))
+        .Verifiable();
+
+    // Mock the deletion of the Session data row.
+    testHarness.MockedSessionDataAccessComponent
+        .Setup(mock => mock.Delete(
+            It.IsAny<IDatabaseConnection>(),
+            It.Is<SessionDataRow>(sessionDataRow =>
+            (
+                sessionDataRow.SessionID == 
+            ))))
+        .Verifiable();

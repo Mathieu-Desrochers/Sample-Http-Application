@@ -1,0 +1,22 @@
+﻿
+    // Create the Session data row.
+    operationData.SessionDataRow = new SessionDataRow();
+    operationData.SessionDataRow.SessionCode = ;
+    operationData.SessionDataRow.Name = ;
+    operationData.SessionDataRow.StartDate = ;
+    await this.sessionDataAccessComponent.Create(databaseConnection, operationData.SessionDataRow);
+
+    // Read the Session data row.
+    operationData.SessionDataRow = await this.sessionDataAccessComponent.ReadBySessionID(databaseConnection, );
+
+    // Read the Session data row.
+    operationData.SessionDataRow = await this.sessionDataAccessComponent.ReadBySessionCode(databaseConnection, );
+
+    // Update the Session data row.
+    operationData.SessionDataRow.SessionCode = ;
+    operationData.SessionDataRow.Name = ;
+    operationData.SessionDataRow.StartDate = ;
+    await this.sessionDataAccessComponent.Update(databaseConnection, operationData.SessionDataRow);
+
+    // Delete the Session data row.
+    await this.sessionDataAccessComponent.Delete(databaseConnection, operationData.SessionDataRow);

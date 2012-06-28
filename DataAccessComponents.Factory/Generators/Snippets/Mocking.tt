@@ -1,0 +1,104 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ include file="..\Common.tt" #>
+<#@ output extension=".txt" #>
+<#
+    string xmlPath = Host.ResolvePath(@"..\Blueprint.xml");
+    XElement xml = XElement.Load(xmlPath);
+#>
+
+    // Mock the creation of the <#= (string)xml.Attribute("name") #> data row.
+    testHarness.Mocked<#= (string)xml.Attribute("name") #>DataAccessComponent
+        .Setup(mock => mock.Create(
+            It.IsAny<IDatabaseConnection>(),
+            It.Is<<#= (string)xml.Attribute("name") #>DataRow>(<#= CamelCased((string)xml.Attribute("name")) #>DataRow =>
+            (
+<# ForEachSeparated(NonPrimaryKeyColumns(xml), column => { #>
+                <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)column.Attribute("name") #> == <# }, () => { #> &&
+<# }); #>
+
+            ))))
+        .Callback((IDatabaseConnection databaseConnection, <#= (string)xml.Attribute("name") #>DataRow <#= CamelCased((string)xml.Attribute("name")) #>DataRow) =>
+        {
+            <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)xml.Attribute("name") #>ID = ;
+        })
+        .Verifiable();
+
+<# foreach (XElement query in xml.Element("queries").Elements("query").Where(query => (string)query.Attribute("results") == "single")) { #>
+    // Mock the reading of the <#= (string)xml.Attribute("name") #> data row.
+    testHarness.Mocked<#= (string)xml.Attribute("name") #>DataAccessComponent
+        .Setup(mock => mock.<#= (string)query.Attribute("name") #>(It.IsAny<IDatabaseConnection>()<# foreach (XElement parameter in query.Elements("parameters").Elements("parameter")) { #>, <# } #>))
+        .Returns(new <#= (string)xml.Attribute("name") #>DataRow()
+        {
+            <#= (string)xml.Attribute("name") #>ID = ,
+<# ForEachSeparated(NonPrimaryKeyColumns(xml), column => { #>
+            <#= (string)column.Attribute("name") #> = <# }, () => { #>,
+<# }); #>
+
+        })
+        .Verifiable();
+
+<# } #>
+<# foreach (XElement query in xml.Element("queries").Elements("query").Where(query => (string)query.Attribute("results") == "multiple")) { #>
+    // Mock the reading of the <#= (string)xml.Attribute("name") #> data rows.
+    testHarness.Mocked<#= (string)xml.Attribute("name") #>DataAccessComponent
+        .Setup(mock => mock.<#= (string)query.Attribute("name") #>(It.IsAny<IDatabaseConnection>()<# foreach (XElement parameter in query.Elements("parameters").Elements("parameter")) { #>, <# } #>))
+        .Returns(new <#= (string)xml.Attribute("name") #>DataRow[]
+        {
+            new <#= (string)xml.Attribute("name") #>DataRow()
+            {
+                <#= (string)xml.Attribute("name") #>ID = ,
+<# ForEachSeparated(NonPrimaryKeyColumns(xml), column => { #>
+                <#= (string)column.Attribute("name") #> = <# }, () => { #>,
+<# }); #>
+
+            },
+            new <#= (string)xml.Attribute("name") #>DataRow()
+            {
+                <#= (string)xml.Attribute("name") #>ID = ,
+<# ForEachSeparated(NonPrimaryKeyColumns(xml), column => { #>
+                <#= (string)column.Attribute("name") #> = <# }, () => { #>,
+<# }); #>
+
+            },
+            new <#= (string)xml.Attribute("name") #>DataRow()
+            {
+                <#= (string)xml.Attribute("name") #>ID = ,
+<# ForEachSeparated(NonPrimaryKeyColumns(xml), column => { #>
+                <#= (string)column.Attribute("name") #> = <# }, () => { #>,
+<# }); #>
+
+            }
+        })
+        .Verifiable();
+
+<# } #>
+    // Mock the update of the <#= (string)xml.Attribute("name") #> data row.
+    testHarness.Mocked<#= (string)xml.Attribute("name") #>DataAccessComponent
+        .Setup(mock => mock.Update(
+            It.IsAny<IDatabaseConnection>(),
+            It.Is<<#= (string)xml.Attribute("name") #>DataRow>(<#= CamelCased((string)xml.Attribute("name")) #>DataRow =>
+            (
+                <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)xml.Attribute("name") #>ID ==  &&
+<# ForEachSeparated(NonPrimaryKeyColumns(xml), column => { #>
+                <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)column.Attribute("name") #> == <# }, () => { #> &&
+<# }); #>
+
+            ))))
+        .Verifiable();
+
+    // Mock the deletion of the <#= (string)xml.Attribute("name") #> data row.
+    testHarness.Mocked<#= (string)xml.Attribute("name") #>DataAccessComponent
+        .Setup(mock => mock.Delete(
+            It.IsAny<IDatabaseConnection>(),
+            It.Is<<#= (string)xml.Attribute("name") #>DataRow>(<#= CamelCased((string)xml.Attribute("name")) #>DataRow =>
+            (
+                <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)xml.Attribute("name") #>ID == 
+            ))))
+        .Verifiable();

@@ -583,7 +583,7 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.<#= (string)xml.Attri
 
             // Build the <#= (string)xml.Attribute("name") #> data row.
             <#= (string)xml.Attribute("name") #>DataRow <#= CamelCased((string)xml.Attribute("name")) #>DataRow = new <#= (string)xml.Attribute("name") #>DataRow();
-            <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)PrimaryKeyColumn(xml).Attribute("name") #> = <#= CamelCased((string)PrimaryKeyColumn(xml).Attribute("name")) #>;
+            <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)xml.Attribute("name") #>ID = <#= CamelCased((string)xml.Attribute("name")) #>ID;
 <# foreach (XElement column in NonPrimaryKeyColumns(xml)) { #>
 <# if ((string)column.Attribute("isForeignKey") == "true") { #>
             <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)column.Attribute("name") #> = second<#= (string)column.Attribute("name") #>;
@@ -646,7 +646,7 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.<#= (string)xml.Attri
 
             // Build the <#= (string)xml.Attribute("name") #> data row.
             <#= (string)xml.Attribute("name") #>DataRow <#= CamelCased((string)xml.Attribute("name")) #>DataRow = new <#= (string)xml.Attribute("name") #>DataRow();
-            <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)PrimaryKeyColumn(xml).Attribute("name") #> = <#= CamelCased((string)PrimaryKeyColumn(xml).Attribute("name")) #>;
+            <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)xml.Attribute("name") #>ID = <#= CamelCased((string)xml.Attribute("name")) #>ID;
 <# foreach (XElement column in NonPrimaryKeyColumns(xml)) { #>
 <# if (column == invalidForeignKeyColumn) { #>
             <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)column.Attribute("name") #> = ;
@@ -711,11 +711,11 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.<#= (string)xml.Attri
 <# }); #>);
 
             // Insert the duplicate <#= (string)xml.Attribute("name") #> data row in the database.
-            int duplicate<#= (string)PrimaryKeyColumn(xml).Attribute("name") #> = <#= (string)xml.Attribute("name") #>TestTable.InsertPlaceholder(<#= CamelCased((string)uniqueColumn.Attribute("name")) #>: );
+            int duplicate<#= (string)xml.Attribute("name") #>ID = <#= (string)xml.Attribute("name") #>TestTable.InsertPlaceholder(<#= CamelCased((string)uniqueColumn.Attribute("name")) #>: );
 
             // Build the <#= (string)xml.Attribute("name") #> data row.
             <#= (string)xml.Attribute("name") #>DataRow <#= CamelCased((string)xml.Attribute("name")) #>DataRow = new <#= (string)xml.Attribute("name") #>DataRow();
-            <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)PrimaryKeyColumn(xml).Attribute("name") #> = <#= CamelCased((string)PrimaryKeyColumn(xml).Attribute("name")) #>;
+            <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)xml.Attribute("name") #>ID = <#= CamelCased((string)xml.Attribute("name")) #>ID;
 <# foreach (XElement column in NonPrimaryKeyColumns(xml)) { #>
 <# if (column == uniqueColumn) { #>
             <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)column.Attribute("name") #> = ;
