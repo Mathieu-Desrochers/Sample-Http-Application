@@ -35,14 +35,14 @@ namespace SampleHttpApplication.DataAccessComponents.Interface.<#= (string)xml.A
         /// <summary>
         /// <#= (string)query.Element("summary") #>
         /// </summary>
-        Task<<#= (string)xml.Attribute("name") #>DataRow> <#= (string)query.Attribute("name") #>(IDatabaseConnection databaseConnection<# foreach (XElement parameter in query.Elements("parameters").Elements("parameter")) { #>, <#= (string)parameter.Attribute("type") #> <#= (string)parameter.Attribute("name") #><# } #>);
+        Task<<#= (string)xml.Attribute("name") #>DataRow> <#= (string)query.Attribute("name") #>(IDatabaseConnection databaseConnection<# foreach (XElement parameter in query.Elements("parameters").Elements("parameter")) { #>, <#= (string)parameter.Attribute("csharpType") #> <#= CamelCased((string)parameter.Attribute("name")) #><# } #>);
 
 <# } #>
 <# foreach (XElement query in xml.Element("queries").Elements("query").Where(query => (string)query.Attribute("results") == "multiple")) { #>
         /// <summary>
         /// <#= (string)query.Element("summary") #>
         /// </summary>
-        Task<<#= (string)xml.Attribute("name") #>DataRow[]> <#= (string)query.Attribute("name") #>(IDatabaseConnection databaseConnection<# foreach (XElement parameter in query.Elements("parameters").Elements("parameter")) { #>, <#= (string)parameter.Attribute("type") #> <#= (string)parameter.Attribute("name") #><# } #>);
+        Task<<#= (string)xml.Attribute("name") #>DataRow[]> <#= (string)query.Attribute("name") #>(IDatabaseConnection databaseConnection<# foreach (XElement parameter in query.Elements("parameters").Elements("parameter")) { #>, <#= (string)parameter.Attribute("csharpType") #> <#= CamelCased((string)parameter.Attribute("name")) #><# } #>);
 
 <# } #>
         /// <summary>

@@ -28,6 +28,11 @@ namespace SampleHttpApplication.DataAccessComponents.Interface.Session
         Task<SessionDataRow> ReadBySessionCode(IDatabaseConnection databaseConnection, string sessionCode);
 
         /// <summary>
+        /// Reads all the Session data rows.
+        /// </summary>
+        Task<SessionDataRow[]> ReadAll(IDatabaseConnection databaseConnection);
+
+        /// <summary>
         /// Updates the specified Session data row.
         /// </summary>
         Task Update(IDatabaseConnection databaseConnection, SessionDataRow sessionDataRow);

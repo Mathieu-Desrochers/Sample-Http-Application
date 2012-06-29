@@ -49,7 +49,7 @@ namespace SampleHttpApplication.DataAccessComponents.Code.Session
             // Set the other parameters.
             sqlCommand.Parameters.Add("@sessionCode", SqlDbType.NVarChar, 50).Value = sessionDataRow.SessionCode;
             sqlCommand.Parameters.Add("@name", SqlDbType.NVarChar, 50).Value = sessionDataRow.Name;
-            sqlCommand.Parameters.Add("@startDate", SqlDbType.DateTime).Value = sessionDataRow.StartDate;
+            sqlCommand.Parameters.Add("@startDate", SqlDbType.Date).Value = sessionDataRow.StartDate;
         }
 
         /// <summary>
@@ -132,6 +132,34 @@ namespace SampleHttpApplication.DataAccessComponents.Code.Session
 
                 // Return the Session data row.
                 return sessionDataRow;
+            }
+        }
+
+        /// <summary>
+        /// Reads all the Session data rows.
+        /// </summary>
+        public async Task<SessionDataRow[]> ReadAll(IDatabaseConnection databaseConnection)
+        {
+            // Build the SQL command.
+            using (SqlCommand sqlCommand = new SqlCommand("SELECT * FROM [Session];"))
+            {
+                // Use the specified database connection.
+                SqlConnection sqlConnection = (databaseConnection as DatabaseConnection).SqlConnection;
+                sqlCommand.Connection = sqlConnection;
+
+                // Execute the SQL command.
+                SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync();
+
+                // Read the Session data rows.
+                List<SessionDataRow> sessionDataRows = new List<SessionDataRow>();
+                while (await sqlDataReader.ReadAsync())
+                {
+                    SessionDataRow sessionDataRow = this.GetSqlDataReaderValues(sqlDataReader);
+                    sessionDataRows.Add(sessionDataRow);
+                }
+
+                // Return the Session data rows.
+                return sessionDataRows.ToArray();
             }
         }
 

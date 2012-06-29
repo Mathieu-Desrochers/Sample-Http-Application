@@ -16,11 +16,11 @@
         <testValue3>"Session Charlie"</testValue3>
       </testValues>
     </column>
-    <column name="StartDate" csharpType="DateTime" sqlDbType="DateTime">
+    <column name="StartDate" csharpType="DateTime" sqlDbType="Date">
       <testValues>
-        <testValue1>new DateTime(2001, 1, 1, 1, 1, 1)</testValue1>
-        <testValue2>new DateTime(2002, 2, 2, 2, 2, 2)</testValue2>
-        <testValue3>new DateTime(2003, 3, 3, 3, 3, 3)</testValue3>
+        <testValue1>new DateTime(2001, 1, 1)</testValue1>
+        <testValue2>new DateTime(2002, 2, 2)</testValue2>
+        <testValue3>new DateTime(2003, 3, 3)</testValue3>
       </testValues>
     </column>
   </columns>
@@ -36,6 +36,9 @@
       <parameters>
         <parameter name="SessionCode" csharpType="string" sqlDbType="NVarChar" sqlDbTypeSize="50" />
       </parameters>
+    </query>
+    <query name="ReadAll" results="multiple">
+      <summary>Reads all the Session data rows.</summary>
     </query>
   </queries>
 </dataAccessComponent>

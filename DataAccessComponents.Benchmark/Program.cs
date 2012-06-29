@@ -40,7 +40,7 @@ namespace SampleHttpApplication.DataAccessComponents.Benchmark
 
                 // Delete the database row.
                 SqlCommand deleteSqlCommand = new SqlCommand("DELETE FROM [Session] WHERE [SessionID] = " + sessionID, sqlConnection);
-                updateSqlCommand.ExecuteNonQuery();
+                deleteSqlCommand.ExecuteNonQuery();
             }
         }
 
@@ -71,7 +71,7 @@ namespace SampleHttpApplication.DataAccessComponents.Benchmark
 
                 // Delete the database row.
                 SqlCommand deleteSqlCommand = new SqlCommand("DELETE FROM [Session] WHERE [SessionID] = " + sessionID, sqlConnection);
-                await updateSqlCommand.ExecuteNonQueryAsync();
+                await deleteSqlCommand.ExecuteNonQueryAsync();
             }
         }
 

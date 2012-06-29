@@ -45,7 +45,7 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.Session
             SessionDataRow sessionDataRow = new SessionDataRow();
             sessionDataRow.SessionCode = "Session-A";
             sessionDataRow.Name = "Session Alpha";
-            sessionDataRow.StartDate = new DateTime(2001, 1, 1, 1, 1, 1);
+            sessionDataRow.StartDate = new DateTime(2001, 1, 1);
 
             // Build the database connection.
             using (DatabaseConnection databaseConnection = new DatabaseConnection(TestDatabase.ConnectionString))
@@ -66,7 +66,7 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.Session
                 sessionDataRow.SessionID,
                 "Session-A",
                 "Session Alpha",
-                new DateTime(2001, 1, 1, 1, 1, 1));
+                new DateTime(2001, 1, 1));
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.Session
             SessionDataRow sessionDataRow = new SessionDataRow();
             sessionDataRow.SessionCode = "Session-A";
             sessionDataRow.Name = "Session Alpha";
-            sessionDataRow.StartDate = new DateTime(2001, 1, 1, 1, 1, 1);
+            sessionDataRow.StartDate = new DateTime(2001, 1, 1);
 
             // Build the database connection.
             using (DatabaseConnection databaseConnection = new DatabaseConnection(TestDatabase.ConnectionString))
@@ -117,7 +117,7 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.Session
             int sessionID = SessionTestTable.InsertWithValues(
                 "Session-A",
                 "Session Alpha",
-                new DateTime(2001, 1, 1, 1, 1, 1));
+                new DateTime(2001, 1, 1));
 
             // Build the database connection.
             SessionDataRow sessionDataRow = null;
@@ -136,7 +136,7 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.Session
             Assert.AreEqual(sessionID, sessionDataRow.SessionID);
             Assert.AreEqual("Session-A", sessionDataRow.SessionCode);
             Assert.AreEqual("Session Alpha", sessionDataRow.Name);
-            Assert.AreEqual(new DateTime(2001, 1, 1, 1, 1, 1), sessionDataRow.StartDate);
+            Assert.AreEqual(new DateTime(2001, 1, 1), sessionDataRow.StartDate);
         }
 
         /// <summary>
@@ -149,7 +149,7 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.Session
             int sessionID = SessionTestTable.InsertWithValues(
                 "Session-A",
                 "Session Alpha",
-                new DateTime(2001, 1, 1, 1, 1, 1));
+                new DateTime(2001, 1, 1));
 
             // Build the database connection.
             SessionDataRow sessionDataRow = null;
@@ -177,7 +177,7 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.Session
             int sessionID = SessionTestTable.InsertWithValues(
                 "Session-A",
                 "Session Alpha",
-                new DateTime(2001, 1, 1, 1, 1, 1));
+                new DateTime(2001, 1, 1));
 
             // Build the database connection.
             SessionDataRow sessionDataRow = null;
@@ -196,7 +196,7 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.Session
             Assert.AreEqual(sessionID, sessionDataRow.SessionID);
             Assert.AreEqual("Session-A", sessionDataRow.SessionCode);
             Assert.AreEqual("Session Alpha", sessionDataRow.Name);
-            Assert.AreEqual(new DateTime(2001, 1, 1, 1, 1, 1), sessionDataRow.StartDate);
+            Assert.AreEqual(new DateTime(2001, 1, 1), sessionDataRow.StartDate);
         }
 
         /// <summary>
@@ -209,7 +209,7 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.Session
             int sessionID = SessionTestTable.InsertWithValues(
                 "Session-A",
                 "Session Alpha",
-                new DateTime(2001, 1, 1, 1, 1, 1));
+                new DateTime(2001, 1, 1));
 
             // Build the database connection.
             SessionDataRow sessionDataRow = null;
@@ -228,6 +228,123 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.Session
         }
 
         /// <summary>
+        /// Tests the ReadAll method.
+        /// </summary>
+        [TestMethod]
+        public void ReadAll_ShouldReturnZeroDataRows()
+        {
+            // Build the database connection.
+            SessionDataRow[] sessionDataRows = null;
+            using (DatabaseConnection databaseConnection = new DatabaseConnection(TestDatabase.ConnectionString))
+            {
+                // Open the database connection.
+                databaseConnection.Open().Wait();
+
+                // Read the Session data rows.
+                SessionDataAccessComponent sessionDataAccessComponent = new SessionDataAccessComponent();
+                sessionDataRows = sessionDataAccessComponent.ReadAll(databaseConnection).Result;
+            }
+
+            // Validate the Session data rows.
+            Assert.IsNotNull(sessionDataRows);
+            Assert.AreEqual(0, sessionDataRows.Length);
+        }
+
+        /// <summary>
+        /// Tests the ReadAll method.
+        /// </summary>
+        [TestMethod]
+        public void ReadAll_ShouldReturnOneDataRow()
+        {
+            // Insert the first Session data row in the database.
+            int firstSessionID = SessionTestTable.InsertWithValues(
+                "Session-A",
+                "Session Alpha",
+                new DateTime(2001, 1, 1));
+
+            // Build the database connection.
+            SessionDataRow[] sessionDataRows = null;
+            using (DatabaseConnection databaseConnection = new DatabaseConnection(TestDatabase.ConnectionString))
+            {
+                // Open the database connection.
+                databaseConnection.Open().Wait();
+
+                // Read the Session data rows.
+                SessionDataAccessComponent sessionDataAccessComponent = new SessionDataAccessComponent();
+                sessionDataRows = sessionDataAccessComponent.ReadAll(databaseConnection).Result;
+            }
+
+            // Validate the Session data rows.
+            Assert.IsNotNull(sessionDataRows);
+            Assert.AreEqual(1, sessionDataRows.Length);
+
+            // Validate the first Session data row.
+            Assert.AreEqual(firstSessionID, sessionDataRows[0].SessionID);
+            Assert.AreEqual("Session-A", sessionDataRows[0].SessionCode);
+            Assert.AreEqual("Session Alpha", sessionDataRows[0].Name);
+            Assert.AreEqual(new DateTime(2001, 1, 1), sessionDataRows[0].StartDate);
+        }
+
+        /// <summary>
+        /// Tests the ReadAll method.
+        /// </summary>
+        [TestMethod]
+        public void ReadAll_ShouldReturnMultipleDataRows()
+        {
+            // Insert the first Session data row in the database.
+            int firstSessionID = SessionTestTable.InsertWithValues(
+                "Session-A",
+                "Session Alpha",
+                new DateTime(2001, 1, 1));
+
+            // Insert the second Session data row in the database.
+            int secondSessionID = SessionTestTable.InsertWithValues(
+                "Session-B",
+                "Session Bravo",
+                new DateTime(2002, 2, 2));
+
+            // Insert the third Session data row in the database.
+            int thirdSessionID = SessionTestTable.InsertWithValues(
+                "Session-C",
+                "Session Charlie",
+                new DateTime(2003, 3, 3));
+
+            // Build the database connection.
+            SessionDataRow[] sessionDataRows = null;
+            using (DatabaseConnection databaseConnection = new DatabaseConnection(TestDatabase.ConnectionString))
+            {
+                // Open the database connection.
+                databaseConnection.Open().Wait();
+
+                // Read the Session data rows.
+                SessionDataAccessComponent sessionDataAccessComponent = new SessionDataAccessComponent();
+                sessionDataRows = sessionDataAccessComponent.ReadAll(databaseConnection).Result;
+            }
+
+            // Validate the Session data rows.
+            Assert.IsNotNull(sessionDataRows);
+            Assert.AreEqual(3, sessionDataRows.Length);
+
+            // Validate the first Session data row.
+            Assert.AreEqual(firstSessionID, sessionDataRows[0].SessionID);
+            Assert.AreEqual("Session-A", sessionDataRows[0].SessionCode);
+            Assert.AreEqual("Session Alpha", sessionDataRows[0].Name);
+            Assert.AreEqual(new DateTime(2001, 1, 1), sessionDataRows[0].StartDate);
+
+            // Validate the second Session data row.
+            Assert.AreEqual(secondSessionID, sessionDataRows[1].SessionID);
+            Assert.AreEqual("Session-B", sessionDataRows[1].SessionCode);
+            Assert.AreEqual("Session Bravo", sessionDataRows[1].Name);
+            Assert.AreEqual(new DateTime(2002, 2, 2), sessionDataRows[1].StartDate);
+
+            // Validate the third Session data row.
+            Assert.AreEqual(thirdSessionID, sessionDataRows[2].SessionID);
+            Assert.AreEqual("Session-C", sessionDataRows[2].SessionCode);
+            Assert.AreEqual("Session Charlie", sessionDataRows[2].Name);
+            Assert.AreEqual(new DateTime(2003, 3, 3), sessionDataRows[2].StartDate);
+        }
+
+        /// <summary>
         /// Tests the Update method.
         /// </summary>
         [TestMethod]
@@ -237,14 +354,14 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.Session
             int sessionID = SessionTestTable.InsertWithValues(
                 "Session-A",
                 "Session Alpha",
-                new DateTime(2001, 1, 1, 1, 1, 1));
+                new DateTime(2001, 1, 1));
 
             // Build the Session data row.
             SessionDataRow sessionDataRow = new SessionDataRow();
             sessionDataRow.SessionID = sessionID;
             sessionDataRow.SessionCode = "Session-B";
             sessionDataRow.Name = "Session Bravo";
-            sessionDataRow.StartDate = new DateTime(2002, 2, 2, 2, 2, 2);
+            sessionDataRow.StartDate = new DateTime(2002, 2, 2);
 
             // Build the database connection.
             using (DatabaseConnection databaseConnection = new DatabaseConnection(TestDatabase.ConnectionString))
@@ -262,7 +379,7 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.Session
                 sessionID,
                 "Session-B",
                 "Session Bravo",
-                new DateTime(2002, 2, 2, 2, 2, 2));
+                new DateTime(2002, 2, 2));
         }
 
         /// <summary>
@@ -275,7 +392,7 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.Session
             int sessionID = SessionTestTable.InsertWithValues(
                 "Session-A",
                 "Session Alpha",
-                new DateTime(2001, 1, 1, 1, 1, 1));
+                new DateTime(2001, 1, 1));
 
             // Insert the duplicate Session data row in the database.
             int duplicateSessionID = SessionTestTable.InsertPlaceholder(sessionCode: "Session-B");
@@ -285,7 +402,7 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.Session
             sessionDataRow.SessionID = sessionID;
             sessionDataRow.SessionCode = "Session-B";
             sessionDataRow.Name = "Session Bravo";
-            sessionDataRow.StartDate = new DateTime(2002, 2, 2, 2, 2, 2);
+            sessionDataRow.StartDate = new DateTime(2002, 2, 2);
 
             // Build the database connection.
             using (DatabaseConnection databaseConnection = new DatabaseConnection(TestDatabase.ConnectionString))
@@ -320,14 +437,14 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.Session
             int sessionID = SessionTestTable.InsertWithValues(
                 "Session-A",
                 "Session Alpha",
-                new DateTime(2001, 1, 1, 1, 1, 1));
+                new DateTime(2001, 1, 1));
 
             // Build the Session data row.
             SessionDataRow sessionDataRow = new SessionDataRow();
             sessionDataRow.SessionID = sessionID;
             sessionDataRow.SessionCode = "Session-A";
             sessionDataRow.Name = "Session Alpha";
-            sessionDataRow.StartDate = new DateTime(2001, 1, 1, 1, 1, 1);
+            sessionDataRow.StartDate = new DateTime(2001, 1, 1);
 
             // Build the database connection.
             using (DatabaseConnection databaseConnection = new DatabaseConnection(TestDatabase.ConnectionString))
