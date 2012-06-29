@@ -56,7 +56,7 @@ namespace SampleHttpApplication.DataAccessComponents.Code.<#= (string)xml.Attrib
             // Set the primary key if requested.
             if (setPrimaryKeyValue)
             {
-                sqlCommand.Parameters.Add("@<#= CamelCased((string)PrimaryKeyColumn(xml).Attribute("name")) #>", SqlDbType.<#= (string)PrimaryKeyColumn(xml).Attribute("sqlDbType") #><# if (PrimaryKeyColumn(xml).Attribute("sqlDbTypeSize") != null) { #>, <#= (string)PrimaryKeyColumn(xml).Attribute("sqlDbTypeSize") #><# } #>).Value = <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)xml.Attribute("name") #>ID;
+                sqlCommand.Parameters.Add("@<#= CamelCased((string)xml.Attribute("name")) #>ID", SqlDbType.<#= (string)PrimaryKeyColumn(xml).Attribute("sqlDbType") #><# if (PrimaryKeyColumn(xml).Attribute("sqlDbTypeSize") != null) { #>, <#= (string)PrimaryKeyColumn(xml).Attribute("sqlDbTypeSize") #><# } #>).Value = <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)xml.Attribute("name") #>ID;
             }
 
             // Set the other parameters.

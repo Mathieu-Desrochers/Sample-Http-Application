@@ -52,7 +52,7 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.<#= (string)xml.Attri
         /// <summary>
         /// Asserts the absence of the specified row.
         /// </summary>
-        public static void AssertAbsence(int <#= CamelCased((string)PrimaryKeyColumn(xml).Attribute("name")) #>)
+        public static void AssertAbsence(int <#= CamelCased((string)xml.Attribute("name")) #>ID)
         {
             // Open the data reader.
             string commandText = String.Format("SELECT * FROM [<#= (string)xml.Attribute("name") #>] WHERE [<#= (string)xml.Attribute("name") #>ID] = {0};", <#= CamelCased((string)xml.Attribute("name")) #>ID);
