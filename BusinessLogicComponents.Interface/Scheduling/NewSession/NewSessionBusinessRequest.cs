@@ -36,7 +36,6 @@ namespace SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling
             /// <summary>
             /// Gets or sets the start date.
             /// </summary>
-            [Required]
             public DateTime StartDate { get; set; }
         }
     }

@@ -17,3 +17,6 @@ DataAccessComponents.Factory/Generators/Snippets/Invocation.txt
 DataAccessComponents.Factory/Generators/Snippets/Mocking.txt
 DataAccessComponentTests.cs
 TestTable.cs
+
+# Dependencies
+Dependencies

@@ -9,6 +9,7 @@
                 sessionDataRow.Name ==  &&
                 sessionDataRow.StartDate == 
             ))))
+        .Returns(Task.FromResult<object>(null))
         .Callback((IDatabaseConnection databaseConnection, SessionDataRow sessionDataRow) =>
         {
             sessionDataRow.SessionID = ;
@@ -18,25 +19,25 @@
     // Mock the reading of the Session data row.
     testHarness.MockedSessionDataAccessComponent
         .Setup(mock => mock.ReadBySessionID(It.IsAny<IDatabaseConnection>(), ))
-        .Returns(new SessionDataRow()
+        .Returns(Task.FromResult(new SessionDataRow()
         {
             SessionID = ,
             SessionCode = ,
             Name = ,
             StartDate = 
-        })
+        }))
         .Verifiable();
 
     // Mock the reading of the Session data row.
     testHarness.MockedSessionDataAccessComponent
         .Setup(mock => mock.ReadBySessionCode(It.IsAny<IDatabaseConnection>(), ))
-        .Returns(new SessionDataRow()
+        .Returns(Task.FromResult(new SessionDataRow()
         {
             SessionID = ,
             SessionCode = ,
             Name = ,
             StartDate = 
-        })
+        }))
         .Verifiable();
 
     // Mock the update of the Session data row.
@@ -50,6 +51,7 @@
                 sessionDataRow.Name ==  &&
                 sessionDataRow.StartDate == 
             ))))
+        .Returns(Task.FromResult<object>(null))
         .Verifiable();
 
     // Mock the deletion of the Session data row.
@@ -60,4 +62,5 @@
             (
                 sessionDataRow.SessionID == 
             ))))
+        .Returns(Task.FromResult<object>(null))
         .Verifiable();
