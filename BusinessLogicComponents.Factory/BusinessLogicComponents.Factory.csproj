@@ -59,15 +59,29 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Generators\Operation\Code\OperationData.cs">
+      <DependentUpon>OperationData.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Generators\Operation\Interface\BusinessRequest.cs">
       <DependentUpon>BusinessRequest.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Operation\Interface\BusinessResponse.cs">
+      <DependentUpon>BusinessResponse.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Operation\Interface\BusinessException.cs">
+      <DependentUpon>BusinessException.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Generators\Operation\Code\" />
     <Folder Include="Generators\Operation\Tests\" />
   </ItemGroup>
   <ItemGroup>
@@ -93,9 +107,21 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Common.cs</LastGenOutput>
     </None>
+    <None Include="Generators\Operation\Code\OperationData.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>OperationData.cs</LastGenOutput>
+    </None>
     <None Include="Generators\Operation\Interface\BusinessRequest.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>BusinessRequest.cs</LastGenOutput>
+    </None>
+    <None Include="Generators\Operation\Interface\BusinessResponse.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>BusinessResponse.cs</LastGenOutput>
+    </None>
+    <None Include="Generators\Operation\Interface\BusinessException.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>BusinessException.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

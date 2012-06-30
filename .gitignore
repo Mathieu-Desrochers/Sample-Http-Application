@@ -9,16 +9,19 @@ TestResults
 *.suo
 
 # Generated Code Files
-BusinessLogicComponent.cs
-BusinessLogicComponentTestHarness.cs
-BusinessRequest.cs
+BusinessLogicComponents.Factory/Generators/BusinessLogicComponent/Code/BusinessLogicComponent.cs
+BusinessLogicComponents.Factory/Generators/BusinessLogicComponent/Interface/IBusinessLogicComponent.cs
+BusinessLogicComponents.Factory/Generators/BusinessLogicComponent/Tests/BusinessLogicComponentTestHarness.cs
+BusinessLogicComponents.Factory/Generators/Operation/Code/OperationData.cs
+BusinessLogicComponents.Factory/Generators/Operation/Interface/BusinessException.cs
+BusinessLogicComponents.Factory/Generators/Operation/Interface/BusinessRequest.cs
+BusinessLogicComponents.Factory/Generators/Operation/Interface/BusinessResponse.cs
 Common.cs
 DataRow.cs
 DataAccessComponent.cs
 DataAccessComponents.Factory/Generators/Snippets/Invocation.txt
 DataAccessComponents.Factory/Generators/Snippets/Mocking.txt
 DataAccessComponentTests.cs
-IBusinessLogicComponent.cs
 IDataAccessComponent.cs
 TestTable.cs
 

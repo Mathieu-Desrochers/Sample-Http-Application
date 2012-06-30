@@ -1,0 +1,43 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ include file="..\..\Common.tt" #>
+<#@ output extension=".cs" #>
+<#
+    string xmlPath = Host.ResolvePath(@"..\Blueprint.xml");
+    XElement xml = XElement.Load(xmlPath);
+#>
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SampleHttpApplication.BusinessLogicComponents.Interface.<#= (string)xml.Attribute("name") #>
+{
+    /// <summary>
+    /// Represents a <#= (string)xml.Element("operation").Attribute("name") #> business exception.
+    /// </summary>
+    public class <#= (string)xml.Element("operation").Attribute("name") #>BusinessException : BusinessException
+    {
+        /// <summary>
+        /// The possible error codes.
+        /// </summary>
+        public ErrorCodes ErrorCode;
+        public enum ErrorCodes
+        {
+<# ForEachSeparated(xml.Descendants("error"), error => { #>
+            <#= (string)error.Attribute("code") #><# }, () => { #>,
+<# }); #>
+<# if (xml.Descendants("error").Any()) { #>
+
+<# } #>
+        }
+    }
+}
