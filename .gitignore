@@ -11,6 +11,7 @@ TestResults
 # Generated Code Files
 BusinessLogicComponent.cs
 BusinessLogicComponentTestHarness.cs
+BusinessRequest.cs
 Common.cs
 DataRow.cs
 DataAccessComponent.cs

@@ -39,8 +39,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Generators\BusinessLogicComponent\Code\BusinessLogicComponent.cs">
+      <DependentUpon>BusinessLogicComponent.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Generators\BusinessLogicComponent\Interface\IBusinessLogicComponent.cs">
       <DependentUpon>IBusinessLogicComponent.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\BusinessLogicComponent\Tests\BusinessLogicComponentTestHarness.cs">
+      <DependentUpon>BusinessLogicComponentTestHarness.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
@@ -49,24 +59,43 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Generators\Operation\Interface\BusinessRequest.cs">
+      <DependentUpon>BusinessRequest.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Generators\BusinessLogicComponent\Code\" />
-    <Folder Include="Generators\Operation\" />
+    <Folder Include="Generators\Operation\Code\" />
+    <Folder Include="Generators\Operation\Tests\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Blueprints\Scheduling\NewSession\NewSessionOperation.xml" />
     <Content Include="Blueprints\Scheduling\SchedulingBusinessLogicComponent.xml" />
     <Content Include="Generators\BusinessLogicComponent\Blueprint.xml" />
+    <Content Include="Generators\Operation\Blueprint.xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Generators\BusinessLogicComponent\Code\BusinessLogicComponent.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>BusinessLogicComponent.cs</LastGenOutput>
+    </None>
     <None Include="Generators\BusinessLogicComponent\Interface\IBusinessLogicComponent.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>IBusinessLogicComponent.cs</LastGenOutput>
     </None>
+    <None Include="Generators\BusinessLogicComponent\Tests\BusinessLogicComponentTestHarness.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>BusinessLogicComponentTestHarness.cs</LastGenOutput>
+    </None>
     <None Include="Generators\Common.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Common.cs</LastGenOutput>
+    </None>
+    <None Include="Generators\Operation\Interface\BusinessRequest.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>BusinessRequest.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

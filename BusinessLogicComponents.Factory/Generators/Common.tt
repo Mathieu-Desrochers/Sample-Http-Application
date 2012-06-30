@@ -26,4 +26,18 @@
 
 		elementAction(elements.Skip(elements.Count() - 1).Single());
 	}
+
+	public void ForEachSeparatedRecursive(IEnumerable<XElement> elements, Action<XElement> beginElementAction, Func<XElement, IEnumerable<XElement>> getChildsFunction, Action<XElement> endElementAction, Action separatorAction)
+	{
+		Action<XElement> elementAction = (element) =>
+		{
+			beginElementAction(element);
+			PushIndent("    ");
+			ForEachSeparatedRecursive(getChildsFunction(element), beginElementAction, getChildsFunction, endElementAction, separatorAction);
+			PopIndent();
+			endElementAction(element);
+		};
+
+		ForEachSeparated(elements, elementAction, separatorAction);
+	}
 #>

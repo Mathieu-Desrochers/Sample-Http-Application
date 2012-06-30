@@ -41,12 +41,6 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
                 return NewSessionBusinessException.ErrorCodes.InvalidName;
             }
 
-            // Validate the InvalidStartDate error code.
-            if (!ValidatorHelper.ValidateProperty("StartDate", businessRequest.Session, businessRequest.Session.StartDate))
-            {
-                return NewSessionBusinessException.ErrorCodes.InvalidStartDate;
-            }
-
             // The business request is valid.
             return null;
         }

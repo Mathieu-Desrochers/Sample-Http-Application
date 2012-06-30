@@ -20,8 +20,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling
         {
             InvalidSessionCode,
             DuplicateSessionCode,
-            InvalidName,
-            InvalidStartDate
+            InvalidName
         }
     }
 }
