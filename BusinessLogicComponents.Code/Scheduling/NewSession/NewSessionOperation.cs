@@ -22,26 +22,26 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
         /// </summary>
         private async Task<NewSessionBusinessException.ErrorCodes?> ValidateNewSession(IDatabaseConnection databaseConnection, NewSessionBusinessRequest businessRequest, NewSessionOperationData operationData)
         {
-            // Validate the session code.
+            // Validate the InvalidSessionCode error code.
             if (!ValidatorHelper.ValidateProperty("SessionCode", businessRequest.Session, businessRequest.Session.SessionCode))
             {
                 return NewSessionBusinessException.ErrorCodes.InvalidSessionCode;
             }
 
-            // Validate the session code is not already in use.
+            // Validate the DuplicateSessionCode error code.
             operationData.SessionDataRow = await this.sessionDataAccessComponent.ReadBySessionCode(databaseConnection, businessRequest.Session.SessionCode);
             if (operationData.SessionDataRow != null)
             {
                 return NewSessionBusinessException.ErrorCodes.DuplicateSessionCode;
             }
 
-            // Validate the name.
+            // Validate the InvalidName error code.
             if (!ValidatorHelper.ValidateProperty("Name", businessRequest.Session, businessRequest.Session.Name))
             {
                 return NewSessionBusinessException.ErrorCodes.InvalidName;
             }
 
-            // Validate the start date.
+            // Validate the InvalidStartDate error code.
             if (!ValidatorHelper.ValidateProperty("StartDate", businessRequest.Session, businessRequest.Session.StartDate))
             {
                 return NewSessionBusinessException.ErrorCodes.InvalidStartDate;
@@ -54,7 +54,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
         /// <summary>
         /// Executes the NewSession business operation.
         /// </summary>
-        public async Task<NewSessionBusinessResponse> NewSession(IDatabaseConnection databaseConnection, NewSessionBusinessRequest businessRequest)
+        public async virtual Task<NewSessionBusinessResponse> NewSession(IDatabaseConnection databaseConnection, NewSessionBusinessRequest businessRequest)
         {
             // Initialize the operation data.
             NewSessionOperationData operationData = new NewSessionOperationData();

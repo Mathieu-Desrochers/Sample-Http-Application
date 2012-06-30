@@ -9,13 +9,16 @@ TestResults
 *.suo
 
 # Generated Code Files
+BusinessLogicComponent.cs
+BusinessLogicComponentTestHarness.cs
 Common.cs
 DataRow.cs
-IDataAccessComponent.cs
 DataAccessComponent.cs
 DataAccessComponents.Factory/Generators/Snippets/Invocation.txt
 DataAccessComponents.Factory/Generators/Snippets/Mocking.txt
 DataAccessComponentTests.cs
+IBusinessLogicComponent.cs
+IDataAccessComponent.cs
 TestTable.cs
 
 # Dependencies

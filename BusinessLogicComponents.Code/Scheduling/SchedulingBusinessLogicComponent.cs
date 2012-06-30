@@ -21,18 +21,12 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
         private readonly ISessionDataAccessComponent sessionDataAccessComponent;
 
         /// <summary>
-        /// The business logic components.
-        /// </summary>
-
-        /// <summary>
         /// Initialization constructor.
         /// </summary>
         public SchedulingBusinessLogicComponent(ISessionDataAccessComponent sessionDataAccessComponent)
         {
             // Initialize the data access components.
             this.sessionDataAccessComponent = sessionDataAccessComponent;
-
-            // Initialize the business logic components.
         }
 
         /// <summary>

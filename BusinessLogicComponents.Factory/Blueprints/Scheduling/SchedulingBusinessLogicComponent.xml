@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<businessLogicComponent name="Scheduling">
+  <operations>
+    <operation name="NewSession">
+      <summary>Creates a new session.</summary>
+    </operation>
+  </operations>
+  <dataAccessComponents>
+    <dataAccessComponent name="Session" />
+  </dataAccessComponents>
+</businessLogicComponent>

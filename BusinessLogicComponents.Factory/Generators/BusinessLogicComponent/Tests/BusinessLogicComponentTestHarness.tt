@@ -1,0 +1,122 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ include file="..\..\Common.tt" #>
+<#@ output extension=".cs" #>
+<#
+    string xmlPath = Host.ResolvePath(@"..\Blueprint.xml");
+    XElement xml = XElement.Load(xmlPath);
+#>
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using Moq;
+
+using SampleHttpApplication.BusinessLogicComponents.Code.<#= (string)xml.Attribute("name") #>;
+<# foreach (XElement businessLogicComponent in xml.Descendants("businessLogicComponent")) { #>
+using SampleHttpApplication.BusinessLogicComponents.Interface.<#= (string)businessLogicComponent.Attribute("name") #>;
+<# } #>
+<# foreach (XElement dataAccessComponent in xml.Descendants("dataAccessComponent")) { #>
+using SampleHttpApplication.DataAccessComponents.Interface.<#= (string)dataAccessComponent.Attribute("name") #>;
+<# } #>
+
+namespace SampleHttpApplication.BusinessLogicComponents.Tests.<#= (string)xml.Attribute("name") #>
+{
+    /// <summary>
+    /// Represents a <#= (string)xml.Attribute("name") #> business logic component test harness.
+    /// </summary>
+    public class <#= (string)xml.Attribute("name") #>BusinessLogicComponentTestHarness
+    {
+        /// <summary>
+        /// The mocked database connection.
+        /// </summary>
+        public readonly MockedDatabaseConnection MockedDatabaseConnection;
+
+<# if (xml.Descendants("dataAccessComponent").Any()) { #>
+        /// <summary>
+        /// The mocked data access components.
+        /// </summary>
+<# foreach (XElement dataAccessComponent in xml.Descendants("dataAccessComponent")) { #>
+        public readonly Mock<I<#= (string)dataAccessComponent.Attribute("name") #>DataAccessComponent> Mocked<#= (string)dataAccessComponent.Attribute("name") #>DataAccessComponent;
+<# } #>
+
+<# } #>
+<# if (xml.Descendants("businessLogicComponent").Any()) { #>
+        /// <summary>
+        /// The mocked business logic components.
+        /// </summary>
+<# foreach (XElement businessLogicComponent in xml.Descendants("businessLogicComponents").Descendants("businessLogicComponent")) { #>
+        public readonly Mock<I<#= (string)businessLogicComponent.Attribute("name") #>BusinessLogicComponent> Mocked<#= (string)businessLogicComponent.Attribute("name") #>BusinessLogicComponent;
+<# } #>
+
+<# } #>
+        /// <summary>
+        /// The <#= (string)xml.Attribute("name") #> business logic component.
+        /// </summary>
+        public readonly Mock<<#= (string)xml.Attribute("name") #>BusinessLogicComponent> Mocked<#= (string)xml.Attribute("name") #>BusinessLogicComponent;
+        public <#= (string)xml.Attribute("name") #>BusinessLogicComponent <#= (string)xml.Attribute("name") #>BusinessLogicComponent
+        {
+            get { return this.Mocked<#= (string)xml.Attribute("name") #>BusinessLogicComponent.Object; }
+        }
+
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        public <#= (string)xml.Attribute("name") #>BusinessLogicComponentTestHarness()
+        {
+            // Build the mocked database connection.
+            this.MockedDatabaseConnection = new MockedDatabaseConnection();
+
+<# if (xml.Descendants("dataAccessComponent").Any()) { #>
+            // Build the mocked data access components.
+<# foreach (XElement dataAccessComponent in xml.Descendants("dataAccessComponent")) { #>
+            this.Mocked<#= (string)dataAccessComponent.Attribute("name") #>DataAccessComponent = new Mock<I<#= (string)dataAccessComponent.Attribute("name") #>DataAccessComponent>(MockBehavior.Strict);
+<# } #>
+
+<# } #>
+<# if (xml.Descendants("businessLogicComponent").Any()) { #>
+            // Build the mocked business logic components.
+<# foreach (XElement businessLogicComponent in xml.Descendants("businessLogicComponents").Descendants("businessLogicComponent")) { #>
+            this.Mocked<#= (string)businessLogicComponent.Attribute("name") #>BusinessLogicComponent = new Mock<I<#= (string)businessLogicComponent.Attribute("name") #>BusinessLogicComponent>(MockBehavior.Strict);
+<# } #>
+
+<# } #>
+            // Build the <#= (string)xml.Attribute("name") #> business logic component as a partial mock.
+            // This allows BusinessOperationA to be mocked while testing BusinessOperationB.
+            this.Mocked<#= (string)xml.Attribute("name") #>BusinessLogicComponent = new Mock<<#= (string)xml.Attribute("name") #>BusinessLogicComponent>(<# ForEachSeparated(xml.Descendants("dataAccessComponent"), dataAccessComponent => { #>this.Mocked<#= (string)dataAccessComponent.Attribute("name") #>DataAccessComponent.Object<# }, () => { #>, <# }); #>, <# ForEachSeparated(xml.Descendants("businessLogicComponents").Descendants("businessLogicComponent"), businessLogicComponent => { #>this.Mocked<#= (string)businessLogicComponent.Attribute("name") #>BusinessLogicComponent.Object<# }, () => { #>, <# }); #>);
+            this.Mocked<#= (string)xml.Attribute("name") #>BusinessLogicComponent.CallBase = true;
+        }
+
+        /// <summary>
+        /// Verifies the mocked components.
+        /// </summary>
+        public void VerifyMockedComponents()
+        {
+<# if (xml.Descendants("dataAccessComponent").Any()) { #>
+            // Verify the mocked data access components.
+<# foreach (XElement dataAccessComponent in xml.Descendants("dataAccessComponent")) { #>
+            this.Mocked<#= (string)dataAccessComponent.Attribute("name") #>DataAccessComponent.VerifyAll();
+<# } #>
+
+<# } #>
+<# if (xml.Descendants("businessLogicComponent").Any()) { #>
+            // Verify the mocked business logic components.
+<# foreach (XElement businessLogicComponent in xml.Descendants("businessLogicComponents").Descendants("businessLogicComponent")) { #>
+            this.Mocked<#= (string)businessLogicComponent.Attribute("name") #>BusinessLogicComponent.VerifyAll();
+<# } #>
+
+<# } #>
+            // Verify the <#= (string)xml.Attribute("name") #> business logic component.
+            this.Mocked<#= (string)xml.Attribute("name") #>BusinessLogicComponent.VerifyAll();
+        }
+    }
+}

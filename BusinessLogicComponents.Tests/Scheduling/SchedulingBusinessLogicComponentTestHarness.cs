@@ -28,13 +28,13 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling
         public readonly Mock<ISessionDataAccessComponent> MockedSessionDataAccessComponent;
 
         /// <summary>
-        /// The mocked business logic components.
-        /// </summary>
-
-        /// <summary>
         /// The Scheduling business logic component.
         /// </summary>
-        public readonly SchedulingBusinessLogicComponent SchedulingBusinessLogicComponent;
+        public readonly Mock<SchedulingBusinessLogicComponent> MockedSchedulingBusinessLogicComponent;
+        public SchedulingBusinessLogicComponent SchedulingBusinessLogicComponent
+        {
+            get { return this.MockedSchedulingBusinessLogicComponent.Object; }
+        }
 
         /// <summary>
         /// Default constructor.
@@ -47,10 +47,10 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling
             // Build the mocked data access components.
             this.MockedSessionDataAccessComponent = new Mock<ISessionDataAccessComponent>(MockBehavior.Strict);
 
-            // Build the mocked business logic components.
-
-            // Build the Scheduling business logic component.
-            this.SchedulingBusinessLogicComponent = new SchedulingBusinessLogicComponent(this.MockedSessionDataAccessComponent.Object);
+            // Build the Scheduling business logic component as a partial mock.
+            // This allows BusinessOperationA to be mocked while testing BusinessOperationB.
+            this.MockedSchedulingBusinessLogicComponent = new Mock<SchedulingBusinessLogicComponent>(this.MockedSessionDataAccessComponent.Object);
+            this.MockedSchedulingBusinessLogicComponent.CallBase = true;
         }
 
         /// <summary>
@@ -61,8 +61,8 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling
             // Verify the mocked data access components.
             this.MockedSessionDataAccessComponent.VerifyAll();
 
-            // Verify the mocked business logic components.
-
+            // Verify the Scheduling business logic component.
+            this.MockedSchedulingBusinessLogicComponent.VerifyAll();
         }
     }
 }

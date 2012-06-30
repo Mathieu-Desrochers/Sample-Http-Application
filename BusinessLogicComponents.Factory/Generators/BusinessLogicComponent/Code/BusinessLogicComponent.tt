@@ -1,0 +1,84 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ include file="..\..\Common.tt" #>
+<#@ output extension=".cs" #>
+<#
+    string xmlPath = Host.ResolvePath(@"..\Blueprint.xml");
+    XElement xml = XElement.Load(xmlPath);
+#>
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using SampleHttpApplication.BusinessLogicComponents.Interface.<#= (string)xml.Attribute("name") #>;
+<# foreach (XElement businessLogicComponent in xml.Descendants("businessLogicComponent")) { #>
+using SampleHttpApplication.BusinessLogicComponents.Interface.<#= (string)businessLogicComponent.Attribute("name") #>;
+<# } #>
+<# foreach (XElement dataAccessComponent in xml.Descendants("dataAccessComponent")) { #>
+using SampleHttpApplication.DataAccessComponents.Interface.<#= (string)dataAccessComponent.Attribute("name") #>;
+<# } #>
+
+namespace SampleHttpApplication.BusinessLogicComponents.Code.<#= (string)xml.Attribute("name") #>
+{
+    /// <summary>
+    /// Represents a <#= (string)xml.Attribute("name") #> business logic component.
+    /// </summary>
+    public partial class <#= (string)xml.Attribute("name") #>BusinessLogicComponent : I<#= (string)xml.Attribute("name") #>BusinessLogicComponent
+    {
+<# if (xml.Descendants("dataAccessComponent").Any()) { #>
+        /// <summary>
+        /// The data access components.
+        /// </summary>
+<# foreach (XElement dataAccessComponent in xml.Descendants("dataAccessComponent")) { #>
+        private readonly I<#= (string)dataAccessComponent.Attribute("name") #>DataAccessComponent <#= CamelCased((string)dataAccessComponent.Attribute("name")) #>DataAccessComponent;
+<# } #>
+
+<# } #>
+<# if (xml.Descendants("businessLogicComponents").Descendants("businessLogicComponent").Any()) { #>
+        /// <summary>
+        /// The business logic components.
+        /// </summary>
+<# foreach (XElement businessLogicComponent in xml.Descendants("businessLogicComponents").Descendants("businessLogicComponent")) { #>
+        private readonly I<#= (string)businessLogicComponent.Attribute("name") #>BusinessLogicComponent <#= CamelCased((string)businessLogicComponent.Attribute("name")) #>BusinessLogicComponent;
+<# } #>
+
+<# } #>
+        /// <summary>
+        /// Initialization constructor.
+        /// </summary>
+        public <#= (string)xml.Attribute("name") #>BusinessLogicComponent(<# ForEachSeparated(xml.Descendants("dataAccessComponent"), dataAccessComponent => { #>I<#= (string)dataAccessComponent.Attribute("name") #>DataAccessComponent <#= CamelCased((string)dataAccessComponent.Attribute("name")) #>DataAccessComponent<# }, () => { #>, <# }); #>, <# ForEachSeparated(xml.Descendants("businessLogicComponents").Descendants("businessLogicComponent"), businessLogicComponent => { #>I<#= (string)businessLogicComponent.Attribute("name") #>BusinessLogicComponent <#= CamelCased((string)businessLogicComponent.Attribute("name")) #>BusinessLogicComponent<# }, () => { #>, <# }); #>)
+        {
+<# if (xml.Descendants("dataAccessComponent").Any()) { #>
+            // Initialize the data access components.
+<# foreach (XElement dataAccessComponent in xml.Descendants("dataAccessComponent")) { #>
+            this.<#= CamelCased((string)dataAccessComponent.Attribute("name")) #>DataAccessComponent = <#= CamelCased((string)dataAccessComponent.Attribute("name")) #>DataAccessComponent;
+<# } #>
+<# } #>
+<# if (xml.Descendants("businessLogicComponents").Descendants("businessLogicComponent").Any()) { #>
+
+            // Initialize the business logic components.
+<# foreach (XElement businessLogicComponent in xml.Descendants("businessLogicComponents").Descendants("businessLogicComponent")) { #>
+            this.<#= CamelCased((string)businessLogicComponent.Attribute("name")) #>BusinessLogicComponent = <#= CamelCased((string)businessLogicComponent.Attribute("name")) #>BusinessLogicComponent;
+<# } #>
+<# } #>
+        }
+
+        /// <summary>
+        /// Formats an error message for the specified error code.
+        /// </summary>
+        private string FormatErrorMessage(string operationName, string errorCode)
+        {
+            string errorMessage = String.Format("The <#= (string)xml.Attribute("name") #>BusinessLogicComponent.{0} operation returned the {1} error code.", operationName, errorCode);
+            return errorMessage;
+        }
+    }
+}
