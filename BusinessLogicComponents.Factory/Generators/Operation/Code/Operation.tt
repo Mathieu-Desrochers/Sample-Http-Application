@@ -1,0 +1,195 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ include file="..\..\Common.tt" #>
+<#@ output extension=".cs" #>
+<#
+    string xmlPath = Host.ResolvePath(@"..\Blueprint.xml");
+    XElement xml = XElement.Load(xmlPath);
+#>
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using SampleHttpApplication.BusinessLogicComponents.Interface.<#= (string)xml.Attribute("name") #>;
+<# foreach (XElement businessLogicComponent in xml.Descendants("businessLogicComponent")) { #>
+using SampleHttpApplication.BusinessLogicComponents.Interface.<#= (string)businessLogicComponent.Attribute("name") #>;
+<# } #>
+using SampleHttpApplication.DataAccessComponents.Interface;
+<# foreach (XElement dataAccessComponent in xml.Descendants("dataAccessComponent")) { #>
+using SampleHttpApplication.DataAccessComponents.Interface.<#= (string)dataAccessComponent.Attribute("name") #>;
+<# } #>
+using SampleHttpApplication.Infrastructure.Code.DataAnnotations;
+
+namespace SampleHttpApplication.BusinessLogicComponents.Code.<#= (string)xml.Attribute("name") #>
+{
+    /// <summary>
+    /// Represents a <#= (string)xml.Attribute("name") #> business logic component.
+    /// </summary>
+    public partial class SchedulingBusinessLogicComponent
+    {
+        /// <summary>
+        /// Throws a <#= (string)xml.Element("operation").Attribute("name") #> business exception.
+        /// </summary>
+        private void Throw<#= (string)xml.Element("operation").Attribute("name") #>BusinessException(<#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorCodes errorCode)
+        {
+            // Build the <#= (string)xml.Element("operation").Attribute("name") #> business exception.
+            <#= (string)xml.Element("operation").Attribute("name") #>BusinessException businessException = new <#= (string)xml.Element("operation").Attribute("name") #>BusinessException();
+            businessException.ErrorMessage = String.Format("The <#= (string)xml.Attribute("name") #>BusinessLogicComponent.<#= (string)xml.Element("operation").Attribute("name") #>() business operation has thrown the {0} error code.", errorCode);
+            businessException.ErrorCode = errorCode;
+
+            // Throw the <#= (string)xml.Element("operation").Attribute("name") #> business exception.
+            throw businessException;
+        }
+
+        /// <summary>
+        /// Validates the <#= (string)xml.Element("operation").Attribute("name") #> business request.
+        /// </summary>
+        private async Task Validate<#= (string)xml.Element("operation").Attribute("name") #>(IDatabaseConnection databaseConnection, <#= (string)xml.Element("operation").Attribute("name") #>BusinessRequest businessRequest, <#= (string)xml.Element("operation").Attribute("name") #>OperationData operationData)
+        {
+<# ForEachSeparated(xml.Descendants("error"), (error) => { #>
+            // Validate the <#= (string)error.Attribute("code") #> error code.
+            if (!ValidatorHelper.ValidateProperty("", businessRequest., businessRequest..))
+            {
+                Throw<#= (string)xml.Element("operation").Attribute("name") #>BusinessException(<#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorCodes.<#= (string)error.Attribute("code") #>);
+            }
+<# }, () => { #>
+
+<# }); #>
+        }
+
+<# foreach (XElement businessLogicComponent in xml.Descendants("businessLogicComponents").Descendants("businessLogicComponent")) { #>
+        /// <summary>
+        /// Invokes the <#= (string)businessLogicComponent.Attribute("operation") #> business operation.
+        /// </summary>
+        private async Task<<#= (string)businessLogicComponent.Attribute("operation") #>BusinessResponse> Invoke<#= (string)businessLogicComponent.Attribute("operation") #>(IDatabaseConnection databaseConnection, <#= (string)xml.Element("operation").Attribute("name") #>BusinessRequest businessRequest, <#= (string)xml.Element("operation").Attribute("name") #>OperationData operationData)
+        {
+            try
+            {
+                // Build the <#= (string)businessLogicComponent.Attribute("operation") #> business request.
+                <#= (string)businessLogicComponent.Attribute("operation") #>BusinessRequest <#= CamelCased((string)businessLogicComponent.Attribute("operation")) #>BusinessRequest = new <#= (string)businessLogicComponent.Attribute("operation") #>BusinessRequest();
+
+                // Invoke the <#= (string)businessLogicComponent.Attribute("operation") #> business operation.
+                <#= (string)businessLogicComponent.Attribute("operation") #>BusinessResponse <#= CamelCased((string)businessLogicComponent.Attribute("operation")) #>BusinessResponse = await this.<#= CamelCased((string)businessLogicComponent.Attribute("name")) #>BusinessLogicComponent.<#= (string)businessLogicComponent.Attribute("operation") #>(databaseConnection, <#= CamelCased((string)businessLogicComponent.Attribute("operation")) #>BusinessRequest);
+
+                // The business operation succeeded.
+                return <#= CamelCased((string)businessLogicComponent.Attribute("operation")) #>BusinessResponse;
+            }
+            catch (<#= (string)businessLogicComponent.Attribute("operation") #>BusinessException ex)
+            {
+                // Translate the  error code.
+                if (ex.ErrorCode == <#= (string)businessLogicComponent.Attribute("operation") #>BusinessException.ErrorCodes.)
+                {
+                    Throw<#= (string)xml.Element("operation").Attribute("name") #>BusinessException(<#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorCodes.);
+                }
+
+                // Unexpected error codes denote a problem in this operation.
+                // Do not allow <#= (string)businessLogicComponent.Attribute("operation") #> business exceptions to show through.
+                string unexpectedExceptionMessage = String.Format("The <#= (string)xml.Attribute("name") #>BusinessLogicComponent.<#= (string)xml.Element("operation").Attribute("name") #>() business operation has caught the unexpected error code {0} while invoking the <#= (string)businessLogicComponent.Attribute("name") #>BusinessLogicComponent.<#= (string)businessLogicComponent.Attribute("operation") #>() business operation.", ex.ErrorCode);
+                Exception unexpectedException = new Exception(unexpectedExceptionMessage, ex);
+                throw unexpectedException;
+            }
+        }
+
+<# } #>
+        /// <summary>
+        /// Executes the <#= (string)xml.Element("operation").Attribute("name") #> business operation.
+        /// </summary>
+        public async virtual Task<<#= (string)xml.Element("operation").Attribute("name") #>BusinessResponse> <#= (string)xml.Element("operation").Attribute("name") #>(IDatabaseConnection databaseConnection, <#= (string)xml.Element("operation").Attribute("name") #>BusinessRequest businessRequest)
+        {
+            // Initialize the operation data.
+            <#= (string)xml.Element("operation").Attribute("name") #>OperationData operationData = new <#= (string)xml.Element("operation").Attribute("name") #>OperationData();
+
+            // Validate the business request.
+            await this.Validate<#= (string)xml.Element("operation").Attribute("name") #>(databaseConnection, businessRequest, operationData);
+<# foreach (XElement businessLogicComponent in xml.Descendants("businessLogicComponents").Descendants("businessLogicComponent")) { #>
+
+            // Invoke the <#= (string)businessLogicComponent.Attribute("operation") #> business operation.
+            <#= (string)businessLogicComponent.Attribute("operation") #>BusinessResponse <#= CamelCased((string)businessLogicComponent.Attribute("operation")) #>BusinessResponse = await this.Invoke<#= (string)businessLogicComponent.Attribute("operation") #>(databaseConnection, businessRequest, operationData);
+<# } #>
+<# foreach (XElement dataAccessComponent in xml.Descendants("dataAccessComponent").Where(dataAccessComponent => (string)dataAccessComponent.Attribute("operation") == "read")) { #>
+
+<# if ((string)dataAccessComponent.Attribute("results") == "single") { #>
+            // Read the <#= (string)dataAccessComponent.Attribute("name") #> data row.
+            operationData.<#= (string)dataAccessComponent.Attribute("name") #>DataRow = await this.<#= CamelCased((string)dataAccessComponent.Attribute("name")) #>DataAccessComponent.<#= (string)dataAccessComponent.Attribute("query") #>(databaseConnection, );
+<# } else { #>
+            // Read the <#= (string)dataAccessComponent.Attribute("name") #> data rows.
+            operationData.<#= (string)dataAccessComponent.Attribute("name") #>DataRows = await this.<#= CamelCased((string)dataAccessComponent.Attribute("name")) #>DataAccessComponent.<#= (string)dataAccessComponent.Attribute("query") #>(databaseConnection, );
+<# if ((string)dataAccessComponent.Attribute("lookup") == "true") { #>
+            operationData.<#= (string)dataAccessComponent.Attribute("name") #>DataLookup = operationData.<#= (string)dataAccessComponent.Attribute("name") #>DataRows.ToLookup(<#= CamelCased((string)dataAccessComponent.Attribute("name")) #>DataRow => <#= CamelCased((string)dataAccessComponent.Attribute("name")) #>DataRow.<#= (string)dataAccessComponent.Attribute("name") #>ID);
+<# } #>
+<# } #>
+<# } #>
+<# foreach (XElement dataAccessComponent in xml.Descendants("dataAccessComponent").Where(dataAccessComponent => (string)dataAccessComponent.Attribute("operation") == "create")) { #>
+
+            // Create the <#= (string)dataAccessComponent.Attribute("name") #> data row.
+            operationData.<#= (string)dataAccessComponent.Attribute("name") #>DataRow = new <#= (string)dataAccessComponent.Attribute("name") #>DataRow();
+            await this.<#= CamelCased((string)dataAccessComponent.Attribute("name")) #>DataAccessComponent.Create(databaseConnection, operationData.<#= (string)dataAccessComponent.Attribute("name") #>DataRow);
+<# } #>
+<# foreach (XElement dataAccessComponent in xml.Descendants("dataAccessComponent").Where(dataAccessComponent => (string)dataAccessComponent.Attribute("operation") == "update")) { #>
+                
+            // Update the <#= (string)dataAccessComponent.Attribute("name") #> data row.
+            await this.<#= CamelCased((string)dataAccessComponent.Attribute("name")) #>DataAccessComponent.Update(databaseConnection, operationData.<#= (string)dataAccessComponent.Attribute("name") #>DataRow);
+<# } #>
+<# foreach (XElement dataAccessComponent in xml.Descendants("dataAccessComponent").Where(dataAccessComponent => (string)dataAccessComponent.Attribute("operation") == "delete")) { #>
+
+            // Delete the <#= (string)dataAccessComponent.Attribute("name") #> data row.
+            await this.<#= CamelCased((string)dataAccessComponent.Attribute("name")) #>DataAccessComponent.Delete(databaseConnection, operationData.<#= (string)dataAccessComponent.Attribute("name") #>DataRow);
+<# } #>
+
+            // Build the business response.
+            <#= (string)xml.Element("operation").Attribute("name") #>BusinessResponse businessResponse = new <#= (string)xml.Element("operation").Attribute("name") #>BusinessResponse();
+
+<# Stack<string> parentResponseElements = new Stack<string>(new string[] { "businessResponse" }); #>
+<# ForEachSeparatedRecursive(xml.Descendants("response").Elements("responseElement"), (responseElement) => { #>
+<# if ((string)responseElement.Attribute("count") == "single") { #>
+            // Build the <#= (string)responseElement.Attribute("singularName") #> business response element.
+            <#= (string)xml.Element("operation").Attribute("name") #>BusinessResponse.<#= (string)responseElement.Attribute("singularName") #>BusinessResponseElement <#= CamelCased((string)responseElement.Attribute("singularName")) #>BusinessResponseElement = new <#= (string)xml.Element("operation").Attribute("name") #>BusinessResponse.<#= (string)responseElement.Attribute("singularName") #>BusinessResponseElement();
+<# foreach (XElement property in responseElement.Elements("property")) { #>
+            <#= CamelCased((string)responseElement.Attribute("singularName")) #>BusinessResponseElement.<#= (string)property.Attribute("name") #> = ;
+<# } #>
+            <#= parentResponseElements.Peek() #>.<#= (string)responseElement.Attribute("singularName") #> = <#= CamelCased((string)responseElement.Attribute("singularName")) #>BusinessResponseElement;
+<# parentResponseElements.Push(CamelCased((string)responseElement.Attribute("singularName")) + "BusinessResponseElement"); #>
+<# } else { #>
+            // Build the <#= (string)responseElement.Attribute("singularName") #> business response elements.
+            List<<#= (string)xml.Element("operation").Attribute("name") #>BusinessResponse.<#= (string)responseElement.Attribute("singularName") #>BusinessResponseElement> <#= CamelCased((string)responseElement.Attribute("singularName")) #>BusinessResponseElements = new List<<#= (string)xml.Element("operation").Attribute("name") #>BusinessResponse.<#= (string)responseElement.Attribute("singularName") #>BusinessResponseElement>();
+            foreach ( in )
+            {
+                // Build the <#= (string)responseElement.Attribute("singularName") #> business response element.
+                <#= (string)xml.Element("operation").Attribute("name") #>BusinessResponse.<#= (string)responseElement.Attribute("singularName") #>BusinessResponseElement <#= CamelCased((string)responseElement.Attribute("singularName")) #>BusinessResponseElement = new <#= (string)xml.Element("operation").Attribute("name") #>BusinessResponse.<#= (string)responseElement.Attribute("singularName") #>BusinessResponseElement();
+<# foreach (XElement property in responseElement.Elements("property")) { #>
+                <#= CamelCased((string)responseElement.Attribute("singularName")) #>BusinessResponseElement.<#= (string)property.Attribute("name") #> = ;
+<# } #>
+                <#= CamelCased((string)responseElement.Attribute("singularName")) #>BusinessResponseElements.Add(<#= CamelCased((string)responseElement.Attribute("singularName")) #>BusinessResponseElement);
+<# parentResponseElements.Push(CamelCased((string)responseElement.Attribute("singularName")) + "BusinessResponseElements"); #>
+<# PushIndent("    "); #>
+<# } #>
+<# if (responseElement.Elements("responseElement").Any()) { #>
+
+<# } #>
+<# }, (responseElement) => responseElement.Elements("responseElement"), (responseElement) => { #>
+<# parentResponseElements.Pop(); #>
+<# if ((string)responseElement.Attribute("count") == "multiple") { #>
+<# PopIndent(); #>
+            }
+
+            // Set the <#= (string)responseElement.Attribute("singularName") #> business response elements.
+            <#= parentResponseElements.Peek() #>.<#= (string)responseElement.Attribute("pluralName") #> = <#= CamelCased((string)responseElement.Attribute("singularName")) #>BusinessResponseElements.ToArray();
+<# } #>
+<# }, () => { #>
+
+<# }); #>
+
+            // Return the business response.
+            return businessResponse;
+        }
+    }
+}

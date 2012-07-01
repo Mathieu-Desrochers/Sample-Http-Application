@@ -12,6 +12,7 @@ TestResults
 BusinessLogicComponents.Factory/Generators/BusinessLogicComponent/Code/BusinessLogicComponent.cs
 BusinessLogicComponents.Factory/Generators/BusinessLogicComponent/Interface/IBusinessLogicComponent.cs
 BusinessLogicComponents.Factory/Generators/BusinessLogicComponent/Tests/BusinessLogicComponentTestHarness.cs
+BusinessLogicComponents.Factory/Generators/Operation/Code/Operation.cs
 BusinessLogicComponents.Factory/Generators/Operation/Code/OperationData.cs
 BusinessLogicComponents.Factory/Generators/Operation/Interface/BusinessException.cs
 BusinessLogicComponents.Factory/Generators/Operation/Interface/BusinessRequest.cs

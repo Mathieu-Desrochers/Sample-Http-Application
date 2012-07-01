@@ -18,31 +18,42 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
     public partial class SchedulingBusinessLogicComponent
     {
         /// <summary>
+        /// Throws a NewSession business exception.
+        /// </summary>
+        private void ThrowNewSessionBusinessException(NewSessionBusinessException.ErrorCodes errorCode)
+        {
+            // Build the NewSession business exception.
+            NewSessionBusinessException businessException = new NewSessionBusinessException();
+            businessException.ErrorMessage = String.Format("The SchedulingBusinessLogicComponent.NewSession() business operation has thrown the {0} error code.", errorCode);
+            businessException.ErrorCode = errorCode;
+
+            // Throw the NewSession business exception.
+            throw businessException;
+        }
+
+        /// <summary>
         /// Validates the NewSession business request.
         /// </summary>
-        private async Task<NewSessionBusinessException.ErrorCodes?> ValidateNewSession(IDatabaseConnection databaseConnection, NewSessionBusinessRequest businessRequest, NewSessionOperationData operationData)
+        private async Task ValidateNewSession(IDatabaseConnection databaseConnection, NewSessionBusinessRequest businessRequest, NewSessionOperationData operationData)
         {
             // Validate the InvalidSessionCode error code.
             if (!ValidatorHelper.ValidateProperty("SessionCode", businessRequest.Session, businessRequest.Session.SessionCode))
             {
-                return NewSessionBusinessException.ErrorCodes.InvalidSessionCode;
+                ThrowNewSessionBusinessException(NewSessionBusinessException.ErrorCodes.InvalidSessionCode);
             }
 
             // Validate the DuplicateSessionCode error code.
             operationData.SessionDataRow = await this.sessionDataAccessComponent.ReadBySessionCode(databaseConnection, businessRequest.Session.SessionCode);
             if (operationData.SessionDataRow != null)
             {
-                return NewSessionBusinessException.ErrorCodes.DuplicateSessionCode;
+                ThrowNewSessionBusinessException(NewSessionBusinessException.ErrorCodes.DuplicateSessionCode);
             }
 
             // Validate the InvalidName error code.
             if (!ValidatorHelper.ValidateProperty("Name", businessRequest.Session, businessRequest.Session.Name))
             {
-                return NewSessionBusinessException.ErrorCodes.InvalidName;
+                ThrowNewSessionBusinessException(NewSessionBusinessException.ErrorCodes.InvalidName);
             }
-
-            // The business request is valid.
-            return null;
         }
 
         /// <summary>
@@ -54,14 +65,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
             NewSessionOperationData operationData = new NewSessionOperationData();
 
             // Validate the business request.
-            NewSessionBusinessException.ErrorCodes? errorCode = await this.ValidateNewSession(databaseConnection, businessRequest, operationData);
-            if (errorCode.HasValue)
-            {
-                NewSessionBusinessException businessException = new NewSessionBusinessException();
-                businessException.ErrorCode = errorCode.Value;
-                businessException.ErrorMessage = this.FormatErrorMessage("NewSession", errorCode.Value.ToString());
-                throw businessException;
-            }
+            await this.ValidateNewSession(databaseConnection, businessRequest, operationData);
 
             // Create the Session data row.
             operationData.SessionDataRow = new SessionDataRow();

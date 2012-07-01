@@ -28,14 +28,5 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
             // Initialize the data access components.
             this.sessionDataAccessComponent = sessionDataAccessComponent;
         }
-
-        /// <summary>
-        /// Formats an error message for the specified error code.
-        /// </summary>
-        private string FormatErrorMessage(string operationName, string errorCode)
-        {
-            string errorMessage = String.Format("The SchedulingBusinessLogicComponent.{0} operation returned the {1} error code.", operationName, errorCode);
-            return errorMessage;
-        }
     }
 }

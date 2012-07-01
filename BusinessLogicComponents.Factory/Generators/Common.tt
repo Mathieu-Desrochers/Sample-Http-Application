@@ -27,14 +27,14 @@
 		elementAction(elements.Skip(elements.Count() - 1).Single());
 	}
 
-	public void ForEachSeparatedRecursive(IEnumerable<XElement> elements, Action<XElement> beginElementAction, Func<XElement, IEnumerable<XElement>> getChildsFunction, Action<XElement> endElementAction, Action separatorAction)
+	public void ForEachSeparatedRecursive(IEnumerable<XElement> elements, Action<XElement> beginElementAction, Func<XElement, IEnumerable<XElement>> getChildsFunction, Action<XElement> endElementAction, Action separatorAction, bool pushIndent = false)
 	{
 		Action<XElement> elementAction = (element) =>
 		{
 			beginElementAction(element);
-			PushIndent("    ");
+			if (pushIndent) PushIndent("    ");
 			ForEachSeparatedRecursive(getChildsFunction(element), beginElementAction, getChildsFunction, endElementAction, separatorAction);
-			PopIndent();
+			if (pushIndent) PopIndent();
 			endElementAction(element);
 		};
 

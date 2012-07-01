@@ -48,7 +48,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling
             this.MockedSessionDataAccessComponent = new Mock<ISessionDataAccessComponent>(MockBehavior.Strict);
 
             // Build the Scheduling business logic component as a partial mock.
-            // This allows BusinessOperationA to be mocked while testing BusinessOperationB.
+            // This allows business operation A to be mocked while testing business operation B.
             this.MockedSchedulingBusinessLogicComponent = new Mock<SchedulingBusinessLogicComponent>(this.MockedSessionDataAccessComponent.Object);
             this.MockedSchedulingBusinessLogicComponent.CallBase = true;
         }

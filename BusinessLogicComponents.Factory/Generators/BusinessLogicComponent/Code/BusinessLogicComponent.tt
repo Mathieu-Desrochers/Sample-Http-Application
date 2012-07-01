@@ -71,14 +71,5 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.<#= (string)xml.Att
 <# } #>
 <# } #>
         }
-
-        /// <summary>
-        /// Formats an error message for the specified error code.
-        /// </summary>
-        private string FormatErrorMessage(string operationName, string errorCode)
-        {
-            string errorMessage = String.Format("The <#= (string)xml.Attribute("name") #>BusinessLogicComponent.{0} operation returned the {1} error code.", operationName, errorCode);
-            return errorMessage;
-        }
     }
 }
