@@ -10,7 +10,7 @@ using SampleHttpApplication.DataAccessComponents.Interface.Session;
 namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
 {
     /// <summary>
-    /// Represents a NewSession operation data.
+    /// Represents the NewSession operation data.
     /// </summary>
     public class NewSessionOperationData
     {

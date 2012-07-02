@@ -13,7 +13,7 @@ using SampleHttpApplication.DataAccessComponents.Interface.Session;
 namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling
 {
     /// <summary>
-    /// Represents a Scheduling business logic component test harness.
+    /// Represents the Scheduling business logic component test harness.
     /// </summary>
     public class SchedulingBusinessLogicComponentTestHarness
     {

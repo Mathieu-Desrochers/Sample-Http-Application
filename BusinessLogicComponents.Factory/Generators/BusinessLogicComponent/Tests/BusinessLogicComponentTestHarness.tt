@@ -32,7 +32,7 @@ using SampleHttpApplication.DataAccessComponents.Interface.<#= (string)dataAcces
 namespace SampleHttpApplication.BusinessLogicComponents.Tests.<#= (string)xml.Attribute("name") #>
 {
     /// <summary>
-    /// Represents a <#= (string)xml.Attribute("name") #> business logic component test harness.
+    /// Represents the <#= (string)xml.Attribute("name") #> business logic component test harness.
     /// </summary>
     public class <#= (string)xml.Attribute("name") #>BusinessLogicComponentTestHarness
     {

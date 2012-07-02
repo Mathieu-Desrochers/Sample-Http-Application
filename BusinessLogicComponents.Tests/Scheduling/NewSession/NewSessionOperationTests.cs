@@ -16,7 +16,7 @@ using SampleHttpApplication.DataAccessComponents.Interface.Session;
 namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewSession
 {
     /// <summary>
-    /// Represents a NewSession operation tests.
+    /// Represents the NewSession operation tests.
     /// </summary>
     [TestClass]
     public class NewSessionOperationTests

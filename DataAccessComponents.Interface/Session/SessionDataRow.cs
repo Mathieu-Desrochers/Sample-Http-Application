@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace SampleHttpApplication.DataAccessComponents.Interface.Session
 {
     /// <summary>
-    /// Represents a Session data row.
+    /// Represents the Session data row.
     /// </summary>
     public class SessionDataRow
     {

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace SampleHttpApplication.DataAccessComponents.Interface.Session
 {
     /// <summary>
-    /// Represents a Session data access component.
+    /// Represents the Session data access component.
     /// </summary>
     public interface ISessionDataAccessComponent
     {

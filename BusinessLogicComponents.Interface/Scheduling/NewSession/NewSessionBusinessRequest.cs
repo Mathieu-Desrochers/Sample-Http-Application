@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling
 {
     /// <summary>
-    /// Represents a NewSession business request.
+    /// Represents the NewSession business request.
     /// </summary>
     public class NewSessionBusinessRequest
     {

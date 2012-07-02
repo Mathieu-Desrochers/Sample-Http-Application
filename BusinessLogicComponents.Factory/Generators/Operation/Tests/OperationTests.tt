@@ -32,7 +32,7 @@ using SampleHttpApplication.DataAccessComponents.Interface.<#= (string)dataAcces
 namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.<#= (string)xml.Element("operation").Attribute("name") #>
 {
     /// <summary>
-    /// Represents a <#= (string)xml.Element("operation").Attribute("name") #> operation tests.
+    /// Represents the <#= (string)xml.Element("operation").Attribute("name") #> operation tests.
     /// </summary>
     [TestClass]
     public class <#= (string)xml.Element("operation").Attribute("name") #>OperationTests

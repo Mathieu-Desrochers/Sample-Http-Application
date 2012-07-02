@@ -13,7 +13,7 @@ using SampleHttpApplication.Infrastructure.Code.DataAnnotations;
 namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
 {
     /// <summary>
-    /// Represents a Scheduling business logic component.
+    /// Represents the Scheduling business logic component.
     /// </summary>
     public partial class SchedulingBusinessLogicComponent
     {

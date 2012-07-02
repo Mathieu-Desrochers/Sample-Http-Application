@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace SampleHttpApplication.DataAccessComponents.Interface
 {
     /// <summary>
-    /// Represents a database connection.
+    /// Represents the database connection.
     /// </summary>
     public interface IDatabaseConnection : IDisposable
     {

@@ -10,7 +10,7 @@ using SampleHttpApplication.DataAccessComponents.Interface;
 namespace SampleHttpApplication.BusinessLogicComponents.Tests
 {
     /// <summary>
-    /// Represents a mocked database connection.
+    /// Represents the mocked database connection.
     /// </summary>
     public class MockedDatabaseConnection : IDatabaseConnection
     {

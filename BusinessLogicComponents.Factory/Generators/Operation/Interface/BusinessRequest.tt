@@ -23,7 +23,7 @@ using System.Threading.Tasks;
 namespace SampleHttpApplication.BusinessLogicComponents.Interface.<#= (string)xml.Attribute("name") #>
 {
     /// <summary>
-    /// Represents a <#= (string)xml.Element("operation").Attribute("name") #> business request.
+    /// Represents the <#= (string)xml.Element("operation").Attribute("name") #> business request.
     /// </summary>
     public class <#= (string)xml.Element("operation").Attribute("name") #>BusinessRequest
     {

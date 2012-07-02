@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace SampleHttpApplication.BusinessLogicComponents.Interface
 {
     /// <summary>
-    /// Represents a business exception.
+    /// Represents the business exception.
     /// </summary>
     public class BusinessException : Exception
     {

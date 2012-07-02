@@ -22,7 +22,7 @@ using System.Threading.Tasks;
 namespace SampleHttpApplication.BusinessLogicComponents.Interface.<#= (string)xml.Attribute("name") #>
 {
     /// <summary>
-    /// Represents a <#= (string)xml.Element("operation").Attribute("name") #> business exception.
+    /// Represents the <#= (string)xml.Element("operation").Attribute("name") #> business exception.
     /// </summary>
     public class <#= (string)xml.Element("operation").Attribute("name") #>BusinessException : BusinessException
     {

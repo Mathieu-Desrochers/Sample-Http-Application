@@ -22,7 +22,7 @@ using System.Threading.Tasks;
 namespace SampleHttpApplication.DataAccessComponents.Interface.<#= (string)xml.Attribute("name") #>
 {
     /// <summary>
-    /// Represents a <#= (string)xml.Attribute("name") #> data row.
+    /// Represents the <#= (string)xml.Attribute("name") #> data row.
     /// </summary>
     public class <#= (string)xml.Attribute("name") #>DataRow
     {

@@ -32,7 +32,7 @@ using SampleHttpApplication.Infrastructure.Code.DataAnnotations;
 namespace SampleHttpApplication.BusinessLogicComponents.Code.<#= (string)xml.Attribute("name") #>
 {
     /// <summary>
-    /// Represents a <#= (string)xml.Attribute("name") #> business logic component.
+    /// Represents the <#= (string)xml.Attribute("name") #> business logic component.
     /// </summary>
     public partial class SchedulingBusinessLogicComponent
     {

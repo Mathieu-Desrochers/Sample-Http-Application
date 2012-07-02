@@ -22,7 +22,7 @@ using System.Threading.Tasks;
 namespace SampleHttpApplication.DataAccessComponents.Interface.<#= (string)xml.Attribute("name") #>
 {
     /// <summary>
-    /// Represents a <#= (string)xml.Attribute("name") #> data access component.
+    /// Represents the <#= (string)xml.Attribute("name") #> data access component.
     /// </summary>
     public interface I<#= (string)xml.Attribute("name") #>DataAccessComponent
     {

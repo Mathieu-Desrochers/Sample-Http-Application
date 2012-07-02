@@ -13,7 +13,7 @@ using SampleHttpApplication.DataAccessComponents.Interface.Session;
 namespace SampleHttpApplication.DataAccessComponents.Code.Session
 {
     /// <summary>
-    /// Represents a Session data access component.
+    /// Represents the Session data access component.
     /// </summary>
     public class SessionDataAccessComponent : ISessionDataAccessComponent
     {

@@ -10,7 +10,7 @@ using SampleHttpApplication.DataAccessComponents.Interface;
 namespace SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling
 {
     /// <summary>
-    /// Represents a Scheduling business logic component.
+    /// Represents the Scheduling business logic component.
     /// </summary>
     public interface ISchedulingBusinessLogicComponent
     {

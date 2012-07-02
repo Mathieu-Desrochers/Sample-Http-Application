@@ -27,7 +27,7 @@ using SampleHttpApplication.DataAccessComponents.Interface.<#= (string)xml.Attri
 namespace SampleHttpApplication.DataAccessComponents.Code.<#= (string)xml.Attribute("name") #>
 {
     /// <summary>
-    /// Represents a <#= (string)xml.Attribute("name") #> data access component.
+    /// Represents the <#= (string)xml.Attribute("name") #> data access component.
     /// </summary>
     public class <#= (string)xml.Attribute("name") #>DataAccessComponent : I<#= (string)xml.Attribute("name") #>DataAccessComponent
     {

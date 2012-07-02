@@ -30,7 +30,7 @@ using SampleHttpApplication.DataAccessComponents.Interface.<#= (string)dataAcces
 namespace SampleHttpApplication.BusinessLogicComponents.Code.<#= (string)xml.Attribute("name") #>
 {
     /// <summary>
-    /// Represents a <#= (string)xml.Attribute("name") #> business logic component.
+    /// Represents the <#= (string)xml.Attribute("name") #> business logic component.
     /// </summary>
     public partial class <#= (string)xml.Attribute("name") #>BusinessLogicComponent : I<#= (string)xml.Attribute("name") #>BusinessLogicComponent
     {

@@ -11,7 +11,7 @@ using SampleHttpApplication.DataAccessComponents.Interface;
 namespace SampleHttpApplication.DataAccessComponents.Code
 {
     /// <summary>
-    /// Represents a database connection.
+    /// Represents the database connection.
     /// </summary>
     public class DatabaseConnection : IDatabaseConnection
     {

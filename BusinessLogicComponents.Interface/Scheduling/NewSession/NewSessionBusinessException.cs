@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling
 {
     /// <summary>
-    /// Represents a NewSession business exception.
+    /// Represents the NewSession business exception.
     /// </summary>
     public class NewSessionBusinessException : BusinessException
     {
