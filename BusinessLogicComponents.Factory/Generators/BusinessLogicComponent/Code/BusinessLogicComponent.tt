@@ -38,18 +38,18 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.<#= (string)xml.Att
         /// <summary>
         /// The data access components.
         /// </summary>
-<# foreach (XElement dataAccessComponent in xml.Descendants("dataAccessComponent")) { #>
+<#     foreach (XElement dataAccessComponent in xml.Descendants("dataAccessComponent")) { #>
         private readonly I<#= (string)dataAccessComponent.Attribute("name") #>DataAccessComponent <#= CamelCased((string)dataAccessComponent.Attribute("name")) #>DataAccessComponent;
-<# } #>
+<#     } #>
 
 <# } #>
 <# if (xml.Descendants("businessLogicComponents").Descendants("businessLogicComponent").Any()) { #>
         /// <summary>
         /// The business logic components.
         /// </summary>
-<# foreach (XElement businessLogicComponent in xml.Descendants("businessLogicComponents").Descendants("businessLogicComponent")) { #>
+<#     foreach (XElement businessLogicComponent in xml.Descendants("businessLogicComponents").Descendants("businessLogicComponent")) { #>
         private readonly I<#= (string)businessLogicComponent.Attribute("name") #>BusinessLogicComponent <#= CamelCased((string)businessLogicComponent.Attribute("name")) #>BusinessLogicComponent;
-<# } #>
+<#     } #>
 
 <# } #>
         /// <summary>
@@ -59,16 +59,16 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.<#= (string)xml.Att
         {
 <# if (xml.Descendants("dataAccessComponent").Any()) { #>
             // Initialize the data access components.
-<# foreach (XElement dataAccessComponent in xml.Descendants("dataAccessComponent")) { #>
+<#     foreach (XElement dataAccessComponent in xml.Descendants("dataAccessComponent")) { #>
             this.<#= CamelCased((string)dataAccessComponent.Attribute("name")) #>DataAccessComponent = <#= CamelCased((string)dataAccessComponent.Attribute("name")) #>DataAccessComponent;
-<# } #>
+<#     } #>
 <# } #>
 <# if (xml.Descendants("businessLogicComponents").Descendants("businessLogicComponent").Any()) { #>
 
             // Initialize the business logic components.
-<# foreach (XElement businessLogicComponent in xml.Descendants("businessLogicComponents").Descendants("businessLogicComponent")) { #>
+<#     foreach (XElement businessLogicComponent in xml.Descendants("businessLogicComponents").Descendants("businessLogicComponent")) { #>
             this.<#= CamelCased((string)businessLogicComponent.Attribute("name")) #>BusinessLogicComponent = <#= CamelCased((string)businessLogicComponent.Attribute("name")) #>BusinessLogicComponent;
-<# } #>
+<#     } #>
 <# } #>
         }
     }

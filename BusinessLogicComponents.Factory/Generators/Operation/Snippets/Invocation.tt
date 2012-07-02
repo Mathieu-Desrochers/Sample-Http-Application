@@ -18,40 +18,40 @@
 
 <# Stack<string> parentRequestElements = new Stack<string>(new string[] { "businessRequest" }); #>
 <# ForEachSeparatedRecursive(xml.Descendants("request").Elements("requestElement"), (requestElement) => { #>
-<# if ((string)requestElement.Attribute("count") == "single") { #>
+<#     if ((string)requestElement.Attribute("count") == "single") { #>
     // Build the <#= (string)requestElement.Attribute("singularName") #> business request element.
     <#= (string)xml.Element("operation").Attribute("name") #>BusinessRequest.<#= (string)requestElement.Attribute("singularName") #>BusinessRequestElement <#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElement = new <#= (string)xml.Element("operation").Attribute("name") #>BusinessRequest.<#= (string)requestElement.Attribute("singularName") #>BusinessRequestElement();
-<# foreach (XElement property in requestElement.Elements("property")) { #>
+<#         foreach (XElement property in requestElement.Elements("property")) { #>
     <#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElement.<#= (string)property.Attribute("name") #> = ;
-<# } #>
+<#         } #>
     <#= parentRequestElements.Peek() #>.<#= (string)requestElement.Attribute("singularName") #> = <#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElement;
-<# parentRequestElements.Push(CamelCased((string)requestElement.Attribute("singularName")) + "BusinessRequestElement"); #>
-<# } else { #>
+<#         parentRequestElements.Push(CamelCased((string)requestElement.Attribute("singularName")) + "BusinessRequestElement"); #>
+<#     } else { #>
     // Build the <#= (string)requestElement.Attribute("singularName") #> business request elements.
     List<<#= (string)xml.Element("operation").Attribute("name") #>BusinessRequest.<#= (string)requestElement.Attribute("singularName") #>BusinessRequestElement> <#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElements = new List<<#= (string)xml.Element("operation").Attribute("name") #>BusinessRequest.<#= (string)requestElement.Attribute("singularName") #>BusinessRequestElement>();
     foreach ( in )
     {
         // Build the <#= (string)requestElement.Attribute("singularName") #> business request element.
         <#= (string)xml.Element("operation").Attribute("name") #>BusinessRequest.<#= (string)requestElement.Attribute("singularName") #>BusinessRequestElement <#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElement = new <#= (string)xml.Element("operation").Attribute("name") #>BusinessRequest.<#= (string)requestElement.Attribute("singularName") #>BusinessRequestElement();
-<# foreach (XElement property in requestElement.Elements("property")) { #>
+<#         foreach (XElement property in requestElement.Elements("property")) { #>
         <#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElement.<#= (string)property.Attribute("name") #> = ;
-<# } #>
+<#         } #>
         <#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElements.Add(<#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElement);
-<# parentRequestElements.Push(CamelCased((string)requestElement.Attribute("singularName")) + "BusinessRequestElements"); #>
-<# PushIndent("    "); #>
-<# } #>
-<# if (requestElement.Elements("requestElement").Any()) { #>
+<#         parentRequestElements.Push(CamelCased((string)requestElement.Attribute("singularName")) + "BusinessRequestElements"); #>
+<#         PushIndent("    "); #>
+<#     } #>
+<#     if (requestElement.Elements("requestElement").Any()) { #>
 
-<# } #>
+<#     } #>
 <# }, (requestElement) => requestElement.Elements("requestElement"), (requestElement) => { #>
-<# parentRequestElements.Pop(); #>
-<# if ((string)requestElement.Attribute("count") == "multiple") { #>
-<# PopIndent(); #>
+<#     parentRequestElements.Pop(); #>
+<#     if ((string)requestElement.Attribute("count") == "multiple") { #>
+<#         PopIndent(); #>
     }
 
     // Set the <#= (string)requestElement.Attribute("singularName") #> business request elements.
     <#= parentRequestElements.Peek() #>.<#= (string)requestElement.Attribute("pluralName") #> = <#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElements.ToArray();
-<# } #>
+<#     } #>
 <# }, () => { #>
 
 <# }); #>

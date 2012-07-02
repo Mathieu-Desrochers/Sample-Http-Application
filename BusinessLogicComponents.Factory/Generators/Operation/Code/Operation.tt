@@ -117,16 +117,16 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.<#= (string)xml.Att
 <# } #>
 <# foreach (XElement dataAccessComponent in xml.Descendants("dataAccessComponent").Where(dataAccessComponent => (string)dataAccessComponent.Attribute("operation") == "read")) { #>
 
-<# if ((string)dataAccessComponent.Attribute("results") == "single") { #>
+<#     if ((string)dataAccessComponent.Attribute("results") == "single") { #>
             // Read the <#= (string)dataAccessComponent.Attribute("name") #> data row.
             operationData.<#= (string)dataAccessComponent.Attribute("name") #>DataRow = await this.<#= CamelCased((string)dataAccessComponent.Attribute("name")) #>DataAccessComponent.<#= (string)dataAccessComponent.Attribute("query") #>(databaseConnection, );
-<# } else { #>
+<#     } else { #>
             // Read the <#= (string)dataAccessComponent.Attribute("name") #> data rows.
             operationData.<#= (string)dataAccessComponent.Attribute("name") #>DataRows = await this.<#= CamelCased((string)dataAccessComponent.Attribute("name")) #>DataAccessComponent.<#= (string)dataAccessComponent.Attribute("query") #>(databaseConnection, );
-<# if ((string)dataAccessComponent.Attribute("lookup") == "true") { #>
+<#         if ((string)dataAccessComponent.Attribute("lookup") == "true") { #>
             operationData.<#= (string)dataAccessComponent.Attribute("name") #>DataLookup = operationData.<#= (string)dataAccessComponent.Attribute("name") #>DataRows.ToLookup(<#= CamelCased((string)dataAccessComponent.Attribute("name")) #>DataRow => <#= CamelCased((string)dataAccessComponent.Attribute("name")) #>DataRow.<#= (string)dataAccessComponent.Attribute("name") #>ID);
-<# } #>
-<# } #>
+<#         } #>
+<#     } #>
 <# } #>
 <# foreach (XElement dataAccessComponent in xml.Descendants("dataAccessComponent").Where(dataAccessComponent => (string)dataAccessComponent.Attribute("operation") == "create")) { #>
 
@@ -150,40 +150,40 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.<#= (string)xml.Att
 
 <# Stack<string> parentResponseElements = new Stack<string>(new string[] { "businessResponse" }); #>
 <# ForEachSeparatedRecursive(xml.Descendants("response").Elements("responseElement"), (responseElement) => { #>
-<# if ((string)responseElement.Attribute("count") == "single") { #>
+<#     if ((string)responseElement.Attribute("count") == "single") { #>
             // Build the <#= (string)responseElement.Attribute("singularName") #> business response element.
             <#= (string)xml.Element("operation").Attribute("name") #>BusinessResponse.<#= (string)responseElement.Attribute("singularName") #>BusinessResponseElement <#= CamelCased((string)responseElement.Attribute("singularName")) #>BusinessResponseElement = new <#= (string)xml.Element("operation").Attribute("name") #>BusinessResponse.<#= (string)responseElement.Attribute("singularName") #>BusinessResponseElement();
-<# foreach (XElement property in responseElement.Elements("property")) { #>
+<#         foreach (XElement property in responseElement.Elements("property")) { #>
             <#= CamelCased((string)responseElement.Attribute("singularName")) #>BusinessResponseElement.<#= (string)property.Attribute("name") #> = ;
-<# } #>
+<#         } #>
             <#= parentResponseElements.Peek() #>.<#= (string)responseElement.Attribute("singularName") #> = <#= CamelCased((string)responseElement.Attribute("singularName")) #>BusinessResponseElement;
-<# parentResponseElements.Push(CamelCased((string)responseElement.Attribute("singularName")) + "BusinessResponseElement"); #>
-<# } else { #>
+<#         parentResponseElements.Push(CamelCased((string)responseElement.Attribute("singularName")) + "BusinessResponseElement"); #>
+<#     } else { #>
             // Build the <#= (string)responseElement.Attribute("singularName") #> business response elements.
             List<<#= (string)xml.Element("operation").Attribute("name") #>BusinessResponse.<#= (string)responseElement.Attribute("singularName") #>BusinessResponseElement> <#= CamelCased((string)responseElement.Attribute("singularName")) #>BusinessResponseElements = new List<<#= (string)xml.Element("operation").Attribute("name") #>BusinessResponse.<#= (string)responseElement.Attribute("singularName") #>BusinessResponseElement>();
             foreach ( in )
             {
                 // Build the <#= (string)responseElement.Attribute("singularName") #> business response element.
                 <#= (string)xml.Element("operation").Attribute("name") #>BusinessResponse.<#= (string)responseElement.Attribute("singularName") #>BusinessResponseElement <#= CamelCased((string)responseElement.Attribute("singularName")) #>BusinessResponseElement = new <#= (string)xml.Element("operation").Attribute("name") #>BusinessResponse.<#= (string)responseElement.Attribute("singularName") #>BusinessResponseElement();
-<# foreach (XElement property in responseElement.Elements("property")) { #>
+<#         foreach (XElement property in responseElement.Elements("property")) { #>
                 <#= CamelCased((string)responseElement.Attribute("singularName")) #>BusinessResponseElement.<#= (string)property.Attribute("name") #> = ;
-<# } #>
+<#         } #>
                 <#= CamelCased((string)responseElement.Attribute("singularName")) #>BusinessResponseElements.Add(<#= CamelCased((string)responseElement.Attribute("singularName")) #>BusinessResponseElement);
-<# parentResponseElements.Push(CamelCased((string)responseElement.Attribute("singularName")) + "BusinessResponseElements"); #>
-<# PushIndent("    "); #>
-<# } #>
-<# if (responseElement.Elements("responseElement").Any()) { #>
+<#         parentResponseElements.Push(CamelCased((string)responseElement.Attribute("singularName")) + "BusinessResponseElements"); #>
+<#         PushIndent("    "); #>
+<#     } #>
+<#     if (responseElement.Elements("responseElement").Any()) { #>
 
-<# } #>
+<#     } #>
 <# }, (responseElement) => responseElement.Elements("responseElement"), (responseElement) => { #>
-<# parentResponseElements.Pop(); #>
-<# if ((string)responseElement.Attribute("count") == "multiple") { #>
-<# PopIndent(); #>
+<#     parentResponseElements.Pop(); #>
+<#     if ((string)responseElement.Attribute("count") == "multiple") { #>
+<#         PopIndent(); #>
             }
 
             // Set the <#= (string)responseElement.Attribute("singularName") #> business response elements.
             <#= parentResponseElements.Peek() #>.<#= (string)responseElement.Attribute("pluralName") #> = <#= CamelCased((string)responseElement.Attribute("singularName")) #>BusinessResponseElements.ToArray();
-<# } #>
+<#     } #>
 <# }, () => { #>
 
 <# }); #>

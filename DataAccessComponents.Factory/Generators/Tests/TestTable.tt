@@ -83,13 +83,13 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.<#= (string)xml.Attri
         {
             // Provide a value for all the columns.
 <# foreach (XElement column in NonPrimaryKeyColumns(xml)) { #>
-<# if ((string)column.Attribute("isForeignKey") == "true") { #>
+<#     if ((string)column.Attribute("isForeignKey") == "true") { #>
             if (<#= CamelCased((string)column.Attribute("name")) #> == default(<#= (string)column.Attribute("csharpType") #>)) { <#= CamelCased((string)column.Attribute("name")) #> = <#= (string)column.Element("masterDataAccessComponent").Attribute("name") #>TestTable.InsertPlaceholder(); }
-<# } else if ((string)column.Attribute("isUnique") == "true") { #>
+<#     } else if ((string)column.Attribute("isUnique") == "true") { #>
             if (<#= CamelCased((string)column.Attribute("name")) #> == default(<#= (string)column.Attribute("csharpType") #>)) { <#= CamelCased((string)column.Attribute("name")) #> = <#= GetUniquePlaceholderValue(column) #>; }
-<# } else { #>
+<#     } else { #>
             if (<#= CamelCased((string)column.Attribute("name")) #> == default(<#= (string)column.Attribute("csharpType") #>)) { <#= CamelCased((string)column.Attribute("name")) #> = <#= GetPlaceholderValue(column) #>; }
-<# } #>
+<#     } #>
 <# } #>
 
             // Insert the row.

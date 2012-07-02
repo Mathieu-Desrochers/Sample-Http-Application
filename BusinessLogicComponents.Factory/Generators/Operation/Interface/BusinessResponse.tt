@@ -30,24 +30,24 @@ namespace SampleHttpApplication.BusinessLogicComponents.Interface.<#= (string)xm
         /// <summary>
         /// <#= (string)responseElement.Element("summary") #>
         /// </summary>
-<# if ((string)responseElement.Attribute("count") == "single") { #>
+<#     if ((string)responseElement.Attribute("count") == "single") { #>
         public <#= (string)responseElement.Attribute("singularName") #>BusinessResponseElement <#= (string)responseElement.Attribute("singularName") #>;
-<# } else { #>
+<#     } else { #>
         public <#= (string)responseElement.Attribute("singularName") #>BusinessResponseElement[] <#= (string)responseElement.Attribute("pluralName") #>;
-<# } #>
+<#     } #>
         public class <#= (string)responseElement.Attribute("singularName") #>BusinessResponseElement
         {
-<# ForEachSeparated(responseElement.Elements("property"), (property) => { #>
+<#     ForEachSeparated(responseElement.Elements("property"), (property) => { #>
             /// <summary>
             /// Gets or sets the <#= (string)property.Attribute("name") #>.
             /// </summary>
             public <#= (string)property.Attribute("type") #> <#= (string)property.Attribute("name") #> { get; set; }
-<# }, () => { #>
+<#     }, () => { #>
 
-<# }); #>
-<# if (responseElement.Elements("property").Any() && responseElement.Elements("responseElement").Any()) { #>
+<#     }); #>
+<#     if (responseElement.Elements("property").Any() && responseElement.Elements("responseElement").Any()) { #>
 
-<# } #>
+<#     } #>
 <# }, (responseElement) => responseElement.Elements("responseElement"), (responseElement) => { #>
         }
 <# }, () => { #>

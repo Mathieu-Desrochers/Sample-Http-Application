@@ -37,9 +37,9 @@
         .Returns(new <#= (string)xml.Attribute("name") #>DataRow()
         {
             <#= (string)xml.Attribute("name") #>ID = ,
-<# ForEachSeparated(NonPrimaryKeyColumns(xml), column => { #>
+<#     ForEachSeparated(NonPrimaryKeyColumns(xml), column => { #>
             <#= (string)column.Attribute("name") #> = <# }, () => { #>,
-<# }); #>
+<#     }); #>
 
         })
         .Verifiable();
@@ -54,25 +54,9 @@
             new <#= (string)xml.Attribute("name") #>DataRow()
             {
                 <#= (string)xml.Attribute("name") #>ID = ,
-<# ForEachSeparated(NonPrimaryKeyColumns(xml), column => { #>
+<#     ForEachSeparated(NonPrimaryKeyColumns(xml), column => { #>
                 <#= (string)column.Attribute("name") #> = <# }, () => { #>,
-<# }); #>
-
-            },
-            new <#= (string)xml.Attribute("name") #>DataRow()
-            {
-                <#= (string)xml.Attribute("name") #>ID = ,
-<# ForEachSeparated(NonPrimaryKeyColumns(xml), column => { #>
-                <#= (string)column.Attribute("name") #> = <# }, () => { #>,
-<# }); #>
-
-            },
-            new <#= (string)xml.Attribute("name") #>DataRow()
-            {
-                <#= (string)xml.Attribute("name") #>ID = ,
-<# ForEachSeparated(NonPrimaryKeyColumns(xml), column => { #>
-                <#= (string)column.Attribute("name") #> = <# }, () => { #>,
-<# }); #>
+<#     }); #>
 
             }
         })

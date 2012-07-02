@@ -40,6 +40,21 @@
         }))
         .Verifiable();
 
+    // Mock the reading of the Session data rows.
+    testHarness.MockedSessionDataAccessComponent
+        .Setup(mock => mock.ReadAll(It.IsAny<IDatabaseConnection>()))
+        .Returns(Task.FromResult(new SessionDataRow[]
+        {
+            new SessionDataRow()
+            {
+                SessionID = ,
+                SessionCode = ,
+                Name = ,
+                StartDate = 
+            }
+        }))
+        .Verifiable();
+
     // Mock the update of the Session data row.
     testHarness.MockedSessionDataAccessComponent
         .Setup(mock => mock.Update(

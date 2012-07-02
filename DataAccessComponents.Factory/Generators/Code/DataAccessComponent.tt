@@ -102,9 +102,9 @@ namespace SampleHttpApplication.DataAccessComponents.Code.<#= (string)xml.Attrib
                 sqlCommand.Connection = sqlConnection;
 
                 // Set the SQL command parameter values.
-<# foreach (XElement parameter in query.Elements("parameters").Elements("parameter")) { #>
+<#     foreach (XElement parameter in query.Elements("parameters").Elements("parameter")) { #>
                 sqlCommand.Parameters.Add("@<#= CamelCased((string)parameter.Attribute("name")) #>", SqlDbType.<#= (string)parameter.Attribute("sqlDbType") #><# if (parameter.Attribute("sqlDbTypeSize") != null) { #>, <#= (string)parameter.Attribute("sqlDbTypeSize") #><# } #>).Value = <#= CamelCased((string)parameter.Attribute("name")) #>;
-<# } #>
+<#     } #>
 
                 // Execute the SQL command.
                 SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync();
@@ -136,9 +136,9 @@ namespace SampleHttpApplication.DataAccessComponents.Code.<#= (string)xml.Attrib
                 sqlCommand.Connection = sqlConnection;
 
                 // Set the SQL command parameter values.
-<# foreach (XElement parameter in query.Elements("parameters").Elements("parameter")) { #>
+<#     foreach (XElement parameter in query.Elements("parameters").Elements("parameter")) { #>
                 sqlCommand.Parameters.Add("@<#= CamelCased((string)parameter.Attribute("name")) #>", SqlDbType.<#= (string)parameter.Attribute("sqlDbType") #><# if (parameter.Attribute("sqlDbTypeSize") != null) { #>, <#= (string)parameter.Attribute("sqlDbTypeSize") #><# } #>).Value = <#= CamelCased((string)parameter.Attribute("name")) #>;
-<# } #>
+<#     } #>
 
                 // Execute the SQL command.
                 SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync();

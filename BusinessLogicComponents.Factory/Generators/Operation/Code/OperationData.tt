@@ -34,28 +34,28 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.<#= (string)xml.Att
         /// <summary>
         /// The data rows.
         /// </summary>
-<# foreach (XElement dataAccessComponent in xml.Descendants("dataAccessComponent")) { #>
-<# if ((string)dataAccessComponent.Attribute("operation") == "read") { #>
-<# if ((string)dataAccessComponent.Attribute("results") == "single") { #>
+<#     foreach (XElement dataAccessComponent in xml.Descendants("dataAccessComponent")) { #>
+<#         if ((string)dataAccessComponent.Attribute("operation") == "read") { #>
+<#             if ((string)dataAccessComponent.Attribute("results") == "single") { #>
         public <#= (string)dataAccessComponent.Attribute("name") #>DataRow <#= (string)dataAccessComponent.Attribute("name") #>DataRow;
-<# } else { #>
+<#             } else { #>
         public <#= (string)dataAccessComponent.Attribute("name") #>DataRow[] <#= (string)dataAccessComponent.Attribute("name") #>DataRows;
-<# } #>
-<# } else if ((string)dataAccessComponent.Attribute("operation") == "create") { #>
-<# if (!xml.Descendants("dataAccessComponent").Any(otherDataAccessComponent => (string)otherDataAccessComponent.Attribute("name") == (string)dataAccessComponent.Attribute("name") && (string)otherDataAccessComponent.Attribute("operation") == "read" && (string)otherDataAccessComponent.Attribute("results") == "single")) { #>
+<#             } #>
+<#         } else if ((string)dataAccessComponent.Attribute("operation") == "create") { #>
+<#             if (!xml.Descendants("dataAccessComponent").Any(otherDataAccessComponent => (string)otherDataAccessComponent.Attribute("name") == (string)dataAccessComponent.Attribute("name") && (string)otherDataAccessComponent.Attribute("operation") == "read" && (string)otherDataAccessComponent.Attribute("results") == "single")) { #>
         public <#= (string)dataAccessComponent.Attribute("name") #>DataRow <#= (string)dataAccessComponent.Attribute("name") #>DataRow;
-<# } #>
-<# } #>
-<# } #>
+<#             } #>
+<#         } #>
+<#     } #>
 <# } #>
 <# if (xml.Descendants("dataAccessComponent").Any(dataAccessComponent => (string)dataAccessComponent.Attribute("lookup") == "true")) { #>
 
         /// <summary>
         /// The data lookups.
         /// </summary>
-<# foreach (XElement dataAccessComponent in xml.Descendants("dataAccessComponent").Where(dataAccessComponent => (string)dataAccessComponent.Attribute("lookup") == "true")) { #>
+<#     foreach (XElement dataAccessComponent in xml.Descendants("dataAccessComponent").Where(dataAccessComponent => (string)dataAccessComponent.Attribute("lookup") == "true")) { #>
         public ILookup<int, <#= (string)dataAccessComponent.Attribute("name") #>DataRow> <#= (string)dataAccessComponent.Attribute("name") #>DataLookup;
-<# } #>
+<#     } #>
 <# } #>
     }
 }
