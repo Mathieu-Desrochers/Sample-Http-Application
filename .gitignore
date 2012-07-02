@@ -17,6 +17,7 @@ BusinessLogicComponents.Factory/Generators/Operation/Code/OperationData.cs
 BusinessLogicComponents.Factory/Generators/Operation/Interface/BusinessException.cs
 BusinessLogicComponents.Factory/Generators/Operation/Interface/BusinessRequest.cs
 BusinessLogicComponents.Factory/Generators/Operation/Interface/BusinessResponse.cs
+BusinessLogicComponents.Factory/Generators/Operation/Snippets/Invocation.txt
 Common.cs
 DataRow.cs
 DataAccessComponent.cs

@@ -94,6 +94,11 @@
     <Content Include="Blueprints\Scheduling\SchedulingBusinessLogicComponent.xml" />
     <Content Include="Generators\BusinessLogicComponent\Blueprint.xml" />
     <Content Include="Generators\Operation\Blueprint.xml" />
+    <Content Include="Generators\Operation\Snippets\Invocation.txt">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Invocation.tt</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="Generators\BusinessLogicComponent\Code\BusinessLogicComponent.tt">
@@ -131,6 +136,10 @@
     <None Include="Generators\Operation\Interface\BusinessException.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>BusinessException.cs</LastGenOutput>
+    </None>
+    <None Include="Generators\Operation\Snippets\Invocation.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Invocation.txt</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

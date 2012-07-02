@@ -1,0 +1,13 @@
+﻿
+    // Build the business request.
+    NewSessionBusinessRequest businessRequest = new NewSessionBusinessRequest();
+
+    // Build the Session business request element.
+    NewSessionBusinessRequest.SessionBusinessRequestElement sessionBusinessRequestElement = new NewSessionBusinessRequest.SessionBusinessRequestElement();
+    sessionBusinessRequestElement.SessionCode = ;
+    sessionBusinessRequestElement.Name = ;
+    sessionBusinessRequestElement.StartDate = ;
+    businessRequest.Session = sessionBusinessRequestElement;
+
+    // Invoke the NewSession business operation.
+    NewSessionBusinessResponse newSessionBusinessResponse = await this.schedulingBusinessLogicComponent.NewSession(databaseConnection, newSessionBusinessRequest);
