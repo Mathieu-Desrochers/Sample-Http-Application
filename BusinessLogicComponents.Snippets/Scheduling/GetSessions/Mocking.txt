@@ -1,0 +1,20 @@
+﻿
+    // Mock the invocation of the GetSessions business operation.
+    testHarness.MockedSchedulingBusinessLogicComponent
+        .Setup(mock => mock.GetSessions(It.IsAny<IDatabaseConnection>(), It.IsAny<GetSessionsBusinessRequest>()))
+        .Returns(Task.FromResult(new GetSessionsBusinessResponse()
+        {
+            // Mock the Session business response elements.
+            Sessions = new GetSessionsBusinessResponse.SessionBusinessResponseElement[]
+            {
+                // Mock the Session business response element.
+                new GetSessionsBusinessResponse.SessionBusinessResponseElement()
+                {
+                    SessionID = ,
+                    SessionCode = ,
+                    Name = ,
+                    StartDate = ,
+                }
+            }
+        }))
+        .Verifiable();

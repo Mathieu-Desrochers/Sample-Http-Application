@@ -15,6 +15,11 @@ namespace SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling
     public interface ISchedulingBusinessLogicComponent
     {
         /// <summary>
+        /// Returns all the sessions.
+        /// </summary>
+        Task<GetSessionsBusinessResponse> GetSessions(IDatabaseConnection databaseConnection, GetSessionsBusinessRequest businessRequest);
+
+        /// <summary>
         /// Creates a new session.
         /// </summary>
         Task<NewSessionBusinessResponse> NewSession(IDatabaseConnection databaseConnection, NewSessionBusinessRequest businessRequest);

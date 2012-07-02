@@ -93,6 +93,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Blueprints\Scheduling\GetSessions\GetSessionsOperation.xml" />
     <Content Include="Blueprints\Scheduling\NewSession\NewSessionOperation.xml" />
     <Content Include="Blueprints\Scheduling\SchedulingBusinessLogicComponent.xml" />
     <Content Include="Generators\BusinessLogicComponent\Blueprint.xml" />

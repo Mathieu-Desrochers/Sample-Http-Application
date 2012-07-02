@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<businessLogicComponent name="Scheduling">
+  <operation name="GetSessions">
+    <request />
+    <response>
+      <responseElement singularName="Session" pluralName="Sessions" count="multiple">
+        <summary>The sessions.</summary>
+        <property name="SessionID" type="int" />
+        <property name="SessionCode" type="string" />
+        <property name="Name" type="string" />
+        <property name="StartDate" type="DateTime" />
+      </responseElement>
+    </response>
+    <errors />
+    <dataAccessComponents>
+      <dataAccessComponent name="Session" operation="read" query="ReadAll" results="multiple" />
+    </dataAccessComponents>
+  </operation>
+</businessLogicComponent>

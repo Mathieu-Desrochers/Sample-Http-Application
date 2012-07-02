@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="MockedDatabaseConnection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scheduling\GetSessions\GetSessionsOperationTests.cs" />
     <Compile Include="Scheduling\NewSession\NewSessionOperationTests.cs" />
     <Compile Include="Scheduling\SchedulingBusinessLogicComponentTestHarness.cs" />
   </ItemGroup>
