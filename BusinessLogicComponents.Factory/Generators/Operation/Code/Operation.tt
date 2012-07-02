@@ -186,7 +186,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.<#= (string)xml.Att
 <#     } #>
 <# }, () => { #>
 
-<# }); #>
+<# }, false); #>
 
             // Return the business response.
             return businessResponse;

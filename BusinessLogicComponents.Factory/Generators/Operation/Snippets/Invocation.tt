@@ -54,7 +54,7 @@
 <#     } #>
 <# }, () => { #>
 
-<# }); #>
+<# }, false); #>
 
     // Invoke the <#= (string)xml.Element("operation").Attribute("name") #> business operation.
     <#= (string)xml.Element("operation").Attribute("name") #>BusinessResponse <#= CamelCased((string)xml.Element("operation").Attribute("name")) #>BusinessResponse = await this.<#= CamelCased((string)xml.Attribute("name")) #>BusinessLogicComponent.<#= (string)xml.Element("operation").Attribute("name") #>(databaseConnection, <#= CamelCased((string)xml.Element("operation").Attribute("name")) #>BusinessRequest);

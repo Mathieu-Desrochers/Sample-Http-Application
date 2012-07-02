@@ -27,7 +27,7 @@
 		elementAction(elements.Skip(elements.Count() - 1).Single());
 	}
 
-	public void ForEachSeparatedRecursive(IEnumerable<XElement> elements, Action<XElement> beginElementAction, Func<XElement, IEnumerable<XElement>> getChildsFunction, Action<XElement> endElementAction, Action separatorAction, bool pushIndent = false)
+	public void ForEachSeparatedRecursive(IEnumerable<XElement> elements, Action<XElement> beginElementAction, Func<XElement, IEnumerable<XElement>> getChildsFunction, Action<XElement> endElementAction, Action separatorAction, bool pushIndent = true)
 	{
 		Action<XElement> elementAction = (element) =>
 		{

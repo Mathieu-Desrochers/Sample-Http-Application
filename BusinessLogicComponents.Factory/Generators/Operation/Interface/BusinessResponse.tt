@@ -52,6 +52,6 @@ namespace SampleHttpApplication.BusinessLogicComponents.Interface.<#= (string)xm
         }
 <# }, () => { #>
 
-<# }, true); #>
+<# }); #>
     }
 }
