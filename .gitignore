@@ -19,6 +19,7 @@ BusinessLogicComponents.Factory/Generators/Operation/Interface/BusinessRequest.c
 BusinessLogicComponents.Factory/Generators/Operation/Interface/BusinessResponse.cs
 BusinessLogicComponents.Factory/Generators/Operation/Snippets/Invocation.txt
 BusinessLogicComponents.Factory/Generators/Operation/Snippets/Mocking.txt
+BusinessLogicComponents.Factory/Generators/Operation/Tests/OperationTests.cs
 Common.cs
 DataRow.cs
 DataAccessComponent.cs

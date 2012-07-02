@@ -69,7 +69,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewSess
             // Verify the mocked components.
             testHarness.VerifyMockedComponents();
 
-            // Validate the PendingPublicListing business response element.
+            // Validate the Session business response element.
             Assert.IsNotNull(newSessionBusinessResponse);
             Assert.IsNotNull(newSessionBusinessResponse.Session);
             Assert.AreEqual(10001, newSessionBusinessResponse.Session.SessionID);

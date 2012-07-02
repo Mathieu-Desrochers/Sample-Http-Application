@@ -84,11 +84,14 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Generators\Operation\Tests\OperationTests.cs">
+      <DependentUpon>OperationTests.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Generators\Operation\Tests\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Blueprints\Scheduling\NewSession\NewSessionOperation.xml" />
     <Content Include="Blueprints\Scheduling\SchedulingBusinessLogicComponent.xml" />
@@ -149,6 +152,10 @@
     <None Include="Generators\Operation\Snippets\Invocation.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Invocation.txt</LastGenOutput>
+    </None>
+    <None Include="Generators\Operation\Tests\OperationTests.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>OperationTests.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
