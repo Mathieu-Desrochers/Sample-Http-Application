@@ -38,7 +38,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.<#= (string)xml.Att
 <#         if ((string)dataAccessComponent.Attribute("operation") == "read") { #>
 <#             if ((string)dataAccessComponent.Attribute("results") == "single") { #>
         public <#= (string)dataAccessComponent.Attribute("name") #>DataRow <#= (string)dataAccessComponent.Attribute("name") #>DataRow;
-<#             } else { #>
+<#             } else if ((string)dataAccessComponent.Attribute("results") == "multiple") { #>
         public <#= (string)dataAccessComponent.Attribute("name") #>DataRow[] <#= (string)dataAccessComponent.Attribute("name") #>DataRows;
 <#             } #>
 <#         } else if ((string)dataAccessComponent.Attribute("operation") == "create") { #>

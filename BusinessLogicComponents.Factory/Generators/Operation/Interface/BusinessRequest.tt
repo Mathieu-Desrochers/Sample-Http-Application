@@ -33,7 +33,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Interface.<#= (string)xm
         /// </summary>
 <#     if ((string)requestElement.Attribute("count") == "single") { #>
         public <#= (string)requestElement.Attribute("singularName") #>BusinessRequestElement <#= (string)requestElement.Attribute("singularName") #>;
-<#     } else { #>
+<#     } else if ((string)requestElement.Attribute("count") == "multiple") { #>
         public <#= (string)requestElement.Attribute("singularName") #>BusinessRequestElement[] <#= (string)requestElement.Attribute("pluralName") #>;
 <#     } #>
         public class <#= (string)requestElement.Attribute("singularName") #>BusinessRequestElement

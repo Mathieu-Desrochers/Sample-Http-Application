@@ -26,7 +26,7 @@
 <#         } #>
     <#= parentRequestElements.Peek() #>.<#= (string)requestElement.Attribute("singularName") #> = <#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElement;
 <#         parentRequestElements.Push(CamelCased((string)requestElement.Attribute("singularName")) + "BusinessRequestElement"); #>
-<#     } else { #>
+<#     } else if ((string)requestElement.Attribute("count") == "multiple") { #>
     // Build the <#= (string)requestElement.Attribute("singularName") #> business request elements.
     List<<#= (string)xml.Element("operation").Attribute("name") #>BusinessRequest.<#= (string)requestElement.Attribute("singularName") #>BusinessRequestElement> <#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElements = new List<<#= (string)xml.Element("operation").Attribute("name") #>BusinessRequest.<#= (string)requestElement.Attribute("singularName") #>BusinessRequestElement>();
     foreach ( in )

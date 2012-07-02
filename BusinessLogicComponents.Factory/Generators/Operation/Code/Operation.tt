@@ -120,7 +120,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.<#= (string)xml.Att
 <#     if ((string)dataAccessComponent.Attribute("results") == "single") { #>
             // Read the <#= (string)dataAccessComponent.Attribute("name") #> data row.
             operationData.<#= (string)dataAccessComponent.Attribute("name") #>DataRow = await this.<#= CamelCased((string)dataAccessComponent.Attribute("name")) #>DataAccessComponent.<#= (string)dataAccessComponent.Attribute("query") #>(databaseConnection, );
-<#     } else { #>
+<#     } else if ((string)dataAccessComponent.Attribute("results") == "multiple") { #>
             // Read the <#= (string)dataAccessComponent.Attribute("name") #> data rows.
             operationData.<#= (string)dataAccessComponent.Attribute("name") #>DataRows = await this.<#= CamelCased((string)dataAccessComponent.Attribute("name")) #>DataAccessComponent.<#= (string)dataAccessComponent.Attribute("query") #>(databaseConnection, );
 <#         if ((string)dataAccessComponent.Attribute("lookup") == "true") { #>
@@ -158,7 +158,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.<#= (string)xml.Att
 <#         } #>
             <#= parentResponseElements.Peek() #>.<#= (string)responseElement.Attribute("singularName") #> = <#= CamelCased((string)responseElement.Attribute("singularName")) #>BusinessResponseElement;
 <#         parentResponseElements.Push(CamelCased((string)responseElement.Attribute("singularName")) + "BusinessResponseElement"); #>
-<#     } else { #>
+<#     } else if ((string)responseElement.Attribute("count") == "multiple") { #>
             // Build the <#= (string)responseElement.Attribute("singularName") #> business response elements.
             List<<#= (string)xml.Element("operation").Attribute("name") #>BusinessResponse.<#= (string)responseElement.Attribute("singularName") #>BusinessResponseElement> <#= CamelCased((string)responseElement.Attribute("singularName")) #>BusinessResponseElements = new List<<#= (string)xml.Element("operation").Attribute("name") #>BusinessResponse.<#= (string)responseElement.Attribute("singularName") #>BusinessResponseElement>();
             foreach ( in )
