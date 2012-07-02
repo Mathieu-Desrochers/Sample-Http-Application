@@ -99,6 +99,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Invocation.tt</DependentUpon>
     </Content>
+    <Content Include="Generators\Operation\Snippets\Mocking.txt">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Mocking.tt</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="Generators\BusinessLogicComponent\Code\BusinessLogicComponent.tt">
@@ -136,6 +141,10 @@
     <None Include="Generators\Operation\Interface\BusinessException.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>BusinessException.cs</LastGenOutput>
+    </None>
+    <None Include="Generators\Operation\Snippets\Mocking.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Mocking.txt</LastGenOutput>
     </None>
     <None Include="Generators\Operation\Snippets\Invocation.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

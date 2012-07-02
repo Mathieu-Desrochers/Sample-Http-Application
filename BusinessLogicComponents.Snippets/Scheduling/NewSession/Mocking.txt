@@ -1,0 +1,48 @@
+﻿
+    // Mock the invocation of the NewSession business operation.
+    testHarness.MockedSchedulingBusinessLogicComponent
+        .Setup(mock => mock.NewSession(
+            It.IsAny<IDatabaseConnection>(),
+            It.Is<NewSessionBusinessRequest>(newSessionBusinessRequest =>
+            (
+                // Match the Session business request element.
+                newSessionBusinessRequest.Session.SessionCode ==  &&
+                newSessionBusinessRequest.Session.Name ==  &&
+                newSessionBusinessRequest.Session.StartDate ==  &&
+            ))))
+        .Returns(Task.FromResult(new NewSessionBusinessResponse()
+        {
+            // Mock the Session business response element.
+            Session = new NewSessionBusinessResponse.SessionBusinessResponseElement()
+            {
+                SessionID = ,
+            }
+        }))
+        .Verifiable();
+
+    // Mock the invocation of the NewSession business operation.
+    testHarness.MockedSchedulingBusinessLogicComponent
+        .Setup(mock => mock.NewSession(It.IsAny<IDatabaseConnection>(), It.IsAny<NewSessionBusinessRequest>()))
+        .Throws(new NewSessionBusinessException()
+        {
+            ErrorCode = NewSessionBusinessException.ErrorCodes.InvalidSessionCode
+        })
+        .Verifiable();
+
+    // Mock the invocation of the NewSession business operation.
+    testHarness.MockedSchedulingBusinessLogicComponent
+        .Setup(mock => mock.NewSession(It.IsAny<IDatabaseConnection>(), It.IsAny<NewSessionBusinessRequest>()))
+        .Throws(new NewSessionBusinessException()
+        {
+            ErrorCode = NewSessionBusinessException.ErrorCodes.DuplicateSessionCode
+        })
+        .Verifiable();
+
+    // Mock the invocation of the NewSession business operation.
+    testHarness.MockedSchedulingBusinessLogicComponent
+        .Setup(mock => mock.NewSession(It.IsAny<IDatabaseConnection>(), It.IsAny<NewSessionBusinessRequest>()))
+        .Throws(new NewSessionBusinessException()
+        {
+            ErrorCode = NewSessionBusinessException.ErrorCodes.InvalidName
+        })
+        .Verifiable();

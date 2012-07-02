@@ -1,0 +1,98 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ include file="..\..\Common.tt" #>
+<#@ output extension=".txt" #>
+<#
+    string xmlPath = Host.ResolvePath(@"..\Blueprint.xml");
+    XElement xml = XElement.Load(xmlPath);
+#>
+
+    // Mock the invocation of the <#= (string)xml.Element("operation").Attribute("name") #> business operation.
+    testHarness.Mocked<#= (string)xml.Attribute("name") #>BusinessLogicComponent
+        .Setup(mock => mock.<#= (string)xml.Element("operation").Attribute("name") #>(
+            It.IsAny<IDatabaseConnection>(),
+            It.Is<<#= (string)xml.Element("operation").Attribute("name") #>BusinessRequest>(<#= CamelCased((string)xml.Element("operation").Attribute("name")) #>BusinessRequest =>
+            (
+<# Stack<string> parentRequestElements = new Stack<string>(new string[] { CamelCased((string)xml.Element("operation").Attribute("name")) + "BusinessRequest" }); #>
+<# ForEachSeparatedRecursive(xml.Descendants("request").Elements("requestElement"), (requestElement) => { #>
+<#     if ((string)requestElement.Attribute("count") == "single") { #>
+                // Match the <#= (string)requestElement.Attribute("singularName") #> business request element.
+<#         foreach (XElement property in requestElement.Elements("property")) { #>
+                <#= parentRequestElements.Peek() #>.<#= (string)requestElement.Attribute("singularName") #>.<#= (string)property.Attribute("name") #> ==  &&
+<#         } #>
+<#         parentRequestElements.Push(parentRequestElements.Peek() + "." + (string)requestElement.Attribute("singularName")); #>
+<#     } else if ((string)requestElement.Attribute("count") == "multiple") { #>
+                // Match the <#= (string)requestElement.Attribute("singularName") #> business request elements.
+                <#= parentRequestElements.Peek() #>.<#= (string)requestElement.Attribute("pluralName") #>.Count ==  &&
+<#         foreach (XElement property in requestElement.Elements("property")) { #>
+                <#= parentRequestElements.Peek() #>.<#= (string)requestElement.Attribute("pluralName") #>[0].<#= (string)property.Attribute("name") #> ==  &&
+<#         } #>
+<#         parentRequestElements.Push(parentRequestElements.Peek() + "." + (string)requestElement.Attribute("pluralName") + "[0]"); #>
+<#     } #>
+<#     if (requestElement.Elements("requestElement").Any()) { #>
+
+<#     } #>
+<# }, (requestElement) => requestElement.Elements("requestElement"), (requestElement) => { #>
+<#     parentRequestElements.Pop(); #>
+<# }, () => { #>
+
+<# }, false); #>
+            ))))
+        .Returns(Task.FromResult(new <#= (string)xml.Element("operation").Attribute("name") #>BusinessResponse()
+        {
+<# Stack<string> parentResponseElements = new Stack<string>(new string[] { (string)xml.Element("operation").Attribute("name") + "BusinessResponse" }); #>
+<# ForEachSeparatedRecursive(xml.Descendants("response").Elements("responseElement"), (responseElement) => { #>
+<#     if ((string)responseElement.Attribute("count") == "single") { #>
+            // Mock the <#= (string)responseElement.Attribute("singularName") #> business response element.
+            <#= (string)responseElement.Attribute("singularName") #> = new <#= parentResponseElements.Peek() #>.<#= (string)responseElement.Attribute("singularName") #>BusinessResponseElement()
+            {
+<#         foreach (XElement property in responseElement.Elements("property")) { #>
+                <#= (string)property.Attribute("name") #> = ,
+<#         } #>
+<#     } else if ((string)responseElement.Attribute("count") == "multiple") { #>
+            // Mock the <#= (string)responseElement.Attribute("singularName") #> business response elements.
+            <#= (string)responseElement.Attribute("pluralName") #> = new <#= parentResponseElements.Peek() #>.<#= (string)responseElement.Attribute("singularName") #>BusinessResponseElement[]
+            {
+                // Mock the <#= (string)responseElement.Attribute("singularName") #> business response element.
+                new <#= parentResponseElements.Peek() #>.<#= (string)responseElement.Attribute("singularName") #>BusinessResponseElement()
+                {
+<#         foreach (XElement property in responseElement.Elements("property")) { #>
+                    <#= (string)property.Attribute("name") #> = ,
+<#         } #>
+<#         PushIndent("    "); #>
+<#     } #>
+<#     parentResponseElements.Push(parentResponseElements.Peek() + "." + (string)responseElement.Attribute("singularName") + "BusinessResponseElement"); #>
+<#     if (responseElement.Elements("responseElement").Any()) { #>
+
+<#     } #>
+<# }, (responseElement) => responseElement.Elements("responseElement"), (responseElement) => { #>
+<#     parentResponseElements.Pop(); #>
+<#     if ((string)responseElement.Attribute("count") == "single") { #>
+            }
+<#     } else if ((string)responseElement.Attribute("count") == "multiple") { #>
+<#         PopIndent(); #>
+                }
+            }
+<#     } #>
+<# }, () => { #>
+
+<# }); #>
+        }))
+        .Verifiable();
+<# foreach (XElement error in xml.Descendants("errors").Elements("error")) { #>
+
+    // Mock the invocation of the <#= (string)xml.Element("operation").Attribute("name") #> business operation.
+    testHarness.Mocked<#= (string)xml.Attribute("name") #>BusinessLogicComponent
+        .Setup(mock => mock.<#= (string)xml.Element("operation").Attribute("name") #>(It.IsAny<IDatabaseConnection>(), It.IsAny<<#= (string)xml.Element("operation").Attribute("name") #>BusinessRequest>()))
+        .Throws(new <#= (string)xml.Element("operation").Attribute("name") #>BusinessException()
+        {
+            ErrorCode = <#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorCodes.<#= (string)error.Attribute("code") #>
+        })
+        .Verifiable();
+<# } #>
