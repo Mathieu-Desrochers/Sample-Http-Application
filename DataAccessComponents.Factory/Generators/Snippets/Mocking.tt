@@ -24,6 +24,7 @@
 <# }); #>
 
             ))))
+        .Returns(Task.FromResult<object>(null))
         .Callback((IDatabaseConnection databaseConnection, <#= (string)xml.Attribute("name") #>DataRow <#= CamelCased((string)xml.Attribute("name")) #>DataRow) =>
         {
             <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)xml.Attribute("name") #>ID = ;
@@ -34,14 +35,14 @@
     // Mock the reading of the <#= (string)xml.Attribute("name") #> data row.
     testHarness.Mocked<#= (string)xml.Attribute("name") #>DataAccessComponent
         .Setup(mock => mock.<#= (string)query.Attribute("name") #>(It.IsAny<IDatabaseConnection>()<# foreach (XElement parameter in query.Elements("parameters").Elements("parameter")) { #>, <# } #>))
-        .Returns(new <#= (string)xml.Attribute("name") #>DataRow()
+        .Returns(Task.FromResult(new <#= (string)xml.Attribute("name") #>DataRow()
         {
             <#= (string)xml.Attribute("name") #>ID = ,
 <#     ForEachSeparated(NonPrimaryKeyColumns(xml), column => { #>
             <#= (string)column.Attribute("name") #> = <# }, () => { #>,
 <#     }); #>
 
-        })
+        }))
         .Verifiable();
 
 <# } #>
@@ -49,7 +50,7 @@
     // Mock the reading of the <#= (string)xml.Attribute("name") #> data rows.
     testHarness.Mocked<#= (string)xml.Attribute("name") #>DataAccessComponent
         .Setup(mock => mock.<#= (string)query.Attribute("name") #>(It.IsAny<IDatabaseConnection>()<# foreach (XElement parameter in query.Elements("parameters").Elements("parameter")) { #>, <# } #>))
-        .Returns(new <#= (string)xml.Attribute("name") #>DataRow[]
+        .Returns(Task.FromResult(new <#= (string)xml.Attribute("name") #>DataRow[]
         {
             new <#= (string)xml.Attribute("name") #>DataRow()
             {
@@ -59,7 +60,7 @@
 <#     }); #>
 
             }
-        })
+        }))
         .Verifiable();
 
 <# } #>
@@ -75,6 +76,7 @@
 <# }); #>
 
             ))))
+        .Returns(Task.FromResult<object>(null))
         .Verifiable();
 
     // Mock the deletion of the <#= (string)xml.Attribute("name") #> data row.
@@ -85,4 +87,5 @@
             (
                 <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)xml.Attribute("name") #>ID == 
             ))))
+        .Returns(Task.FromResult<object>(null))
         .Verifiable();
