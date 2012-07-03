@@ -1,6 +1,6 @@
 ﻿
     // Build the business request.
-    GetSessionsBusinessRequest businessRequest = new GetSessionsBusinessRequest();
+    GetSessionsBusinessRequest getSessionsBusinessRequest = new GetSessionsBusinessRequest();
 
     // Invoke the GetSessions business operation.
     GetSessionsBusinessResponse getSessionsBusinessResponse = await this.schedulingBusinessLogicComponent.GetSessions(databaseConnection, getSessionsBusinessRequest);

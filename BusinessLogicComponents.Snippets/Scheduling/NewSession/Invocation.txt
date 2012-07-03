@@ -1,6 +1,6 @@
 ﻿
     // Build the business request.
-    NewSessionBusinessRequest businessRequest = new NewSessionBusinessRequest();
+    NewSessionBusinessRequest newSessionBusinessRequest = new NewSessionBusinessRequest();
 
     // Build the Session business request element.
     NewSessionBusinessRequest.SessionBusinessRequestElement sessionBusinessRequestElement = new NewSessionBusinessRequest.SessionBusinessRequestElement();

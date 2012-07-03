@@ -14,7 +14,7 @@
 #>
 
     // Build the business request.
-    <#= (string)xml.Element("operation").Attribute("name") #>BusinessRequest businessRequest = new <#= (string)xml.Element("operation").Attribute("name") #>BusinessRequest();
+    <#= (string)xml.Element("operation").Attribute("name") #>BusinessRequest <#= CamelCased((string)xml.Element("operation").Attribute("name")) #>BusinessRequest = new <#= (string)xml.Element("operation").Attribute("name") #>BusinessRequest();
 
 <# Stack<string> parentRequestElements = new Stack<string>(new string[] { "businessRequest" }); #>
 <# ForEachSeparatedRecursive(xml.Descendants("request").Elements("requestElement"), (requestElement) => { #>
