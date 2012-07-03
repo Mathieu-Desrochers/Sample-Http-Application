@@ -7,9 +7,9 @@
 CREATE TABLE [Session]
 (
 	[SessionId] INT NOT NULL IDENTITY(1, 1), 
-    [SessionCode] NVARCHAR(50) NOT NULL, 
-    [Name] NVARCHAR(50) NOT NULL, 
-    [StartDate] DATE NOT NULL
+	[SessionCode] NVARCHAR(50) NOT NULL, 
+	[Name] NVARCHAR(50) NOT NULL, 
+	[StartDate] DATE NOT NULL
 )
 GO
 

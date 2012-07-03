@@ -23,7 +23,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
 
-using SampleHttpApplication.BusinessLogicComponents.Interface.<#= (string)xml.Attribute("name") #>;
+using SampleHttpApplication.BusinessLogicComponents.Interface.<#= (string)xml.Attribute("name") #>.<#= (string)xml.Element("operation").Attribute("name") #>;
 using SampleHttpApplication.DataAccessComponents.Interface;
 <# foreach (XElement dataAccessComponent in xml.Descendants("dataAccessComponent")) { #>
 using SampleHttpApplication.DataAccessComponents.Interface.<#= (string)dataAccessComponent.Attribute("name") #>;

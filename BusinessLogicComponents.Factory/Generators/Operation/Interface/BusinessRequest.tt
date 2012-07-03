@@ -20,7 +20,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SampleHttpApplication.BusinessLogicComponents.Interface.<#= (string)xml.Attribute("name") #>
+namespace SampleHttpApplication.BusinessLogicComponents.Interface.<#= (string)xml.Attribute("name") #>.<#= (string)xml.Element("operation").Attribute("name") #>
 {
     /// <summary>
     /// Represents the <#= (string)xml.Element("operation").Attribute("name") #> business request.

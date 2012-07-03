@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling
+namespace SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling.GetSessions
 {
     /// <summary>
     /// Represents the GetSessions business request.

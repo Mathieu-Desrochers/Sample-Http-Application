@@ -19,6 +19,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+<# foreach (XElement operation in xml.Descendants("operation")) { #>
+using SampleHttpApplication.BusinessLogicComponents.Interface.<#= (string)xml.Attribute("name") #>.<#= (string)operation.Attribute("name") #>;
+<# } #>
 using SampleHttpApplication.DataAccessComponents.Interface;
 
 namespace SampleHttpApplication.BusinessLogicComponents.Interface.<#= (string)xml.Attribute("name") #>

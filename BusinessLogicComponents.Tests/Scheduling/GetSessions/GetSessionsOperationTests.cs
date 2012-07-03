@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
 
-using SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling;
+using SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling.GetSessions;
 using SampleHttpApplication.DataAccessComponents.Interface;
 using SampleHttpApplication.DataAccessComponents.Interface.Session;
 

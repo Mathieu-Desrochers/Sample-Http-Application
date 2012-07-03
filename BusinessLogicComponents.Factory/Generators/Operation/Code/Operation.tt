@@ -19,9 +19,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using SampleHttpApplication.BusinessLogicComponents.Interface.<#= (string)xml.Attribute("name") #>;
+using SampleHttpApplication.BusinessLogicComponents.Interface.<#= (string)xml.Attribute("name") #>.<#= (string)xml.Element("operation").Attribute("name") #>;
 <# foreach (XElement businessLogicComponent in xml.Descendants("businessLogicComponent")) { #>
-using SampleHttpApplication.BusinessLogicComponents.Interface.<#= (string)businessLogicComponent.Attribute("name") #>;
+using SampleHttpApplication.BusinessLogicComponents.Interface.<#= (string)businessLogicComponent.Attribute("name") #>.<#= (string)businessLogicComponent.Attribute("operation") #>;
 <# } #>
 using SampleHttpApplication.DataAccessComponents.Interface;
 <# foreach (XElement dataAccessComponent in xml.Descendants("dataAccessComponent")) { #>

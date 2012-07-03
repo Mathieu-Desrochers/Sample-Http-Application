@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling.GetSessions;
+using SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling.NewSession;
 using SampleHttpApplication.DataAccessComponents.Interface;
 
 namespace SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling
