@@ -18,7 +18,7 @@ namespace SampleHttpApplication.DataAccessComponents.Code
         /// <summary>
         /// Opens a database connection.
         /// </summary>
-        public IDatabaseConnection OpenDatabaseConnection()
+        public async Task<IDatabaseConnection> OpenDatabaseConnection()
         {
             // Get the configured connection string.
             ConnectionStringSettings connectionStringSettings = ConfigurationManager.ConnectionStrings["SampleHttpApplication"];
@@ -26,7 +26,7 @@ namespace SampleHttpApplication.DataAccessComponents.Code
 
             // Build the database connection.
             IDatabaseConnection databaseConnection = new DatabaseConnection(connectionString);
-            databaseConnection.Open();
+            await databaseConnection.Open();
 
             // Return the database connection.
             return databaseConnection;
