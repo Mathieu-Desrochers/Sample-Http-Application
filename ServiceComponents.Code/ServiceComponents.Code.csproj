@@ -97,6 +97,10 @@
       <Project>{e81b00ad-4645-4d5d-96d6-89791f81415a}</Project>
       <Name>DataAccessComponents.Interface</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Code\Infrastructure.Code.csproj">
+      <Project>{9e727235-a262-4393-be68-a38b6bf44d3a}</Project>
+      <Name>Infrastructure.Code</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ServiceComponents.Interface\ServiceComponents.Interface.csproj">
       <Project>{e1dfcc37-bf4c-453d-b5e2-dcde24546ab9}</Project>
       <Name>ServiceComponents.Interface</Name>

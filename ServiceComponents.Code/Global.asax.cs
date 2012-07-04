@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Routing;
 
+using SampleHttpApplication.Infrastructure.Code.DependencyInjection;
 using SampleHttpApplication.ServiceComponents.Code.Controllers.Scheduling.Sessions;
 
 namespace SampleHttpApplication.ServiceComponents.Code
@@ -20,6 +21,10 @@ namespace SampleHttpApplication.ServiceComponents.Code
         /// </summary>
         protected void Application_Start()
         {
+            // Register our dependency resolver.
+            GlobalConfiguration.Configuration.DependencyResolver = DependencyResolverFactory.NewDependencyResolver();
+
+            // Register the controller routes.
             SessionsController.RegisterRoutes(RouteTable.Routes);
         }
     }

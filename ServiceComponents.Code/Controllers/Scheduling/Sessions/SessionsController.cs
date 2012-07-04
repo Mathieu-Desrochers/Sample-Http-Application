@@ -32,15 +32,13 @@ namespace SampleHttpApplication.ServiceComponents.Code.Controllers.Scheduling.Se
         /// <summary>
         /// Initialization conctructor.
         /// </summary>
-        public SessionsController()
+        public SessionsController(IDatabaseConnectionProvider databaseConnectionProvider, ISchedulingBusinessLogicComponent schedulingBusinessLogicComponent)
         {
-            // Well, yeah, really use dependency injection here.
             // Initialize the database connection provider.
-            this.databaseConnectionProvider = new DatabaseConnectionProvider();
+            this.databaseConnectionProvider = databaseConnectionProvider;
 
             // Initialize the business logic components.
-            SessionDataAccessComponent sessionDataAccessComponent = new SessionDataAccessComponent();
-            this.schedulingBusinessLogicComponent = new SchedulingBusinessLogicComponent(sessionDataAccessComponent);
+            this.schedulingBusinessLogicComponent = schedulingBusinessLogicComponent;
         }
 
         /// <summary>
