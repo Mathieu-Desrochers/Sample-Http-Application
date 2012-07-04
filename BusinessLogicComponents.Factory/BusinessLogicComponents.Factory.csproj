@@ -97,6 +97,11 @@
     <Content Include="Blueprints\Scheduling\NewSession\NewSessionOperation.xml" />
     <Content Include="Blueprints\Scheduling\SchedulingBusinessLogicComponent.xml" />
     <Content Include="Generators\BusinessLogicComponent\Blueprint.xml" />
+    <Content Include="Generators\BusinessLogicComponent\Snippets\DependencyInjection.txt">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DependencyInjection.tt</DependentUpon>
+    </Content>
     <Content Include="Generators\Operation\Blueprint.xml" />
     <Content Include="Generators\Operation\Snippets\Invocation.txt">
       <AutoGen>True</AutoGen>
@@ -117,6 +122,10 @@
     <None Include="Generators\BusinessLogicComponent\Interface\IBusinessLogicComponent.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>IBusinessLogicComponent.cs</LastGenOutput>
+    </None>
+    <None Include="Generators\BusinessLogicComponent\Snippets\DependencyInjection.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DependencyInjection.txt</LastGenOutput>
     </None>
     <None Include="Generators\BusinessLogicComponent\Tests\BusinessLogicComponentTestHarness.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

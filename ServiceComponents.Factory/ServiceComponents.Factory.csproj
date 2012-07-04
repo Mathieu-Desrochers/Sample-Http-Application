@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CBAA8BC1-C3CB-4CD6-BF2E-ECD89BBB4FA5}</ProjectGuid>
+    <ProjectGuid>{B1BD5820-130D-4659-80FB-44896EADEFBF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SampleHttpApplication.BusinessLogicComponents.Snippets</RootNamespace>
-    <AssemblyName>SampleHttpApplication.BusinessLogicComponents.Snippets</AssemblyName>
+    <RootNamespace>SampleHttpApplication.ServiceComponents.Factory</RootNamespace>
+    <AssemblyName>SampleHttpApplication.ServiceComponents.Factory</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,14 +39,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Generators\Common.cs">
+      <DependentUpon>Common.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Scheduling\GetSessions\Invocation.txt" />
-    <Content Include="Scheduling\GetSessions\Mocking.txt" />
-    <Content Include="Scheduling\DependencyInjection.txt" />
-    <Content Include="Scheduling\NewSession\Mocking.txt" />
-    <Content Include="Scheduling\NewSession\Invocation.txt" />
+    <Content Include="Blueprints\Scheduling\Sessions\SessionsController.xml" />
+    <Content Include="Generators\Controller\Blueprint.xml" />
+    <Content Include="Generators\Controller\Snippets\DependencyInjection.txt">
+      <DependentUpon>DependencyInjection.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Content>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="Generators\Common.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Common.cs</LastGenOutput>
+    </None>
+    <None Include="Generators\Controller\Snippets\DependencyInjection.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DependencyInjection.txt</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

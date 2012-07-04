@@ -1,0 +1,8 @@
+﻿
+  <unity xmlns="http://schemas.microsoft.com/practices/2010/unity">
+    <assembly name="SampleHttpApplication.BusinessLogicComponents.Code" />
+    <assembly name="SampleHttpApplication.BusinessLogicComponents.Interface" />
+    <container>
+      <register type="SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling.ISchedulingBusinessLogicComponent" mapTo="SampleHttpApplication.BusinessLogicComponents.Code.Scheduling.SchedulingBusinessLogicComponent" />
+    </container>
+  </unity>

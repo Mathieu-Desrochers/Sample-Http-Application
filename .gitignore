@@ -12,6 +12,7 @@ TestResults
 # Generated Code Files
 BusinessLogicComponents.Factory/Generators/BusinessLogicComponent/Code/BusinessLogicComponent.cs
 BusinessLogicComponents.Factory/Generators/BusinessLogicComponent/Interface/IBusinessLogicComponent.cs
+BusinessLogicComponents.Factory/Generators/BusinessLogicComponent/Snippets/DependencyInjection.txt
 BusinessLogicComponents.Factory/Generators/BusinessLogicComponent/Tests/BusinessLogicComponentTestHarness.cs
 BusinessLogicComponents.Factory/Generators/Operation/Code/Operation.cs
 BusinessLogicComponents.Factory/Generators/Operation/Code/OperationData.cs
@@ -29,6 +30,7 @@ DataAccessComponents.Factory/Generators/Snippets/Invocation.txt
 DataAccessComponents.Factory/Generators/Snippets/Mocking.txt
 DataAccessComponentTests.cs
 IDataAccessComponent.cs
+ServiceComponents.Factory/Generators/Controller/Snippets/DependencyInjection.txt
 TestTable.cs
 
 # Dependencies
