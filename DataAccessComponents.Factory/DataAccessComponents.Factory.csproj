@@ -74,6 +74,11 @@
   <ItemGroup>
     <Content Include="Blueprints\Session\SessionDataAccessComponent.xml" />
     <Content Include="Generators\Blueprint.xml" />
+    <Content Include="Generators\Snippets\DependencyInjection.txt">
+      <DependentUpon>DependencyInjection.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Content>
     <Content Include="Generators\Snippets\Mocking.txt">
       <DependentUpon>Mocking.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -102,6 +107,10 @@
     <None Include="Generators\Interface\IDataAccessComponent.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>IDataAccessComponent.cs</LastGenOutput>
+    </None>
+    <None Include="Generators\Snippets\DependencyInjection.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DependencyInjection.txt</LastGenOutput>
     </None>
     <None Include="Generators\Snippets\Mocking.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

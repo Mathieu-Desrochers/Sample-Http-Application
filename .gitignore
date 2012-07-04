@@ -24,6 +24,7 @@ BusinessLogicComponents.Factory/Generators/Operation/Tests/OperationTests.cs
 Common.cs
 DataRow.cs
 DataAccessComponent.cs
+DataAccessComponents.Factory/Generators/Snippets/DependencyInjection.txt
 DataAccessComponents.Factory/Generators/Snippets/Invocation.txt
 DataAccessComponents.Factory/Generators/Snippets/Mocking.txt
 DataAccessComponentTests.cs

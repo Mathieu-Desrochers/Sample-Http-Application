@@ -1,0 +1,23 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ include file="..\Common.tt" #>
+<#@ output extension=".txt" #>
+<#
+    string xmlPath = Host.ResolvePath(@"..\Blueprint.xml");
+    XElement xml = XElement.Load(xmlPath);
+#>
+
+  <unity xmlns="http://schemas.microsoft.com/practices/2010/unity">
+    <assembly name="SampleHttpApplication.DataAccessComponents.Code" />
+    <assembly name="SampleHttpApplication.DataAccessComponents.Interface" />
+    <container>
+      <register type="SampleHttpApplication.DataAccessComponents.Interface.IDatabaseConnectionProvider" mapTo="SampleHttpApplication.DataAccessComponents.Code.DatabaseConnectionProvider" />
+      <register type="SampleHttpApplication.DataAccessComponents.Interface.<#= (string)xml.Attribute("name") #>.I<#= (string)xml.Attribute("name") #>DataAccessComponent" mapTo="SampleHttpApplication.DataAccessComponents.Code.<#= (string)xml.Attribute("name") #>.<#= (string)xml.Attribute("name") #>DataAccessComponent" />
+    </container>
+  </unity>
