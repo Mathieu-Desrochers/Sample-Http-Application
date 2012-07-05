@@ -10,7 +10,7 @@ execution on another thread.
 
 ## Please show me
 
-The following <a href="https://docs.google.com/presentation/embed?id=1o_zgVjMeC7PGdy7MF216V-e0DJVwBcJbDhvZ5fl3Vro&start=false&loop=false&delayms=3000">slideshow</a>
+The following <a href="https://docs.google.com/presentation/embed?id=1DdCpFs9EYgmsFgImsViGXwinHkAsmOX702d7DtDIkEU&start=true&loop=false&delayms=3000">slideshow</a>
 illustrates how threads are used to serve a simplified POST request. 
 
 ## Why bother?
