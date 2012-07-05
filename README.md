@@ -28,6 +28,6 @@ CPU utilization: 19 %
 
 We can see that the benefits of keeping the CPUs available are twofold.
 Firstly, the CPUs can issue more concurrent IO requests, which reduces the
-total duration required for their execution. Secondly, the CPUs can execute
+total duration required for their completion. Secondly, the CPUs can execute
 other lines of code, which augments their utilization and makes better
 use of the available hardware.
