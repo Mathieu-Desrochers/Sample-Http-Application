@@ -10,7 +10,7 @@ of code will resume on a different thread.
 The following <a href="https://docs.google.com/presentation/embed?id=1DdCpFs9EYgmsFgImsViGXwinHkAsmOX702d7DtDIkEU&start=true&loop=false&delayms=3000" target="_blank">slideshow</a>
 illustrates how threads are used to serve a simplified POST request. 
 
-## Why bother?
+## Why bother
 
 A simple benchmark operation was used to insert, select, update
 and then delete a database row. The following results were obtained
@@ -27,7 +27,7 @@ Total duration: 2778 milliseconds
 CPU utilization: 19 %
 
 We can see that the benefits of keeping the CPUs available are twofold.
-First, the CPUs can issue more concurrent IO requests, which reduces the
-total duration required for their execution. Second, the CPUs can execute
+Firstly, the CPUs can issue more concurrent IO requests, which reduces the
+total duration required for their execution. Secondly, the CPUs can execute
 other lines of code, which augments their utilization and makes better
 use of the available hardware.
