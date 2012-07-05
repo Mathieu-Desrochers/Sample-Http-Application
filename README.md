@@ -13,7 +13,7 @@ execution on another thread.
 The following slideshow illustrates how threads
 are used to serve a simplified POST request.
 
-<iframe src="https://docs.google.com/presentation/embed?id=1o_zgVjMeC7PGdy7MF216V-e0DJVwBcJbDhvZ5fl3Vro&start=false&loop=false&delayms=3000" frameborder="0" width="960" height="749" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+<a href=""https://docs.google.com/presentation/embed?id=1o_zgVjMeC7PGdy7MF216V-e0DJVwBcJbDhvZ5fl3Vro&start=false&loop=false&delayms=3000">Click here to start the slideshow</a>
 
 ## Why bother?
 
