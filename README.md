@@ -8,6 +8,13 @@ relinquish the thread it is currently executing on. Then, once the
 blocking operation has completed, the code will resume its
 execution on another thread.
 
+## Please show me
+
+The following slideshow illustrates how threads
+are used to serve a simplified POST request.
+
+<iframe src="https://docs.google.com/presentation/embed?id=1o_zgVjMeC7PGdy7MF216V-e0DJVwBcJbDhvZ5fl3Vro&start=false&loop=false&delayms=3000" frameborder="0" width="960" height="749" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+
 ## Why bother?
 
 Let's conduct a simple benchmark on 1,000 sets of database operations
