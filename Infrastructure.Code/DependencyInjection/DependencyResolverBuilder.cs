@@ -12,14 +12,14 @@ using Microsoft.Practices.Unity.Configuration;
 namespace SampleHttpApplication.Infrastructure.Code.DependencyInjection
 {
     /// <summary>
-    /// Represents the dependency resolver factory.
+    /// Represents the dependency resolver builder.
     /// </summary>
-    public static class DependencyResolverFactory
+    public static class DependencyResolverBuilder
     {
         /// <summary>
         /// Builds the dependency resolver.
         /// </summary>
-        public static IDependencyResolver NewDependencyResolver()
+        public static IDependencyResolver BuildDependencyResolver()
         {
             // Build the Unity container.
             IUnityContainer unityContainer = new UnityContainer().LoadConfiguration();

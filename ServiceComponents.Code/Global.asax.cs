@@ -22,7 +22,7 @@ namespace SampleHttpApplication.ServiceComponents.Code
         protected void Application_Start()
         {
             // Register our dependency resolver.
-            GlobalConfiguration.Configuration.DependencyResolver = DependencyResolverFactory.NewDependencyResolver();
+            GlobalConfiguration.Configuration.DependencyResolver = DependencyResolverBuilder.BuildDependencyResolver();
 
             // Register the controller routes.
             SessionsController.RegisterRoutes(RouteTable.Routes);

@@ -179,7 +179,7 @@ namespace SampleHttpApplication.DataAccessComponents.Code.Session
                 this.SetSqlCommandParameterValues(sqlCommand, sessionDataRow, setPrimaryKeyValue: true);
 
                 // Execute the SQL command.
-                await sqlCommand.ExecuteScalarAsync();
+                await sqlCommand.ExecuteNonQueryAsync();
             }
         }
 
@@ -199,7 +199,7 @@ namespace SampleHttpApplication.DataAccessComponents.Code.Session
                 sqlCommand.Parameters.Add("@sessionID", SqlDbType.Int).Value = sessionDataRow.SessionID;
 
                 // Execute the SQL command.
-                await sqlCommand.ExecuteScalarAsync();
+                await sqlCommand.ExecuteNonQueryAsync();
             }
         }
     }

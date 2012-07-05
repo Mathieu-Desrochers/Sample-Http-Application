@@ -173,7 +173,7 @@ namespace SampleHttpApplication.DataAccessComponents.Code.<#= (string)xml.Attrib
                 this.SetSqlCommandParameterValues(sqlCommand, <#= CamelCased((string)xml.Attribute("name")) #>DataRow, setPrimaryKeyValue: true);
 
                 // Execute the SQL command.
-                await sqlCommand.ExecuteScalarAsync();
+                await sqlCommand.ExecuteNonQueryAsync();
             }
         }
 
@@ -193,7 +193,7 @@ namespace SampleHttpApplication.DataAccessComponents.Code.<#= (string)xml.Attrib
                 sqlCommand.Parameters.Add("@<#= CamelCased((string)xml.Attribute("name")) #>ID", SqlDbType.Int).Value = <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)xml.Attribute("name") #>ID;
 
                 // Execute the SQL command.
-                await sqlCommand.ExecuteScalarAsync();
+                await sqlCommand.ExecuteNonQueryAsync();
             }
         }
     }

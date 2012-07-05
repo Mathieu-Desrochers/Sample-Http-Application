@@ -20,7 +20,7 @@ namespace SampleHttpApplication.ServiceComponents.Code.Controllers.Scheduling.Se
     public partial class SessionsController
     {
         /// <summary>
-        /// Handles the POST HTTP method.
+        /// Handles the HTTP POST method.
         /// </summary>
         public async Task<HttpResponseMessage> Post(SessionResource sessionResource)
         {
