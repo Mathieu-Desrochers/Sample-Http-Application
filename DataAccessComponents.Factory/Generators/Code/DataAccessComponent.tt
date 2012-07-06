@@ -83,7 +83,7 @@ namespace SampleHttpApplication.DataAccessComponents.Code.<#= (string)xml.Attrib
                 // Execute the SQL command.
                 int <#= CamelCased((string)xml.Attribute("name")) #>ID = (int)await sqlCommand.ExecuteScalarAsync();
 
-                // Assign the generated <#= (string)xml.Attribute("name") #> ID.
+                // Assign the generated <#= (string)xml.Attribute("name") #>ID.
                 <#= CamelCased((string)xml.Attribute("name")) #>DataRow.<#= (string)xml.Attribute("name") #>ID = <#= CamelCased((string)xml.Attribute("name")) #>ID;
             }
         }
@@ -107,17 +107,18 @@ namespace SampleHttpApplication.DataAccessComponents.Code.<#= (string)xml.Attrib
 <#     } #>
 
                 // Execute the SQL command.
-                SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync();
-
-                // Read the <#= (string)xml.Attribute("name") #> data row.
-                <#= (string)xml.Attribute("name") #>DataRow <#= CamelCased((string)xml.Attribute("name")) #>DataRow = null;
-                if (await sqlDataReader.ReadAsync())
+                using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync())
                 {
-                    <#= CamelCased((string)xml.Attribute("name")) #>DataRow = this.GetSqlDataReaderValues(sqlDataReader);
-                }
+                    // Read the <#= (string)xml.Attribute("name") #> data row.
+                    <#= (string)xml.Attribute("name") #>DataRow <#= CamelCased((string)xml.Attribute("name")) #>DataRow = null;
+                    if (await sqlDataReader.ReadAsync())
+                    {
+                        <#= CamelCased((string)xml.Attribute("name")) #>DataRow = this.GetSqlDataReaderValues(sqlDataReader);
+                    }
 
-                // Return the <#= (string)xml.Attribute("name") #> data row.
-                return <#= CamelCased((string)xml.Attribute("name")) #>DataRow;
+                    // Return the <#= (string)xml.Attribute("name") #> data row.
+                    return <#= CamelCased((string)xml.Attribute("name")) #>DataRow;
+                }
             }
         }
 
@@ -141,18 +142,19 @@ namespace SampleHttpApplication.DataAccessComponents.Code.<#= (string)xml.Attrib
 <#     } #>
 
                 // Execute the SQL command.
-                SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync();
-
-                // Read the <#= (string)xml.Attribute("name") #> data rows.
-                List<<#= (string)xml.Attribute("name") #>DataRow> <#= CamelCased((string)xml.Attribute("name")) #>DataRows = new List<<#= (string)xml.Attribute("name") #>DataRow>();
-                while (await sqlDataReader.ReadAsync())
+                using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync())
                 {
-                    <#= (string)xml.Attribute("name") #>DataRow <#= CamelCased((string)xml.Attribute("name")) #>DataRow = this.GetSqlDataReaderValues(sqlDataReader);
-                    <#= CamelCased((string)xml.Attribute("name")) #>DataRows.Add(<#= CamelCased((string)xml.Attribute("name")) #>DataRow);
-                }
+                    // Read the <#= (string)xml.Attribute("name") #> data rows.
+                    List<<#= (string)xml.Attribute("name") #>DataRow> <#= CamelCased((string)xml.Attribute("name")) #>DataRows = new List<<#= (string)xml.Attribute("name") #>DataRow>();
+                    while (await sqlDataReader.ReadAsync())
+                    {
+                        <#= (string)xml.Attribute("name") #>DataRow <#= CamelCased((string)xml.Attribute("name")) #>DataRow = this.GetSqlDataReaderValues(sqlDataReader);
+                        <#= CamelCased((string)xml.Attribute("name")) #>DataRows.Add(<#= CamelCased((string)xml.Attribute("name")) #>DataRow);
+                    }
 
-                // Return the <#= (string)xml.Attribute("name") #> data rows.
-                return <#= CamelCased((string)xml.Attribute("name")) #>DataRows.ToArray();
+                    // Return the <#= (string)xml.Attribute("name") #> data rows.
+                    return <#= CamelCased((string)xml.Attribute("name")) #>DataRows.ToArray();
+                }
             }
         }
 

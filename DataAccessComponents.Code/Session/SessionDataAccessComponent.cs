@@ -70,7 +70,7 @@ namespace SampleHttpApplication.DataAccessComponents.Code.Session
                 // Execute the SQL command.
                 int sessionID = (int)await sqlCommand.ExecuteScalarAsync();
 
-                // Assign the generated Session ID.
+                // Assign the generated SessionID.
                 sessionDataRow.SessionID = sessionID;
             }
         }
@@ -91,17 +91,18 @@ namespace SampleHttpApplication.DataAccessComponents.Code.Session
                 sqlCommand.Parameters.Add("@sessionID", SqlDbType.Int).Value = sessionID;
 
                 // Execute the SQL command.
-                SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync();
-
-                // Read the Session data row.
-                SessionDataRow sessionDataRow = null;
-                if (await sqlDataReader.ReadAsync())
+                using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync())
                 {
-                    sessionDataRow = this.GetSqlDataReaderValues(sqlDataReader);
-                }
+                    // Read the Session data row.
+                    SessionDataRow sessionDataRow = null;
+                    if (await sqlDataReader.ReadAsync())
+                    {
+                        sessionDataRow = this.GetSqlDataReaderValues(sqlDataReader);
+                    }
 
-                // Return the Session data row.
-                return sessionDataRow;
+                    // Return the Session data row.
+                    return sessionDataRow;
+                }
             }
         }
 
@@ -121,17 +122,18 @@ namespace SampleHttpApplication.DataAccessComponents.Code.Session
                 sqlCommand.Parameters.Add("@sessionCode", SqlDbType.NVarChar, 50).Value = sessionCode;
 
                 // Execute the SQL command.
-                SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync();
-
-                // Read the Session data row.
-                SessionDataRow sessionDataRow = null;
-                if (await sqlDataReader.ReadAsync())
+                using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync())
                 {
-                    sessionDataRow = this.GetSqlDataReaderValues(sqlDataReader);
-                }
+                    // Read the Session data row.
+                    SessionDataRow sessionDataRow = null;
+                    if (await sqlDataReader.ReadAsync())
+                    {
+                        sessionDataRow = this.GetSqlDataReaderValues(sqlDataReader);
+                    }
 
-                // Return the Session data row.
-                return sessionDataRow;
+                    // Return the Session data row.
+                    return sessionDataRow;
+                }
             }
         }
 
@@ -147,19 +149,22 @@ namespace SampleHttpApplication.DataAccessComponents.Code.Session
                 SqlConnection sqlConnection = (databaseConnection as DatabaseConnection).SqlConnection;
                 sqlCommand.Connection = sqlConnection;
 
+                // Set the SQL command parameter values.
+
                 // Execute the SQL command.
-                SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync();
-
-                // Read the Session data rows.
-                List<SessionDataRow> sessionDataRows = new List<SessionDataRow>();
-                while (await sqlDataReader.ReadAsync())
+                using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync())
                 {
-                    SessionDataRow sessionDataRow = this.GetSqlDataReaderValues(sqlDataReader);
-                    sessionDataRows.Add(sessionDataRow);
-                }
+                    // Read the Session data rows.
+                    List<SessionDataRow> sessionDataRows = new List<SessionDataRow>();
+                    while (await sqlDataReader.ReadAsync())
+                    {
+                        SessionDataRow sessionDataRow = this.GetSqlDataReaderValues(sqlDataReader);
+                        sessionDataRows.Add(sessionDataRow);
+                    }
 
-                // Return the Session data rows.
-                return sessionDataRows.ToArray();
+                    // Return the Session data rows.
+                    return sessionDataRows.ToArray();
+                }
             }
         }
 
