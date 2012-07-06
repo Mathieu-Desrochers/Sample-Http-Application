@@ -47,9 +47,9 @@ namespace SampleHttpApplication.ServiceComponents.Code.Scheduling.Sessions
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.MapHttpRoute(
-                name: "AAA",
-                routeTemplate: "{controller}",
-                defaults: new { },
+                name: "",
+                routeTemplate: "api/scheduling/sessions",
+                defaults: new { controller = "Sessions" },
                 constraints: new { httpMethods = new HttpMethodConstraint("GET", "POST") });
         }
     }
