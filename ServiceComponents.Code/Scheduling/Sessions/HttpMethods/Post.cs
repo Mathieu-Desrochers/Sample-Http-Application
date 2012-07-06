@@ -10,9 +10,9 @@ using System.Web;
 
 using SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling.NewSession;
 using SampleHttpApplication.DataAccessComponents.Interface;
-using SampleHttpApplication.ServiceComponents.Interface.Controllers.Scheduling.Sessions;
+using SampleHttpApplication.ServiceComponents.Interface.Scheduling.Sessions;
 
-namespace SampleHttpApplication.ServiceComponents.Code.Controllers.Scheduling.Sessions
+namespace SampleHttpApplication.ServiceComponents.Code.Scheduling.Sessions
 {
     /// <summary>
     /// Represents the Sessions controller.

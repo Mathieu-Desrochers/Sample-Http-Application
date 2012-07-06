@@ -2,6 +2,6 @@
   <unity xmlns="http://schemas.microsoft.com/practices/2010/unity">
     <assembly name="SampleHttpApplication.ServiceComponents.Code" />
     <container>
-      <register type="SampleHttpApplication.ServiceComponents.Code.Controllers.Scheduling.Sessions.SessionsController" />
+      <register type="SampleHttpApplication.ServiceComponents.Code.Scheduling.Sessions.SessionsController" />
     </container>
   </unity>

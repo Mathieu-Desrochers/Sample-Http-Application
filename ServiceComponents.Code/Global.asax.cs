@@ -7,7 +7,7 @@ using System.Web.Http;
 using System.Web.Routing;
 
 using SampleHttpApplication.Infrastructure.Code.DependencyInjection;
-using SampleHttpApplication.ServiceComponents.Code.Controllers.Scheduling.Sessions;
+using SampleHttpApplication.ServiceComponents.Code.Scheduling.Sessions;
 
 namespace SampleHttpApplication.ServiceComponents.Code
 {

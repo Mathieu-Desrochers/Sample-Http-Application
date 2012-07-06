@@ -12,7 +12,7 @@ using SampleHttpApplication.DataAccessComponents.Code;
 using SampleHttpApplication.DataAccessComponents.Code.Session;
 using SampleHttpApplication.DataAccessComponents.Interface;
 
-namespace SampleHttpApplication.ServiceComponents.Code.Controllers.Scheduling.Sessions
+namespace SampleHttpApplication.ServiceComponents.Code.Scheduling.Sessions
 {
     /// <summary>
     /// Represents the Sessions controller.
@@ -47,9 +47,9 @@ namespace SampleHttpApplication.ServiceComponents.Code.Controllers.Scheduling.Se
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.MapHttpRoute(
-                name: "scheduling/sessions",
-                routeTemplate: "scheduling/sessions",
-                defaults: new { controller = "Sessions" },
+                name: "AAA",
+                routeTemplate: "{controller}",
+                defaults: new { },
                 constraints: new { httpMethods = new HttpMethodConstraint("GET", "POST") });
         }
     }

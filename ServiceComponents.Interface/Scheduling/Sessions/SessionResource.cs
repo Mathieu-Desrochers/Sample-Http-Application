@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SampleHttpApplication.ServiceComponents.Interface.Controllers.Scheduling.Sessions
+namespace SampleHttpApplication.ServiceComponents.Interface.Scheduling.Sessions
 {
     /// <summary>
     /// Represents the Session resource.

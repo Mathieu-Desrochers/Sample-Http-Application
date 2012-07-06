@@ -16,6 +16,6 @@
   <unity xmlns="http://schemas.microsoft.com/practices/2010/unity">
     <assembly name="SampleHttpApplication.ServiceComponents.Code" />
     <container>
-      <register type="SampleHttpApplication.ServiceComponents.Code.Controllers.<#= (string)xml.Attribute("name") #>.<#= (string)xml.Element("controller").Attribute("name") #>.<#= (string)xml.Element("controller").Attribute("name") #>Controller" />
+      <register type="SampleHttpApplication.ServiceComponents.Code.<#= (string)xml.Attribute("name") #>.<#= (string)xml.Element("controller").Attribute("name") #>.<#= (string)xml.Element("controller").Attribute("name") #>Controller" />
     </container>
   </unity>
