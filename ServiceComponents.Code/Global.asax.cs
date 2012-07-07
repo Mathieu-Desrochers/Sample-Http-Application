@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
-using System.Web.Mvc;
 using System.Web.Routing;
 
 using SampleHttpApplication.Infrastructure.Code.DependencyInjection;
@@ -23,8 +22,9 @@ namespace SampleHttpApplication.ServiceComponents.Code
         /// </summary>
         protected void Application_Start()
         {
-            // Register the error handling filter.
-            GlobalFilters.Filters.Add(new HandleErrorAttribute());
+            // Register the error handling filters.
+            GlobalConfiguration.Configuration.Filters.Add(new ServiceExceptionFilterAttribute());
+            GlobalConfiguration.Configuration.Filters.Add(new UnhandledExceptionFilterAttribute());
 
             // Register the dependency resolver.
             GlobalConfiguration.Configuration.DependencyResolver = DependencyResolverBuilder.BuildDependencyResolver();
