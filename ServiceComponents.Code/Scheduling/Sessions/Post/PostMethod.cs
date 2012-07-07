@@ -50,7 +50,7 @@ namespace SampleHttpApplication.ServiceComponents.Code.Scheduling.Sessions
                 ServiceException serviceException = new ServiceException(serviceExceptionMessage, ex);
 
                 // Build the service exception details.
-                ServiceException.ServiceExceptionDetails serviceExceptionDetails = new ServiceException.ServiceExceptionDetails();
+                ServiceExceptionDetails serviceExceptionDetails = new ServiceExceptionDetails();
                 serviceExceptionDetails.ErrorCode = ex.ErrorCode.ToString();
                 serviceException.Details = serviceExceptionDetails;
 

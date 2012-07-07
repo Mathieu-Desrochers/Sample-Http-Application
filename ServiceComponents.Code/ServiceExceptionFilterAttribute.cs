@@ -22,7 +22,7 @@ namespace SampleHttpApplication.ServiceComponents.Code
         public override void OnException(HttpActionExecutedContext httpActionExecutedContext)
         {
             // Handle service exceptions only.
-            ServiceExceptionBase serviceException = httpActionExecutedContext.Exception as ServiceExceptionBase;
+            ServiceException serviceException = httpActionExecutedContext.Exception as ServiceException;
             if (serviceException == null)
             {
                 return;

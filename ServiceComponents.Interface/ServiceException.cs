@@ -8,27 +8,31 @@ using System.Threading.Tasks;
 namespace SampleHttpApplication.ServiceComponents.Interface
 {
     /// <summary>
+    /// Represents the service exception details.
+    /// </summary>
+    public class ServiceExceptionDetails
+    {
+        /// <summary>
+        /// Gets or sets the ErrorCode.
+        /// </summary>
+        public string ErrorCode { get; set; }
+    }
+
+    /// <summary>
     /// Represents the service exception.
     /// </summary>
-    public class ServiceException : ServiceExceptionBase
+    public class ServiceException : Exception
     {
         /// <summary>
         /// Initialization constructor.
         /// </summary>
-        public ServiceException(string message, Exception innerException) :
-            base(message, innerException)
+        public ServiceException(string message, Exception innerException)
         {
         }
 
         /// <summary>
-        /// Represents the service exception details.
+        /// Gets or sets the service exception details.
         /// </summary>
-        public class ServiceExceptionDetails
-        {
-            /// <summary>
-            /// Gets or sets the ErrorCode.
-            /// </summary>
-            public string ErrorCode { get; set; }
-        }
+        public ServiceExceptionDetails Details { get; set; }
     }
 }

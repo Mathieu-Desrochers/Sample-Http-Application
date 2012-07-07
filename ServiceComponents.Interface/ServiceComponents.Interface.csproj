@@ -42,7 +42,6 @@
     <Compile Include="ServiceException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scheduling\Sessions\SessionResource.cs" />
-    <Compile Include="ServiceExceptionBase.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
