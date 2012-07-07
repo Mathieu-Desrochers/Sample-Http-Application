@@ -69,11 +69,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ServiceExceptionFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scheduling\Sessions\HttpMethods\Post.cs" />
+    <Compile Include="Scheduling\Sessions\Post\PostMethod.cs" />
     <Compile Include="Scheduling\Sessions\SessionsController.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -17,6 +17,7 @@ namespace SampleHttpApplication.ServiceComponents.Code.Scheduling.Sessions
     /// <summary>
     /// Represents the Sessions controller.
     /// </summary>
+    [ServiceExceptionFilter]
     public partial class SessionsController : ApiController
     {
         /// <summary>
