@@ -18,17 +18,17 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
     public partial class SchedulingBusinessLogicComponent
     {
         /// <summary>
-        /// Throws a GetSessions business exception.
+        /// Builds a GetSessions business exception.
         /// </summary>
-        private void ThrowGetSessionsBusinessException(GetSessionsBusinessException.ErrorCodes errorCode)
+        private GetSessionsBusinessException BuildGetSessionsBusinessException(GetSessionsBusinessException.ErrorCodes errorCode)
         {
             // Build the GetSessions business exception.
             GetSessionsBusinessException businessException = new GetSessionsBusinessException();
-            businessException.ErrorMessage = String.Format("The SchedulingBusinessLogicComponent.GetSessions() business operation has thrown the {0} error code.", errorCode);
+            businessException.ErrorMessage = String.Format("SchedulingBusinessLogicComponent.GetSessions() has thrown the error code {0}.", errorCode);
             businessException.ErrorCode = errorCode;
 
-            // Throw the GetSessions business exception.
-            throw businessException;
+            // Return the GetSessions business exception.
+            return businessException;
         }
 
         /// <summary>

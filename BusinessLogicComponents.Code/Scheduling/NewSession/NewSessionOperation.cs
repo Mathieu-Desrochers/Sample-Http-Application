@@ -18,17 +18,17 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
     public partial class SchedulingBusinessLogicComponent
     {
         /// <summary>
-        /// Throws a NewSession business exception.
+        /// Builds a NewSession business exception.
         /// </summary>
-        private void ThrowNewSessionBusinessException(NewSessionBusinessException.ErrorCodes errorCode)
+        private NewSessionBusinessException BuildNewSessionBusinessException(NewSessionBusinessException.ErrorCodes errorCode)
         {
             // Build the NewSession business exception.
             NewSessionBusinessException businessException = new NewSessionBusinessException();
-            businessException.ErrorMessage = String.Format("The SchedulingBusinessLogicComponent.NewSession() business operation has thrown the {0} error code.", errorCode);
+            businessException.ErrorMessage = String.Format("SchedulingBusinessLogicComponent.NewSession() has thrown the error code {0}.", errorCode);
             businessException.ErrorCode = errorCode;
 
-            // Throw the NewSession business exception.
-            throw businessException;
+            // Return the NewSession business exception.
+            return businessException;
         }
 
         /// <summary>
@@ -39,20 +39,23 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
             // Validate the InvalidSessionCode error code.
             if (!ValidatorHelper.ValidateProperty("SessionCode", businessRequest.Session, businessRequest.Session.SessionCode))
             {
-                ThrowNewSessionBusinessException(NewSessionBusinessException.ErrorCodes.InvalidSessionCode);
+                NewSessionBusinessException businessException = this.BuildNewSessionBusinessException(NewSessionBusinessException.ErrorCodes.InvalidSessionCode);
+                throw businessException;
             }
 
             // Validate the DuplicateSessionCode error code.
             operationData.SessionDataRow = await this.sessionDataAccessComponent.ReadBySessionCode(databaseConnection, businessRequest.Session.SessionCode);
             if (operationData.SessionDataRow != null)
             {
-                ThrowNewSessionBusinessException(NewSessionBusinessException.ErrorCodes.DuplicateSessionCode);
+                NewSessionBusinessException businessException = this.BuildNewSessionBusinessException(NewSessionBusinessException.ErrorCodes.DuplicateSessionCode);
+                throw businessException;
             }
 
             // Validate the InvalidName error code.
             if (!ValidatorHelper.ValidateProperty("Name", businessRequest.Session, businessRequest.Session.Name))
             {
-                ThrowNewSessionBusinessException(NewSessionBusinessException.ErrorCodes.InvalidName);
+                NewSessionBusinessException businessException = this.BuildNewSessionBusinessException(NewSessionBusinessException.ErrorCodes.InvalidName);
+                throw businessException;
             }
         }
 

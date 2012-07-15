@@ -37,17 +37,17 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.<#= (string)xml.Att
     public partial class SchedulingBusinessLogicComponent
     {
         /// <summary>
-        /// Throws a <#= (string)xml.Element("operation").Attribute("name") #> business exception.
+        /// Builds a <#= (string)xml.Element("operation").Attribute("name") #> business exception.
         /// </summary>
-        private void Throw<#= (string)xml.Element("operation").Attribute("name") #>BusinessException(<#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorCodes errorCode)
+        private <#= (string)xml.Element("operation").Attribute("name") #>BusinessException Build<#= (string)xml.Element("operation").Attribute("name") #>BusinessException(<#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorCodes errorCode)
         {
             // Build the <#= (string)xml.Element("operation").Attribute("name") #> business exception.
             <#= (string)xml.Element("operation").Attribute("name") #>BusinessException businessException = new <#= (string)xml.Element("operation").Attribute("name") #>BusinessException();
-            businessException.ErrorMessage = String.Format("The <#= (string)xml.Attribute("name") #>BusinessLogicComponent.<#= (string)xml.Element("operation").Attribute("name") #>() business operation has thrown the {0} error code.", errorCode);
+            businessException.ErrorMessage = String.Format("<#= (string)xml.Attribute("name") #>BusinessLogicComponent.<#= (string)xml.Element("operation").Attribute("name") #>() has thrown the error code {0}.", errorCode);
             businessException.ErrorCode = errorCode;
 
-            // Throw the <#= (string)xml.Element("operation").Attribute("name") #> business exception.
-            throw businessException;
+            // Return the <#= (string)xml.Element("operation").Attribute("name") #> business exception.
+            return businessException;
         }
 
         /// <summary>
@@ -59,7 +59,8 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.<#= (string)xml.Att
             // Validate the <#= (string)error.Attribute("code") #> error code.
             if (!ValidatorHelper.ValidateProperty("", businessRequest., businessRequest..))
             {
-                Throw<#= (string)xml.Element("operation").Attribute("name") #>BusinessException(<#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorCodes.<#= (string)error.Attribute("code") #>);
+                <#= (string)xml.Element("operation").Attribute("name") #>BusinessException businessException = this.Build<#= (string)xml.Element("operation").Attribute("name") #>BusinessException(<#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorCodes.<#= (string)error.Attribute("code") #>);
+                throw businessException;
             }
 <# }, () => { #>
 
@@ -88,12 +89,13 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.<#= (string)xml.Att
                 // Translate the  error code.
                 if (ex.ErrorCode == <#= (string)businessLogicComponent.Attribute("operation") #>BusinessException.ErrorCodes.)
                 {
-                    Throw<#= (string)xml.Element("operation").Attribute("name") #>BusinessException(<#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorCodes.);
+                    <#= (string)xml.Element("operation").Attribute("name") #>BusinessException businessException = this.Build<#= (string)xml.Element("operation").Attribute("name") #>BusinessException(<#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorCodes.);
+                    throw businessException;
                 }
 
                 // Unexpected error codes denote a problem in this operation.
                 // Do not allow <#= (string)businessLogicComponent.Attribute("operation") #> business exceptions to show through.
-                string unexpectedExceptionMessage = String.Format("The <#= (string)xml.Attribute("name") #>BusinessLogicComponent.<#= (string)xml.Element("operation").Attribute("name") #>() business operation has caught the unexpected error code {0} while invoking the <#= (string)businessLogicComponent.Attribute("name") #>BusinessLogicComponent.<#= (string)businessLogicComponent.Attribute("operation") #>() business operation.", ex.ErrorCode);
+                string unexpectedExceptionMessage = String.Format("<#= (string)xml.Attribute("name") #>BusinessLogicComponent.<#= (string)xml.Element("operation").Attribute("name") #>() has invoked <#= (string)businessLogicComponent.Attribute("name") #>BusinessLogicComponent.<#= (string)businessLogicComponent.Attribute("operation") #>() and has caught the unexpected error code {0}.", ex.ErrorCode);
                 Exception unexpectedException = new Exception(unexpectedExceptionMessage, ex);
                 throw unexpectedException;
             }
