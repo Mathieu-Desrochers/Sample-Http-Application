@@ -21,16 +21,14 @@ namespace SampleHttpApplication.ServiceComponents.Code
         /// </summary>
         public override void OnException(HttpActionExecutedContext httpActionExecutedContext)
         {
-            // Service exceptions have their own exception filter.
+            // Service exceptions are handled by their own filter.
             if (httpActionExecutedContext.Exception is ServiceException)
             {
                 return;
             }
 
-            // Build the HTTP response message with the InternalServerError status code.
+            // Return an HTTP response message with the InternalServerError status code.
             HttpResponseMessage httpResponseMessage = httpActionExecutedContext.Request.CreateResponse(HttpStatusCode.InternalServerError);
-
-            // Return the HTTP response message.
             httpActionExecutedContext.Response = httpResponseMessage;
         }
     }

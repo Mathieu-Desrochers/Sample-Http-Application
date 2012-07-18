@@ -21,19 +21,23 @@ namespace SampleHttpApplication.ServiceComponents.Code
         /// </summary>
         public override void OnException(HttpActionExecutedContext httpActionExecutedContext)
         {
-            // Handle service exceptions only.
-            ServiceException serviceException = httpActionExecutedContext.Exception as ServiceException;
-            if (serviceException == null)
+            // Handle the InvalidFields service exceptions.
+            InvalidFieldsServiceException invalidFieldsServiceException = httpActionExecutedContext.Exception as InvalidFieldsServiceException;
+            if (invalidFieldsServiceException != null)
             {
-                return;
+                // Return an HTTP response message containing the invalid fields.
+                HttpResponseMessage httpResponseMessage = httpActionExecutedContext.Request.CreateResponse(HttpStatusCode.BadRequest, invalidFieldsServiceException.Details);
+                httpActionExecutedContext.Response = httpResponseMessage;
             }
 
-            // Build the HTTP response message with the BadRequest status code.
-            // Set the content to the service exception details.
-            HttpResponseMessage httpResponseMessage = httpActionExecutedContext.Request.CreateResponse(HttpStatusCode.BadRequest, serviceException.Details);
-
-            // Return the HTTP response message.
-            httpActionExecutedContext.Response = httpResponseMessage;
+            // Handle the ErrorCode service exceptions.
+            ErrorCodeServiceException errorCodeServiceException = httpActionExecutedContext.Exception as ErrorCodeServiceException;
+            if (errorCodeServiceException != null)
+            {
+                // Return an HTTP response message containing the error code.
+                HttpResponseMessage httpResponseMessage = httpActionExecutedContext.Request.CreateResponse(HttpStatusCode.BadRequest, errorCodeServiceException.Details);
+                httpActionExecutedContext.Response = httpResponseMessage;
+            }
         }
     }
 }

@@ -149,8 +149,6 @@ namespace SampleHttpApplication.DataAccessComponents.Code.Session
                 SqlConnection sqlConnection = (databaseConnection as DatabaseConnection).SqlConnection;
                 sqlCommand.Connection = sqlConnection;
 
-                // Set the SQL command parameter values.
-
                 // Execute the SQL command.
                 using (SqlDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync())
                 {

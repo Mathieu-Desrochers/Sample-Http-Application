@@ -69,6 +69,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Scheduling\Sessions\Get\GetMethod.cs" />
     <Compile Include="UnhandledExceptionFilterAttribute.cs" />
     <Compile Include="ServiceExceptionFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">

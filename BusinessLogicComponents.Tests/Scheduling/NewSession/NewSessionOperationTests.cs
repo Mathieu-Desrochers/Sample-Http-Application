@@ -112,7 +112,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewSess
 
                 // Validate the NewSession business exception.
                 Assert.AreEqual(NewSessionBusinessException.ErrorCodes.InvalidSessionCode, newSessionBusinessException.ErrorCode);
-                Assert.AreEqual("The SchedulingBusinessLogicComponent.NewSession() business operation has thrown the InvalidSessionCode error code.", newSessionBusinessException.Message);
+                Assert.AreEqual("SchedulingBusinessLogicComponent.NewSession() has thrown the error code InvalidSessionCode.", newSessionBusinessException.Message);
             }
         }
 
@@ -187,7 +187,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewSess
 
                 // Validate the NewSession business exception.
                 Assert.AreEqual(NewSessionBusinessException.ErrorCodes.DuplicateSessionCode, newSessionBusinessException.ErrorCode);
-                Assert.AreEqual("The SchedulingBusinessLogicComponent.NewSession() business operation has thrown the DuplicateSessionCode error code.", newSessionBusinessException.Message);
+                Assert.AreEqual("SchedulingBusinessLogicComponent.NewSession() has thrown the error code DuplicateSessionCode.", newSessionBusinessException.Message);
             }
         }
 
@@ -234,7 +234,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewSess
 
                 // Validate the NewSession business exception.
                 Assert.AreEqual(NewSessionBusinessException.ErrorCodes.InvalidName, newSessionBusinessException.ErrorCode);
-                Assert.AreEqual("The SchedulingBusinessLogicComponent.NewSession() business operation has thrown the InvalidName error code.", newSessionBusinessException.Message);
+                Assert.AreEqual("SchedulingBusinessLogicComponent.NewSession() has thrown the error code InvalidName.", newSessionBusinessException.Message);
             }
         }
 
