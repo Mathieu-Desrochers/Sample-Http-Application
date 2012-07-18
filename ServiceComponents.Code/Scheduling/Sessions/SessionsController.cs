@@ -2,10 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Web;
 using System.Web.Http;
-using System.Web.Routing;
-
+using System.Web.Http.Routing;
 using SampleHttpApplication.BusinessLogicComponents.Code.Scheduling;
 using SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling;
 using SampleHttpApplication.DataAccessComponents.Code;
@@ -17,7 +17,6 @@ namespace SampleHttpApplication.ServiceComponents.Code.Scheduling.Sessions
     /// <summary>
     /// Represents the Sessions controller.
     /// </summary>
-    [ServiceExceptionFilter]
     public partial class SessionsController : ApiController
     {
         /// <summary>
@@ -45,13 +44,17 @@ namespace SampleHttpApplication.ServiceComponents.Code.Scheduling.Sessions
         /// <summary>
         /// Registers the HTTP routes.
         /// </summary>
-        public static void RegisterRoutes(RouteCollection routes)
+        public static void RegisterRoutes(HttpRouteCollection httpRouteCollection)
         {
-            routes.MapHttpRoute(
+            // Build the HTTP method contraint.
+            HttpMethodConstraint httpMethodConstraint = new HttpMethodConstraint(HttpMethod.Get, HttpMethod.Post);
+
+            // Map the HTTP route.
+            httpRouteCollection.MapHttpRoute(
                 name: "",
                 routeTemplate: "api/scheduling/sessions",
                 defaults: new { controller = "Sessions" },
-                constraints: new { httpMethods = new HttpMethodConstraint("GET", "POST") });
+                constraints: new { httpMethods = httpMethodConstraint });
         }
     }
 }
