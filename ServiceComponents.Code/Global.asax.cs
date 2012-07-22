@@ -5,6 +5,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Http;
 
+using Newtonsoft.Json.Serialization;
+
 using SampleHttpApplication.Infrastructure.Code.DependencyInjection;
 using SampleHttpApplication.ServiceComponents.Code.Scheduling.Sessions;
 using SampleHttpApplication.ServiceComponents.Interface;
@@ -21,9 +23,12 @@ namespace SampleHttpApplication.ServiceComponents.Code
         /// </summary>
         public static void ConfigureApplication(HttpConfiguration httpConfiguration)
         {
+            // Configure the JSON formatter.
+            httpConfiguration.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+
             // Register the error handling filters.
-            GlobalConfiguration.Configuration.Filters.Add(new ServiceExceptionFilterAttribute());
-            GlobalConfiguration.Configuration.Filters.Add(new UnhandledExceptionFilterAttribute());
+            httpConfiguration.Filters.Add(new ServiceExceptionFilterAttribute());
+            httpConfiguration.Filters.Add(new UnhandledExceptionFilterAttribute());
 
             // Register the controller routes.
             SessionsController.RegisterRoutes(httpConfiguration.Routes);

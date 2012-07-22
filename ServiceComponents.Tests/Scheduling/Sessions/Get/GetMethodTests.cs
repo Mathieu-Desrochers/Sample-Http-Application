@@ -28,7 +28,7 @@ namespace SampleHttpApplication.ServiceComponents.Tests.Scheduling.Sessions.Get
         public void ShouldReturnZeroSessionResources()
         {
             // Build the test harness.
-            SessionsControllerTestHarness testHarness = new SessionsControllerTestHarness(true);
+            SessionsControllerTestHarness testHarness = new SessionsControllerTestHarness(true, true);
 
             // Mock the invocation of the GetSessions business operation.
             testHarness.MockedSchedulingBusinessLogicComponent
@@ -41,7 +41,7 @@ namespace SampleHttpApplication.ServiceComponents.Tests.Scheduling.Sessions.Get
                 .Verifiable();
 
             // Invoke the HTTP GET method.
-            HttpRequestMessage httpRequestMessage = testHarness.BuildHttpRequest(HttpMethod.Get, "api/scheduling/sessions", "application/json");
+            HttpRequestMessage httpRequestMessage = testHarness.BuildHttpRequest(HttpMethod.Get, "api/scheduling/sessions");
             HttpResponseMessage httpResponseMessage = testHarness.HttpClient.SendAsync(httpRequestMessage).Result;
 
             // Verify the mocked components.
@@ -64,7 +64,7 @@ namespace SampleHttpApplication.ServiceComponents.Tests.Scheduling.Sessions.Get
         public void ShouldReturnOneSessionResource()
         {
             // Build the test harness.
-            SessionsControllerTestHarness testHarness = new SessionsControllerTestHarness(true);
+            SessionsControllerTestHarness testHarness = new SessionsControllerTestHarness(true, true);
 
             // Mock the invocation of the GetSessions business operation.
             testHarness.MockedSchedulingBusinessLogicComponent
@@ -87,7 +87,7 @@ namespace SampleHttpApplication.ServiceComponents.Tests.Scheduling.Sessions.Get
                 .Verifiable();
 
             // Invoke the HTTP GET method.
-            HttpRequestMessage httpRequestMessage = testHarness.BuildHttpRequest(HttpMethod.Get, "api/scheduling/sessions", "application/json");
+            HttpRequestMessage httpRequestMessage = testHarness.BuildHttpRequest(HttpMethod.Get, "api/scheduling/sessions");
             HttpResponseMessage httpResponseMessage = testHarness.HttpClient.SendAsync(httpRequestMessage).Result;
 
             // Verify the mocked components.
@@ -97,10 +97,10 @@ namespace SampleHttpApplication.ServiceComponents.Tests.Scheduling.Sessions.Get
             StringBuilder expectedJsonContent = new StringBuilder();
             expectedJsonContent.Append("[");
             expectedJsonContent.Append("{");
-            expectedJsonContent.Append("\"SessionID\":10001,");
-            expectedJsonContent.Append("\"SessionCode\":\"Session-A\",");
-            expectedJsonContent.Append("\"Name\":\"Session Alpha\",");
-            expectedJsonContent.Append("\"StartDate\":\"2001-01-01T00:00:00\"");
+            expectedJsonContent.Append("\"sessionID\":10001,");
+            expectedJsonContent.Append("\"sessionCode\":\"Session-A\",");
+            expectedJsonContent.Append("\"name\":\"Session Alpha\",");
+            expectedJsonContent.Append("\"startDate\":\"2001-01-01T00:00:00\"");
             expectedJsonContent.Append("}");
             expectedJsonContent.Append("]");
 
@@ -116,7 +116,7 @@ namespace SampleHttpApplication.ServiceComponents.Tests.Scheduling.Sessions.Get
         public void ShouldReturnMultipleSessionResources()
         {
             // Build the test harness.
-            SessionsControllerTestHarness testHarness = new SessionsControllerTestHarness(true);
+            SessionsControllerTestHarness testHarness = new SessionsControllerTestHarness(true, true);
 
             // Mock the invocation of the GetSessions business operation.
             testHarness.MockedSchedulingBusinessLogicComponent
@@ -157,7 +157,7 @@ namespace SampleHttpApplication.ServiceComponents.Tests.Scheduling.Sessions.Get
                 .Verifiable();
 
             // Invoke the HTTP GET method.
-            HttpRequestMessage httpRequestMessage = testHarness.BuildHttpRequest(HttpMethod.Get, "api/scheduling/sessions", "application/json");
+            HttpRequestMessage httpRequestMessage = testHarness.BuildHttpRequest(HttpMethod.Get, "api/scheduling/sessions");
             HttpResponseMessage httpResponseMessage = testHarness.HttpClient.SendAsync(httpRequestMessage).Result;
 
             // Verify the mocked components.
@@ -167,22 +167,22 @@ namespace SampleHttpApplication.ServiceComponents.Tests.Scheduling.Sessions.Get
             StringBuilder expectedJsonContent = new StringBuilder();
             expectedJsonContent.Append("[");
             expectedJsonContent.Append("{");
-            expectedJsonContent.Append("\"SessionID\":10001,");
-            expectedJsonContent.Append("\"SessionCode\":\"Session-A\",");
-            expectedJsonContent.Append("\"Name\":\"Session Alpha\",");
-            expectedJsonContent.Append("\"StartDate\":\"2001-01-01T00:00:00\"");
+            expectedJsonContent.Append("\"sessionID\":10001,");
+            expectedJsonContent.Append("\"sessionCode\":\"Session-A\",");
+            expectedJsonContent.Append("\"name\":\"Session Alpha\",");
+            expectedJsonContent.Append("\"startDate\":\"2001-01-01T00:00:00\"");
             expectedJsonContent.Append("},");
             expectedJsonContent.Append("{");
-            expectedJsonContent.Append("\"SessionID\":10002,");
-            expectedJsonContent.Append("\"SessionCode\":\"Session-B\",");
-            expectedJsonContent.Append("\"Name\":\"Session Bravo\",");
-            expectedJsonContent.Append("\"StartDate\":\"2002-02-02T00:00:00\"");
+            expectedJsonContent.Append("\"sessionID\":10002,");
+            expectedJsonContent.Append("\"sessionCode\":\"Session-B\",");
+            expectedJsonContent.Append("\"name\":\"Session Bravo\",");
+            expectedJsonContent.Append("\"startDate\":\"2002-02-02T00:00:00\"");
             expectedJsonContent.Append("},");
             expectedJsonContent.Append("{");
-            expectedJsonContent.Append("\"SessionID\":10003,");
-            expectedJsonContent.Append("\"SessionCode\":\"Session-C\",");
-            expectedJsonContent.Append("\"Name\":\"Session Charlie\",");
-            expectedJsonContent.Append("\"StartDate\":\"2003-03-03T00:00:00\"");
+            expectedJsonContent.Append("\"sessionID\":10003,");
+            expectedJsonContent.Append("\"sessionCode\":\"Session-C\",");
+            expectedJsonContent.Append("\"name\":\"Session Charlie\",");
+            expectedJsonContent.Append("\"startDate\":\"2003-03-03T00:00:00\"");
             expectedJsonContent.Append("}");
             expectedJsonContent.Append("]");
 

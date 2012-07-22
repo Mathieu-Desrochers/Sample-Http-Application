@@ -15,14 +15,25 @@ namespace SampleHttpApplication.Infrastructure.Code.Http
         /// </summary>
         public static string[] GetInvalidFields(this ModelStateDictionary modelStateDictionary)
         {
-            // Get the invalid fields.
-            string[] invalidFields = modelStateDictionary
+            // Get the invalid model state keys.
+            string[] invalidModelStateKeys = modelStateDictionary
                 .Where(modelStateEntry => modelStateEntry.Value.Errors.Any())
                 .Select(modelStateEntry => modelStateEntry.Key)
                 .ToArray();
 
+            // The invalid model state keys contain type names.
+            // We are only interested in their properties.
+            string[] invalidFields = invalidModelStateKeys
+                .Select(invalidModelStateKey => invalidModelStateKey.Split('.').Last())
+                .ToArray();
+
+            // Camel case the invalid fields.
+            string[] camelCasedInvalidFields = invalidFields
+                .Select(invalidField => invalidField.Substring(0, 1).ToLower() + invalidField.Substring(1))
+                .ToArray();
+
             // Return the invalid fields.
-            return invalidFields;
+            return camelCasedInvalidFields;
         }
     }
 }
