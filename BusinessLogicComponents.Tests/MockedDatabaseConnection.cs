@@ -23,6 +23,14 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests
         }
 
         /// <summary>
+        /// Begins a database transaction
+        /// </summary>
+        public IDatabaseTransaction BeginDatabaseTransaction()
+        {
+            return null;
+        }
+
+        /// <summary>
         /// Disposes of the database connection.
         /// </summary>
         public void Dispose()

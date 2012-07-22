@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="IDatabaseConnection.cs" />
     <Compile Include="IDatabaseConnectionProvider.cs" />
+    <Compile Include="IDatabaseTransaction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Session\ISessionDataAccessComponent.cs" />
     <Compile Include="Session\SessionDataRow.cs" />

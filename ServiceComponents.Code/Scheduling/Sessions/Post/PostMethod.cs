@@ -73,16 +73,18 @@ namespace SampleHttpApplication.ServiceComponents.Code.Scheduling.Sessions
                 throw invalidFieldsServiceException;
             }
 
-            // Open a database connection.
-            // Well, a transaction scope would be usefull here.
-            // Watchout for: TransactionScope doit être supprimé sur le même thread que celui où il a été créé
+            // Open a database connection and begin a database transaction.
             using (IDatabaseConnection databaseConnection = await this.databaseConnectionProvider.OpenDatabaseConnection())
+            using (IDatabaseTransaction databaseTransaction = databaseConnection.BeginDatabaseTransaction())
             {
                 // Invoke the NewSession business operation.
                 NewSessionBusinessResponse newSessionBusinessResponse = await this.InvokeNewSession(databaseConnection, sessionResource);
 
                 // Update the Session resource.
                 sessionResource.SessionID = newSessionBusinessResponse.Session.SessionID;
+
+                // Commit the database transaction.
+                databaseTransaction.Commit();
 
                 // Build an HTTP response message containing the Session resource.
                 HttpResponseMessage httpResponseMessage = this.Request.CreateResponse<SessionResource>(HttpStatusCode.Created, sessionResource);

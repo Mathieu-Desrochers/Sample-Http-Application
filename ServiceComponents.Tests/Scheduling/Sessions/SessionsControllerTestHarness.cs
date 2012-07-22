@@ -24,6 +24,16 @@ namespace SampleHttpApplication.ServiceComponents.Tests.Scheduling.Sessions
     public class SessionsControllerTestHarness
     {
         /// <summary>
+        /// The mocked database transaction.
+        /// </summary>
+        public readonly Mock<IDatabaseTransaction> MockedDatabaseTransaction;
+
+        /// <summary>
+        /// The mocked database connection.
+        /// </summary>
+        public readonly Mock<IDatabaseConnection> MockedDatabaseConnection;
+
+        /// <summary>
         /// The mocked database connection provider.
         /// </summary>
         public readonly Mock<IDatabaseConnectionProvider> MockedDatabaseConnectionProvider;
@@ -46,15 +56,45 @@ namespace SampleHttpApplication.ServiceComponents.Tests.Scheduling.Sessions
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public SessionsControllerTestHarness()
+        public SessionsControllerTestHarness(bool verifyDatabaseTransactionIsCommitted)
         {
+            // Build the mocked database transaction.
+            this.MockedDatabaseTransaction = new Mock<IDatabaseTransaction>(MockBehavior.Strict);
+
+            // Verify the database transaction is committed if requested.
+            if (verifyDatabaseTransactionIsCommitted)
+            {
+                this.MockedDatabaseTransaction
+                    .Setup(mock => mock.Commit())
+                    .Verifiable();
+            }
+
+            // Verify the database transaction is disposed.
+            this.MockedDatabaseTransaction
+                .Setup(mock => mock.Dispose())
+                .Verifiable();
+
+            // Build the mocked database connection.
+            this.MockedDatabaseConnection = new Mock<IDatabaseConnection>(MockBehavior.Strict);
+
+            // Mock the beginning of the database transaction.
+            this.MockedDatabaseConnection
+                .Setup(mock => mock.BeginDatabaseTransaction())
+                .Returns(this.MockedDatabaseTransaction.Object)
+                .Verifiable();
+
+            // Verify the database connection is disposed.
+            this.MockedDatabaseConnection
+                .Setup(mock => mock.Dispose())
+                .Verifiable();
+
             // Build the mocked database connection provider.
             this.MockedDatabaseConnectionProvider = new Mock<IDatabaseConnectionProvider>(MockBehavior.Strict);
 
             // Mock the opening of the database connection.
             this.MockedDatabaseConnectionProvider
                 .Setup(mock => mock.OpenDatabaseConnection())
-                .Returns(Task.FromResult<IDatabaseConnection>(new MockedDatabaseConnection()))
+                .Returns(Task.FromResult<IDatabaseConnection>(this.MockedDatabaseConnection.Object))
                 .Verifiable();
 
             // Build the mocked Scheduling business logic component.
@@ -75,8 +115,10 @@ namespace SampleHttpApplication.ServiceComponents.Tests.Scheduling.Sessions
             // Set the mocked dependency resolver.
             httpConfiguration.DependencyResolver = mockedDependencyResolver.Object;
 
-            // Build the HTTP client.
+            // Build the in memory HTTP server.
             HttpServer httpServer = new HttpServer(httpConfiguration);
+
+            // Build the HTTP client.
             this.HttpClient = new HttpClient(httpServer);
         }
 
@@ -106,6 +148,12 @@ namespace SampleHttpApplication.ServiceComponents.Tests.Scheduling.Sessions
         /// </summary>
         public void VerifyMockedComponents()
         {
+            // Verify the mocked database transaction.
+            this.MockedDatabaseTransaction.VerifyAll();
+
+            // Verify the mocked database connection.
+            this.MockedDatabaseConnection.VerifyAll();
+
             // Verify the mocked database connection provider.
             this.MockedDatabaseConnectionProvider.VerifyAll();
 

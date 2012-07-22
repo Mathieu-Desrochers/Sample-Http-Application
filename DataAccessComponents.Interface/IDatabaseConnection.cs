@@ -16,5 +16,10 @@ namespace SampleHttpApplication.DataAccessComponents.Interface
         /// Opens the database connection.
         /// </summary>
         Task Open();
+
+        /// <summary>
+        /// Begins a database transaction.
+        /// </summary>
+        IDatabaseTransaction BeginDatabaseTransaction();
     }
 }

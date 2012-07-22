@@ -28,7 +28,7 @@ namespace SampleHttpApplication.ServiceComponents.Tests.Scheduling.Sessions.Get
         public void ShouldReturnZeroSessionResources()
         {
             // Build the test harness.
-            SessionsControllerTestHarness testHarness = new SessionsControllerTestHarness();
+            SessionsControllerTestHarness testHarness = new SessionsControllerTestHarness(true);
 
             // Mock the invocation of the GetSessions business operation.
             testHarness.MockedSchedulingBusinessLogicComponent
@@ -64,7 +64,7 @@ namespace SampleHttpApplication.ServiceComponents.Tests.Scheduling.Sessions.Get
         public void ShouldReturnOneSessionResource()
         {
             // Build the test harness.
-            SessionsControllerTestHarness testHarness = new SessionsControllerTestHarness();
+            SessionsControllerTestHarness testHarness = new SessionsControllerTestHarness(true);
 
             // Mock the invocation of the GetSessions business operation.
             testHarness.MockedSchedulingBusinessLogicComponent
@@ -116,7 +116,7 @@ namespace SampleHttpApplication.ServiceComponents.Tests.Scheduling.Sessions.Get
         public void ShouldReturnMultipleSessionResources()
         {
             // Build the test harness.
-            SessionsControllerTestHarness testHarness = new SessionsControllerTestHarness();
+            SessionsControllerTestHarness testHarness = new SessionsControllerTestHarness(true);
 
             // Mock the invocation of the GetSessions business operation.
             testHarness.MockedSchedulingBusinessLogicComponent

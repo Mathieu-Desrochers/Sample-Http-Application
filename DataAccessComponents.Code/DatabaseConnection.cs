@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -36,6 +37,19 @@ namespace SampleHttpApplication.DataAccessComponents.Code
         {
             // Open the underlying SQL connection.
             await this.SqlConnection.OpenAsync();
+        }
+
+        /// <summary>
+        /// Begins a database transaction.
+        /// </summary>
+        public IDatabaseTransaction BeginDatabaseTransaction()
+        {
+            // Begin the underlying SQL transaction.
+            SqlTransaction sqlTransaction = this.SqlConnection.BeginTransaction(IsolationLevel.Serializable);
+
+            // Return the database transaction.
+            DatabaseTransaction databaseTransaction = new DatabaseTransaction(sqlTransaction);
+            return databaseTransaction;
         }
 
         /// <summary>

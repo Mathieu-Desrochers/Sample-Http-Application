@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="DatabaseConnection.cs" />
     <Compile Include="DatabaseConnectionProvider.cs" />
+    <Compile Include="DatabaseTransaction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Session\SessionDataAccessComponent.cs" />
   </ItemGroup>

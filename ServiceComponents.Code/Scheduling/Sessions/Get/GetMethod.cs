@@ -53,10 +53,9 @@ namespace SampleHttpApplication.ServiceComponents.Code.Scheduling.Sessions
         /// </summary>
         public async Task<HttpResponseMessage> Get()
         {
-            // Open a database connection.
-            // Well, a transaction scope would be usefull here.
-            // Watchout for: TransactionScope doit être supprimé sur le même thread que celui où il a été créé
+            // Open a database connection and begin a database transaction.
             using (IDatabaseConnection databaseConnection = await this.databaseConnectionProvider.OpenDatabaseConnection())
+            using (IDatabaseTransaction databaseTransaction = databaseConnection.BeginDatabaseTransaction())
             {
                 // Invoke the GetSessions business operation.
                 GetSessionsBusinessResponse getSessionsBusinessResponse = await this.InvokeGetSessions(databaseConnection);
@@ -73,6 +72,9 @@ namespace SampleHttpApplication.ServiceComponents.Code.Scheduling.Sessions
                     sessionResource.StartDate = sessionBusinessResponseElement.StartDate;
                     sessionResources.Add(sessionResource);
                 }
+
+                // Commit the database transaction.
+                databaseTransaction.Commit();
 
                 // Return an HTTP response message containing the Session resources.
                 HttpResponseMessage httpResponseMessage = this.Request.CreateResponse<SessionResource[]>(HttpStatusCode.OK, sessionResources.ToArray());
