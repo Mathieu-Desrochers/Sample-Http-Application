@@ -42,8 +42,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scheduling\GetSessions\GetSessionsOperation.cs" />
     <Compile Include="Scheduling\GetSessions\GetSessionsOperationData.cs" />
+    <Compile Include="Scheduling\GetSessions\GetSessionsOperationValidator.cs" />
     <Compile Include="Scheduling\NewSession\NewSessionOperation.cs" />
     <Compile Include="Scheduling\NewSession\NewSessionOperationData.cs" />
+    <Compile Include="Scheduling\NewSession\NewSessionOperationValidator.cs" />
     <Compile Include="Scheduling\SchedulingBusinessLogicComponent.cs" />
   </ItemGroup>
   <ItemGroup>

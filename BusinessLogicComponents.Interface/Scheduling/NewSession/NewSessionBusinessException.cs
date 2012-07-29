@@ -15,12 +15,28 @@ namespace SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling.New
         /// <summary>
         /// The possible error codes.
         /// </summary>
-        public ErrorCodes ErrorCode;
         public enum ErrorCodes
         {
             InvalidSessionCode,
             DuplicateSessionCode,
             InvalidName
+        }
+
+        /// <summary>
+        /// The errors.
+        /// </summary>
+        public ErrorBusinessExceptionElement[] Errors;
+        public class ErrorBusinessExceptionElement
+        {
+            /// <summary>
+            /// The error code.
+            /// </summary>
+            public ErrorCodes ErrorCode;
+
+            /// <summary>
+            /// The erroneous value.
+            /// </summary>
+            public object Value;
         }
     }
 }

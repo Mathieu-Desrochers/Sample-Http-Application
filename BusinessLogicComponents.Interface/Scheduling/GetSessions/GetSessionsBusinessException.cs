@@ -15,9 +15,25 @@ namespace SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling.Get
         /// <summary>
         /// The possible error codes.
         /// </summary>
-        public ErrorCodes ErrorCode;
         public enum ErrorCodes
         {
+        }
+
+        /// <summary>
+        /// The errors.
+        /// </summary>
+        public ErrorBusinessExceptionElement[] Errors;
+        public class ErrorBusinessExceptionElement
+        {
+            /// <summary>
+            /// The error code.
+            /// </summary>
+            public ErrorCodes ErrorCode;
+
+            /// <summary>
+            /// The erroneous value.
+            /// </summary>
+            public object Value;
         }
     }
 }

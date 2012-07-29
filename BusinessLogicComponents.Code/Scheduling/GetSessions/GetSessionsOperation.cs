@@ -20,12 +20,12 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
         /// <summary>
         /// Builds a GetSessions business exception.
         /// </summary>
-        private GetSessionsBusinessException BuildGetSessionsBusinessException(GetSessionsBusinessException.ErrorCodes errorCode)
+        private GetSessionsBusinessException BuildGetSessionsBusinessException(GetSessionsBusinessException.ErrorBusinessExceptionElement[] errorBusinessExceptionElements)
         {
             // Build the GetSessions business exception.
             GetSessionsBusinessException businessException = new GetSessionsBusinessException();
-            businessException.ErrorMessage = String.Format("SchedulingBusinessLogicComponent.GetSessions() has thrown the error code {0}.", errorCode);
-            businessException.ErrorCode = errorCode;
+            businessException.ErrorMessage = String.Format("SchedulingBusinessLogicComponent.GetSessions() has thrown a GetSessions business exception. See the Errors property for details.");
+            businessException.Errors = errorBusinessExceptionElements;
 
             // Return the GetSessions business exception.
             return businessException;
@@ -34,7 +34,24 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
         /// <summary>
         /// Validates the GetSessions business request.
         /// </summary>
-        private Task ValidateGetSessions(IDatabaseConnection databaseConnection, GetSessionsBusinessRequest businessRequest, GetSessionsOperationData operationData)
+        private void ValidateGetSessionsRequest(GetSessionsBusinessRequest businessRequest)
+        {
+            // Build the list of error business exception elements.
+            List<GetSessionsBusinessException.ErrorBusinessExceptionElement> errorBusinessExceptionElements = new List<GetSessionsBusinessException.ErrorBusinessExceptionElement>();
+
+            // Check if any error business exception elements were added to the list.
+            if (errorBusinessExceptionElements.Any())
+            {
+                // Throw a GetSessions business exception.
+                GetSessionsBusinessException businessException = this.BuildGetSessionsBusinessException(errorBusinessExceptionElements.ToArray());
+                throw businessException;
+            }
+        }
+
+        /// <summary>
+        /// Validates the GetSessions business operation.
+        /// </summary>
+        private Task ValidateGetSessionsOperation(IDatabaseConnection databaseConnection, GetSessionsBusinessRequest businessRequest, GetSessionsOperationData operationData)
         {
             return Task.FromResult<object>(null);
         }
@@ -48,7 +65,10 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
             GetSessionsOperationData operationData = new GetSessionsOperationData();
 
             // Validate the business request.
-            await this.ValidateGetSessions(databaseConnection, businessRequest, operationData);
+            this.ValidateGetSessionsRequest(businessRequest);
+
+            // Validate the business operation.
+            await this.ValidateGetSessionsOperation(databaseConnection, businessRequest, operationData);
 
             // Read the Session data rows.
             operationData.SessionDataRows = await this.sessionDataAccessComponent.ReadAll(databaseConnection);
