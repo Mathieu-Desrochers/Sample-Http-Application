@@ -39,12 +39,12 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.<#= (string)xml.Att
         /// <summary>
         /// Builds a <#= (string)xml.Element("operation").Attribute("name") #> business exception.
         /// </summary>
-        private <#= (string)xml.Element("operation").Attribute("name") #>BusinessException Build<#= (string)xml.Element("operation").Attribute("name") #>BusinessException(<#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorCodes errorCode)
+        private <#= (string)xml.Element("operation").Attribute("name") #>BusinessException Build<#= (string)xml.Element("operation").Attribute("name") #>BusinessException(<#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorBusinessExceptionElement[] errorBusinessExceptionElements)
         {
             // Build the <#= (string)xml.Element("operation").Attribute("name") #> business exception.
             <#= (string)xml.Element("operation").Attribute("name") #>BusinessException businessException = new <#= (string)xml.Element("operation").Attribute("name") #>BusinessException();
-            businessException.ErrorMessage = String.Format("<#= (string)xml.Attribute("name") #>BusinessLogicComponent.<#= (string)xml.Element("operation").Attribute("name") #>() has thrown the error code {0}.", errorCode);
-            businessException.ErrorCode = errorCode;
+            businessException.ErrorMessage = String.Format("SchedulingBusinessLogicComponent.<#= (string)xml.Element("operation").Attribute("name") #>() has thrown a <#= (string)xml.Element("operation").Attribute("name") #> business exception. See the Errors property for details.");
+            businessException.Errors = errorBusinessExceptionElements;
 
             // Return the <#= (string)xml.Element("operation").Attribute("name") #> business exception.
             return businessException;
@@ -53,18 +53,66 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.<#= (string)xml.Att
         /// <summary>
         /// Validates the <#= (string)xml.Element("operation").Attribute("name") #> business request.
         /// </summary>
-        private async Task Validate<#= (string)xml.Element("operation").Attribute("name") #>(IDatabaseConnection databaseConnection, <#= (string)xml.Element("operation").Attribute("name") #>BusinessRequest businessRequest, <#= (string)xml.Element("operation").Attribute("name") #>OperationData operationData)
+        private void Validate<#= (string)xml.Element("operation").Attribute("name") #>Request(<#= (string)xml.Element("operation").Attribute("name") #>BusinessRequest businessRequest)
         {
-<# ForEachSeparated(xml.Descendants("error"), (error) => { #>
-            // Validate the <#= (string)error.Attribute("code") #> error code.
-            if (!ValidatorHelper.ValidateProperty("", businessRequest., businessRequest..))
+            // Build the list of errors.
+            List<<#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorBusinessExceptionElement> errorBusinessExceptionElements = new List<<#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorBusinessExceptionElement>();
+
+<# Stack<string> parentRequestElements = new Stack<string>(new string[] { "businessRequest" }); #>
+<# ForEachSeparatedRecursive(xml.Descendants("request").Elements("requestElement"), (requestElement) => { #>
+<#     if ((string)requestElement.Attribute("count") == "single") { #>
+            // Validate the <#= (string)requestElement.Attribute("singularName") #> business request element.
+            <#= (string)xml.Element("operation").Attribute("name") #>BusinessRequest.<#= (string)requestElement.Attribute("singularName") #>BusinessRequestElement <#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElement = <#= parentRequestElements.Peek() #>.<#= (string)requestElement.Attribute("singularName") #>;
+<#         foreach (XElement property in requestElement.Elements("property")) { #>
+            errorBusinessExceptionElements.AddIfInvalid(<#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElement, "<#= (string)property.Attribute("name") #>", <#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElement.<#= (string)property.Attribute("name") #>, <#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorCodes.);
+<#         } #>
+<#         parentRequestElements.Push(CamelCased((string)requestElement.Attribute("singularName")) + "BusinessRequestElement"); #>
+<#     } else if ((string)requestElement.Attribute("count") == "multiple") { #>
+            // Validate the <#= (string)requestElement.Attribute("singularName") #> business request elements.
+            foreach (<#= (string)xml.Element("operation").Attribute("name") #>BusinessRequest.<#= (string)requestElement.Attribute("singularName") #>BusinessRequestElement <#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElement in <#= parentRequestElements.Peek() #>.<#= (string)requestElement.Attribute("pluralName") #>)
             {
-                <#= (string)xml.Element("operation").Attribute("name") #>BusinessException businessException = this.Build<#= (string)xml.Element("operation").Attribute("name") #>BusinessException(<#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorCodes.<#= (string)error.Attribute("code") #>);
-                throw businessException;
+                // Validate the <#= (string)requestElement.Attribute("singularName") #> business request element.
+<#         foreach (XElement property in requestElement.Elements("property")) { #>
+                errorBusinessExceptionElements.AddIfInvalid(<#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElement, "<#= (string)property.Attribute("name") #>", <#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElement.<#= (string)property.Attribute("name") #>, <#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorCodes.);
+<#         } #>
+<#         parentRequestElements.Push(CamelCased((string)requestElement.Attribute("singularName")) + "BusinessRequestElements"); #>
+<#         PushIndent("    "); #>
+<#     } #>
+<#     if (requestElement.Elements("requestElement").Any()) { #>
+
+<#     } #>
+<# }, (requestElement) => requestElement.Elements("requestElement"), (requestElement) => { #>
+<#     parentRequestElements.Pop(); #>
+<#     if ((string)requestElement.Attribute("count") == "multiple") { #>
+<#         PopIndent(); #>
             }
+<#     } #>
 <# }, () => { #>
 
-<# }); #>
+<# }, false); #>
+
+            // Check if any errors were added to the list.
+            if (errorBusinessExceptionElements.Any())
+            {
+                // Throw a <#= (string)xml.Element("operation").Attribute("name") #> business exception.
+                <#= (string)xml.Element("operation").Attribute("name") #>BusinessException businessException = this.Build<#= (string)xml.Element("operation").Attribute("name") #>BusinessException(errorBusinessExceptionElements.ToArray());
+                throw businessException;
+            }
+        }
+
+        /// <summary>
+        /// Validates the <#= (string)xml.Element("operation").Attribute("name") #> business operation.
+        /// </summary>
+        private async Task Validate<#= (string)xml.Element("operation").Attribute("name") #>Operation(IDatabaseConnection databaseConnection, <#= (string)xml.Element("operation").Attribute("name") #>BusinessRequest businessRequest, <#= (string)xml.Element("operation").Attribute("name") #>OperationData operationData)
+        {
+            // Validate the  error code.
+            if ()
+            {
+                // Throw a <#= (string)xml.Element("operation").Attribute("name") #> business exception.
+                <#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorBusinessExceptionElement errorBusinessExceptionElement = new <#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorBusinessExceptionElement() { ErrorCode = <#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorCodes., Value =  };
+                <#= (string)xml.Element("operation").Attribute("name") #>BusinessException businessException = this.Build<#= (string)xml.Element("operation").Attribute("name") #>BusinessException(new <#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorBusinessExceptionElement[] { errorBusinessExceptionElement });
+                throw businessException;
+            }
         }
 
 <# foreach (XElement businessLogicComponent in xml.Descendants("businessLogicComponents").Descendants("businessLogicComponent")) { #>
@@ -111,7 +159,10 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.<#= (string)xml.Att
             <#= (string)xml.Element("operation").Attribute("name") #>OperationData operationData = new <#= (string)xml.Element("operation").Attribute("name") #>OperationData();
 
             // Validate the business request.
-            await this.Validate<#= (string)xml.Element("operation").Attribute("name") #>(databaseConnection, businessRequest, operationData);
+            this.Validate<#= (string)xml.Element("operation").Attribute("name") #>Request(businessRequest);
+
+            // Validate the business operation.
+            await this.Validate<#= (string)xml.Element("operation").Attribute("name") #>Operation(databaseConnection, businessRequest, operationData);
 <# foreach (XElement businessLogicComponent in xml.Descendants("businessLogicComponents").Descendants("businessLogicComponent")) { #>
 
             // Invoke the <#= (string)businessLogicComponent.Attribute("operation") #> business operation.

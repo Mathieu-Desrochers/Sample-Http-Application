@@ -36,16 +36,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
         /// </summary>
         private void ValidateGetSessionsRequest(GetSessionsBusinessRequest businessRequest)
         {
-            // Build the list of error business exception elements.
-            List<GetSessionsBusinessException.ErrorBusinessExceptionElement> errorBusinessExceptionElements = new List<GetSessionsBusinessException.ErrorBusinessExceptionElement>();
-
-            // Check if any error business exception elements were added to the list.
-            if (errorBusinessExceptionElements.Any())
-            {
-                // Throw a GetSessions business exception.
-                GetSessionsBusinessException businessException = this.BuildGetSessionsBusinessException(errorBusinessExceptionElements.ToArray());
-                throw businessException;
-            }
+            return;
         }
 
         /// <summary>

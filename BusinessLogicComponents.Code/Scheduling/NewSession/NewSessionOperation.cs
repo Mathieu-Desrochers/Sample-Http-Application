@@ -36,7 +36,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
         /// </summary>
         private void ValidateNewSessionRequest(NewSessionBusinessRequest businessRequest)
         {
-            // Build the list of error business exception elements.
+            // Build the list of errors.
             List<NewSessionBusinessException.ErrorBusinessExceptionElement> errorBusinessExceptionElements = new List<NewSessionBusinessException.ErrorBusinessExceptionElement>();
 
             // Validate the Session business request element.
@@ -44,7 +44,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
             errorBusinessExceptionElements.AddIfInvalid(sessionBusinessRequestElement, "SessionCode", sessionBusinessRequestElement.SessionCode, NewSessionBusinessException.ErrorCodes.InvalidSessionCode);
             errorBusinessExceptionElements.AddIfInvalid(sessionBusinessRequestElement, "Name", sessionBusinessRequestElement.Name, NewSessionBusinessException.ErrorCodes.InvalidName);
 
-            // Check if any error business exception elements were added to the list.
+            // Check if any errors were added to the list.
             if (errorBusinessExceptionElements.Any())
             {
                 // Throw a NewSession business exception.
