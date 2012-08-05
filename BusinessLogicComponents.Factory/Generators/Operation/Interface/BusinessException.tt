@@ -29,7 +29,6 @@ namespace SampleHttpApplication.BusinessLogicComponents.Interface.<#= (string)xm
         /// <summary>
         /// The possible error codes.
         /// </summary>
-        public ErrorCodes ErrorCode;
         public enum ErrorCodes
         {
 <# ForEachSeparated(xml.Descendants("error"), error => { #>
@@ -38,6 +37,23 @@ namespace SampleHttpApplication.BusinessLogicComponents.Interface.<#= (string)xm
 <# if (xml.Descendants("error").Any()) { #>
 
 <# } #>
+        }
+
+        /// <summary>
+        /// The actual errors.
+        /// </summary>
+        public ErrorBusinessExceptionElement[] Errors;
+        public class ErrorBusinessExceptionElement
+        {
+            /// <summary>
+            /// The error code.
+            /// </summary>
+            public ErrorCodes ErrorCode;
+
+            /// <summary>
+            /// The erroneous value.
+            /// </summary>
+            public object Value;
         }
     }
 }

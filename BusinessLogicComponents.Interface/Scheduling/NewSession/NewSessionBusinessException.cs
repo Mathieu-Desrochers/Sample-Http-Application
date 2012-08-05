@@ -23,7 +23,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling.New
         }
 
         /// <summary>
-        /// The errors.
+        /// The actual errors.
         /// </summary>
         public ErrorBusinessExceptionElement[] Errors;
         public class ErrorBusinessExceptionElement

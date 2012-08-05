@@ -20,7 +20,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling.Get
         }
 
         /// <summary>
-        /// The errors.
+        /// The actual errors.
         /// </summary>
         public ErrorBusinessExceptionElement[] Errors;
         public class ErrorBusinessExceptionElement
