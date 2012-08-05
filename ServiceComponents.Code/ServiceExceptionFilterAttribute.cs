@@ -21,23 +21,16 @@ namespace SampleHttpApplication.ServiceComponents.Code
         /// </summary>
         public override void OnException(HttpActionExecutedContext httpActionExecutedContext)
         {
-            // Handle the InvalidFields service exceptions.
-            InvalidFieldsServiceException invalidFieldsServiceException = httpActionExecutedContext.Exception as InvalidFieldsServiceException;
-            if (invalidFieldsServiceException != null)
+            // Handle the service exceptions only.
+            ServiceException serviceException = httpActionExecutedContext.Exception as ServiceException;
+            if (serviceException == null)
             {
-                // Return an HTTP response message containing the invalid fields.
-                HttpResponseMessage httpResponseMessage = httpActionExecutedContext.Request.CreateResponse(HttpStatusCode.BadRequest, invalidFieldsServiceException.Details);
-                httpActionExecutedContext.Response = httpResponseMessage;
+                return;
             }
 
-            // Handle the ErrorCode service exceptions.
-            ErrorCodeServiceException errorCodeServiceException = httpActionExecutedContext.Exception as ErrorCodeServiceException;
-            if (errorCodeServiceException != null)
-            {
-                // Return an HTTP response message containing the error code.
-                HttpResponseMessage httpResponseMessage = httpActionExecutedContext.Request.CreateResponse(HttpStatusCode.BadRequest, errorCodeServiceException.Details);
-                httpActionExecutedContext.Response = httpResponseMessage;
-            }
+            // Return an HTTP response message containing the errors.
+            HttpResponseMessage httpResponseMessage = httpActionExecutedContext.Request.CreateResponse(HttpStatusCode.BadRequest, serviceException.Errors);
+            httpActionExecutedContext.Response = httpResponseMessage;
         }
     }
 }

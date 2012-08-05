@@ -10,6 +10,7 @@ using System.Web;
 
 using SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling.GetSessions;
 using SampleHttpApplication.DataAccessComponents.Interface;
+using SampleHttpApplication.Infrastructure.Code.Http;
 using SampleHttpApplication.ServiceComponents.Interface;
 using SampleHttpApplication.ServiceComponents.Interface.Scheduling.Sessions;
 
@@ -38,13 +39,25 @@ namespace SampleHttpApplication.ServiceComponents.Code.Scheduling.Sessions
             }
             catch (GetSessionsBusinessException ex)
             {
-                // Wrap the business exception into an ErrorCode service exception.
-                ErrorCodeServiceException errorCodeServiceException = new ErrorCodeServiceException();
-                errorCodeServiceException.ErrorMessage = String.Format("SchedulingServiceComponent.SessionsController.Get() has invoked SessionBusinessLogicComponent.GetSessions() and has caught the error code {0}.", ex.ErrorCode);
-                errorCodeServiceException.Details.ErrorCode = ex.ErrorCode.ToString();
+                // Build a service exception.
+                ServiceException serviceException = new ServiceException();
+                serviceException.ErrorMessage = String.Format("SchedulingServiceComponent.SessionsController.Get() has invoked SessionBusinessLogicComponent.GetSessions() and has caught a GetSessions business exception. See the Errors property for details.");
+                
+                // Build the Error service exception elements.
+                List<ServiceException.ErrorServiceExceptionElement> errorServiceExceptionElements = new List<ServiceException.ErrorServiceExceptionElement>();
+                foreach (GetSessionsBusinessException.ErrorBusinessExceptionElement errorBusinessExceptionElement in ex.Errors)
+                {
+                    ServiceException.ErrorServiceExceptionElement errorServiceExceptionElement = new ServiceException.ErrorServiceExceptionElement();
+                    errorServiceExceptionElement.ErrorCode = errorBusinessExceptionElement.ErrorCode.ToString();
+                    errorServiceExceptionElement.Value = errorBusinessExceptionElement.Value;
+                    errorServiceExceptionElements.Add(errorServiceExceptionElement);
+                }
 
-                // Throw the ErrorCode service exception.
-                throw errorCodeServiceException;
+                // Set the Error service exception elements.
+                serviceException.Errors = errorServiceExceptionElements.ToArray();
+
+                // Throw the service exception.
+                throw serviceException;
             }
         }
 

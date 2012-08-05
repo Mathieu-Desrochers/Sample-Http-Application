@@ -141,7 +141,6 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.<#= (string)xml.Att
                     throw businessException;
                 }
 
-                // Unexpected error codes denote a problem in this operation.
                 // Do not allow <#= (string)businessLogicComponent.Attribute("operation") #> business exceptions to show through.
                 string unexpectedExceptionMessage = String.Format("<#= (string)xml.Attribute("name") #>BusinessLogicComponent.<#= (string)xml.Element("operation").Attribute("name") #>() has invoked <#= (string)businessLogicComponent.Attribute("name") #>BusinessLogicComponent.<#= (string)businessLogicComponent.Attribute("operation") #>() and has caught the unexpected error code {0}.", ex.ErrorCode);
                 Exception unexpectedException = new Exception(unexpectedExceptionMessage, ex);

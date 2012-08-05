@@ -21,15 +21,11 @@ namespace SampleHttpApplication.ServiceComponents.Interface.Scheduling.Sessions
         /// <summary>
         /// Gets or sets the SessionCode.
         /// </summary>
-        [Required]
-        [StringLength(50)]
         public string SessionCode { get; set; }
 
         /// <summary>
         /// Gets or sets the Name.
         /// </summary>
-        [Required]
-        [StringLength(50)]
         public string Name { get; set; }
 
         /// <summary>

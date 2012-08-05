@@ -29,5 +29,22 @@ namespace SampleHttpApplication.ServiceComponents.Interface
         {
             get { return this.errorMessage; }
         }
+
+        /// <summary>
+        /// The errors.
+        /// </summary>
+        public ErrorServiceExceptionElement[] Errors;
+        public class ErrorServiceExceptionElement
+        {
+            /// <summary>
+            /// The error code.
+            /// </summary>
+            public string ErrorCode;
+
+            /// <summary>
+            /// The erroneous value.
+            /// </summary>
+            public object Value;
+        }
     }
 }

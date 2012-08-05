@@ -46,13 +46,25 @@ namespace SampleHttpApplication.ServiceComponents.Code.Scheduling.Sessions
             }
             catch (NewSessionBusinessException ex)
             {
-                // Wrap the business exception into an ErrorCode service exception.
-                ErrorCodeServiceException errorCodeServiceException = new ErrorCodeServiceException();
-                errorCodeServiceException.ErrorMessage = String.Format("SchedulingServiceComponent.SessionsController.Post() has invoked SessionBusinessLogicComponent.NewSession() and has caught the error code {0}.", ex.ErrorCode);
-                errorCodeServiceException.Details.ErrorCode = ex.ErrorCode.ToString();
+                // Build a service exception.
+                ServiceException serviceException = new ServiceException();
+                serviceException.ErrorMessage = String.Format("SchedulingServiceComponent.SessionsController.Get() has invoked SessionBusinessLogicComponent.NewSession() and has caught a NewSession business exception. See the Errors property for details.");
 
-                // Throw the ErrorCode service exception.
-                throw errorCodeServiceException;
+                // Build the Error service exception elements.
+                List<ServiceException.ErrorServiceExceptionElement> errorServiceExceptionElements = new List<ServiceException.ErrorServiceExceptionElement>();
+                foreach (NewSessionBusinessException.ErrorBusinessExceptionElement errorBusinessExceptionElement in ex.Errors)
+                {
+                    ServiceException.ErrorServiceExceptionElement errorServiceExceptionElement = new ServiceException.ErrorServiceExceptionElement();
+                    errorServiceExceptionElement.ErrorCode = errorBusinessExceptionElement.ErrorCode.ToString();
+                    errorServiceExceptionElement.Value = errorBusinessExceptionElement.Value;
+                    errorServiceExceptionElements.Add(errorServiceExceptionElement);
+                }
+
+                // Set the Error service exception elements.
+                serviceException.Errors = errorServiceExceptionElements.ToArray();
+
+                // Throw the service exception.
+                throw serviceException;
             }
         }
 
@@ -61,17 +73,17 @@ namespace SampleHttpApplication.ServiceComponents.Code.Scheduling.Sessions
         /// </summary>
         public async Task<HttpResponseMessage> Post(SessionResource sessionResource)
         {
-            // Make sure the Session resource is valid.
-            if (!this.ModelState.IsValid)
-            {
-                // Build the InvalidFields service exception.
-                InvalidFieldsServiceException invalidFieldsServiceException = new InvalidFieldsServiceException();
-                invalidFieldsServiceException.ErrorMessage = "SchedulingServiceComponent.SessionsController.Post() was invoked with invalid fields.";
-                invalidFieldsServiceException.Details.InvalidFields = this.ModelState.GetInvalidFields();
+            //// Make sure the Session resource is valid.
+            //if (!this.ModelState.IsValid)
+            //{
+            //    // Build the InvalidFields service exception.
+            //    InvalidFieldsServiceException invalidFieldsServiceException = new InvalidFieldsServiceException();
+            //    invalidFieldsServiceException.ErrorMessage = "SchedulingServiceComponent.SessionsController.Post() was invoked with invalid fields.";
+            //    invalidFieldsServiceException.Details.InvalidFields = this.ModelState.GetInvalidFields();
 
-                // Throw the InvalidFields service exception.
-                throw invalidFieldsServiceException;
-            }
+            //    // Throw the InvalidFields service exception.
+            //    throw invalidFieldsServiceException;
+            //}
 
             // Open a database connection and begin a database transaction.
             using (IDatabaseConnection databaseConnection = await this.databaseConnectionProvider.OpenDatabaseConnection())
