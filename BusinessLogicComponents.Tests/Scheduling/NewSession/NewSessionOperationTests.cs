@@ -78,7 +78,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewSess
         /// <summary>
         /// Should throw the InvalidSessionCode error code.
         /// </summary>
-        private void ShouldThrowErrorCodeInvalidSessionCode(string sessionCode)
+        private void ShouldThrowInvalidSessionCodeErrorCode(string sessionCode)
         {
             // Build the test harness.
             SchedulingBusinessLogicComponentTestHarness testHarness = new SchedulingBusinessLogicComponentTestHarness();
@@ -107,15 +107,15 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewSess
                 testHarness.VerifyMockedComponents();
 
                 // Validate a NewSession business exception was thrown.
-                NewSessionBusinessException newSessionBusinessException = ex.InnerExceptions[0] as NewSessionBusinessException;
-                Assert.IsNotNull(newSessionBusinessException);
-                Assert.AreEqual("SchedulingBusinessLogicComponent.NewSession() has thrown a NewSession business exception. See the Errors property for details.", newSessionBusinessException.Message);
+                NewSessionBusinessException NewSessionBusinessException = ex.InnerExceptions[0] as NewSessionBusinessException;
+                Assert.IsNotNull(NewSessionBusinessException);
+                Assert.AreEqual("SchedulingBusinessLogicComponent.NewSession() has thrown a NewSession business exception. See the Errors property for details.", NewSessionBusinessException.Message);
 
-                // Validate NewSession business exception has the InvalidSessionCode error code.
-                Assert.IsNotNull(newSessionBusinessException.Errors);
-                Assert.AreEqual(1, newSessionBusinessException.Errors.Length);
-                Assert.AreEqual(NewSessionBusinessException.ErrorCodes.InvalidSessionCode, newSessionBusinessException.Errors[0].ErrorCode);
-                Assert.AreEqual(sessionCode, newSessionBusinessException.Errors[0].Value);
+                // Validate the NewSession business exception contains the InvalidSessionCode error code.
+                Assert.IsNotNull(NewSessionBusinessException.Errors);
+                Assert.AreEqual(1, NewSessionBusinessException.Errors.Length);
+                Assert.AreEqual(NewSessionBusinessException.ErrorCodes.InvalidSessionCode, NewSessionBusinessException.Errors[0].ErrorCode);
+                Assert.AreEqual(sessionCode, NewSessionBusinessException.Errors[0].Value);
             }
         }
 
@@ -123,34 +123,34 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewSess
         /// Should throw the InvalidSessionCode error code.
         /// </summary>
         [TestMethod]
-        public void ShouldThrowErrorCodeInvalidSessionCode_GivenNullSessionCode()
+        public void ShouldThrowInvalidSessionCodeErrorCode_GivenNullSessionCode()
         {
-            ShouldThrowErrorCodeInvalidSessionCode(null);
+            ShouldThrowInvalidSessionCodeErrorCode(null);
         }
 
         /// <summary>
         /// Should throw the InvalidSessionCode error code.
         /// </summary>
         [TestMethod]
-        public void ShouldThrowErrorCodeInvalidSessionCode_GivenEmptySessionCode()
+        public void ShouldThrowInvalidSessionCodeErrorCode_GivenEmptySessionCode()
         {
-            ShouldThrowErrorCodeInvalidSessionCode("");
+            ShouldThrowInvalidSessionCodeErrorCode("");
         }
 
         /// <summary>
         /// Should throw the InvalidSessionCode error code.
         /// </summary>
         [TestMethod]
-        public void ShouldThrowErrorCodeInvalidSessionCode_GivenTooLongSessionCode()
+        public void ShouldThrowInvalidSessionCodeErrorCode_GivenTooLongSessionCode()
         {
-            ShouldThrowErrorCodeInvalidSessionCode(new String('a', 51));
+            ShouldThrowInvalidSessionCodeErrorCode(new String('a', 51));
         }
 
         /// <summary>
         /// Should throw the DuplicateSessionCode error code.
         /// </summary>
         [TestMethod]
-        public void ShouldThrowErrorCodeDuplicateSessionCode()
+        public void ShouldThrowDuplicateSessionCodeErrorCode()
         {
             // Build the test harness.
             SchedulingBusinessLogicComponentTestHarness testHarness = new SchedulingBusinessLogicComponentTestHarness();
@@ -185,31 +185,25 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewSess
                 testHarness.VerifyMockedComponents();
 
                 // Validate a NewSession business exception was thrown.
-                NewSessionBusinessException newSessionBusinessException = ex.InnerExceptions[0] as NewSessionBusinessException;
-                Assert.IsNotNull(newSessionBusinessException);
-                Assert.AreEqual("SchedulingBusinessLogicComponent.NewSession() has thrown a NewSession business exception. See the Errors property for details.", newSessionBusinessException.Message);
+                NewSessionBusinessException NewSessionBusinessException = ex.InnerExceptions[0] as NewSessionBusinessException;
+                Assert.IsNotNull(NewSessionBusinessException);
+                Assert.AreEqual("SchedulingBusinessLogicComponent.NewSession() has thrown a NewSession business exception. See the Errors property for details.", NewSessionBusinessException.Message);
 
-                // Validate NewSession business exception has the DuplicateSessionCode error code.
-                Assert.IsNotNull(newSessionBusinessException.Errors);
-                Assert.AreEqual(1, newSessionBusinessException.Errors.Length);
-                Assert.AreEqual(NewSessionBusinessException.ErrorCodes.DuplicateSessionCode, newSessionBusinessException.Errors[0].ErrorCode);
-                Assert.AreEqual("Session-A", newSessionBusinessException.Errors[0].Value);
+                // Validate the NewSession business exception contains the DuplicateSessionCode error code.
+                Assert.IsNotNull(NewSessionBusinessException.Errors);
+                Assert.AreEqual(1, NewSessionBusinessException.Errors.Length);
+                Assert.AreEqual(NewSessionBusinessException.ErrorCodes.DuplicateSessionCode, NewSessionBusinessException.Errors[0].ErrorCode);
+                Assert.AreEqual("Session-A", NewSessionBusinessException.Errors[0].Value);
             }
         }
 
         /// <summary>
         /// Should throw the InvalidName error code.
         /// </summary>
-        private void ShouldThrowErrorCodeInvalidName(string name)
+        private void ShouldThrowInvalidNameErrorCode(string name)
         {
             // Build the test harness.
             SchedulingBusinessLogicComponentTestHarness testHarness = new SchedulingBusinessLogicComponentTestHarness();
-
-            // Mock the reading of the Session data row.
-            testHarness.MockedSessionDataAccessComponent
-                .Setup(mock => mock.ReadBySessionCode(It.IsAny<IDatabaseConnection>(), "Session-A"))
-                .Returns(Task.FromResult<SessionDataRow>(null))
-                .Verifiable();
 
             // Build the NewSession business request.
             NewSessionBusinessRequest newSessionBusinessRequest = new NewSessionBusinessRequest();
@@ -235,15 +229,15 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewSess
                 testHarness.VerifyMockedComponents();
 
                 // Validate a NewSession business exception was thrown.
-                NewSessionBusinessException newSessionBusinessException = ex.InnerExceptions[0] as NewSessionBusinessException;
-                Assert.IsNotNull(newSessionBusinessException);
-                Assert.AreEqual("SchedulingBusinessLogicComponent.NewSession() has thrown a NewSession business exception. See the Errors property for details.", newSessionBusinessException.Message);
+                NewSessionBusinessException NewSessionBusinessException = ex.InnerExceptions[0] as NewSessionBusinessException;
+                Assert.IsNotNull(NewSessionBusinessException);
+                Assert.AreEqual("SchedulingBusinessLogicComponent.NewSession() has thrown a NewSession business exception. See the Errors property for details.", NewSessionBusinessException.Message);
 
-                // Validate NewSession business exception has the InvalidName error code.
-                Assert.IsNotNull(newSessionBusinessException.Errors);
-                Assert.AreEqual(1, newSessionBusinessException.Errors.Length);
-                Assert.AreEqual(NewSessionBusinessException.ErrorCodes.InvalidName, newSessionBusinessException.Errors[0].ErrorCode);
-                Assert.AreEqual(name, newSessionBusinessException.Errors[0].Value);
+                // Validate the NewSession business exception contains the InvalidName error code.
+                Assert.IsNotNull(NewSessionBusinessException.Errors);
+                Assert.AreEqual(1, NewSessionBusinessException.Errors.Length);
+                Assert.AreEqual(NewSessionBusinessException.ErrorCodes.InvalidName, NewSessionBusinessException.Errors[0].ErrorCode);
+                Assert.AreEqual(name, NewSessionBusinessException.Errors[0].Value);
             }
         }
 
@@ -251,27 +245,27 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewSess
         /// Should throw the InvalidName error code.
         /// </summary>
         [TestMethod]
-        public void ShouldThrowErrorCodeInvalidName_GivenNullName()
+        public void ShouldThrowInvalidNameErrorCode_GivenNullName()
         {
-            ShouldThrowErrorCodeInvalidName(null);
+            ShouldThrowInvalidNameErrorCode(null);
         }
 
         /// <summary>
         /// Should throw the InvalidName error code.
         /// </summary>
         [TestMethod]
-        public void ShouldThrowErrorCodeInvalidName_GivenEmptyName()
+        public void ShouldThrowInvalidNameErrorCode_GivenEmptyName()
         {
-            ShouldThrowErrorCodeInvalidName("");
+            ShouldThrowInvalidNameErrorCode("");
         }
 
         /// <summary>
         /// Should throw the InvalidName error code.
         /// </summary>
         [TestMethod]
-        public void ShouldThrowErrorCodeInvalidName_GivenTooLongName()
+        public void ShouldThrowInvalidNameErrorCode_GivenTooLongName()
         {
-            ShouldThrowErrorCodeInvalidName(new String('a', 51));
+            ShouldThrowInvalidNameErrorCode(new String('a', 51));
         }
     }
 }

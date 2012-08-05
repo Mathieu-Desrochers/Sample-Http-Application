@@ -199,12 +199,15 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.<#= (st
                 testHarness.VerifyMockedComponents();
 
                 // Validate a <#= (string)xml.Element("operation").Attribute("name") #> business exception was thrown.
-                <#= (string)xml.Element("operation").Attribute("name") #>BusinessException <#= CamelCased((string)xml.Element("operation").Attribute("name")) #>BusinessException = ex.InnerExceptions[0] as <#= (string)xml.Element("operation").Attribute("name") #>BusinessException;
-                Assert.IsNotNull(<#= CamelCased((string)xml.Element("operation").Attribute("name")) #>BusinessException);
+                <#= (string)xml.Element("operation").Attribute("name") #>BusinessException <#= (string)xml.Element("operation").Attribute("name") #>BusinessException = ex.InnerExceptions[0] as <#= (string)xml.Element("operation").Attribute("name") #>BusinessException;
+                Assert.IsNotNull(<#= (string)xml.Element("operation").Attribute("name") #>BusinessException);
+                Assert.AreEqual("SchedulingBusinessLogicComponent.<#= (string)xml.Element("operation").Attribute("name") #>() has thrown a <#= (string)xml.Element("operation").Attribute("name") #> business exception. See the Errors property for details.", <#= (string)xml.Element("operation").Attribute("name") #>BusinessException.Message);
 
-                // Validate the <#= (string)xml.Element("operation").Attribute("name") #> business exception.
-                Assert.AreEqual(<#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorCodes.<#= (string)error.Attribute("code") #>, <#= CamelCased((string)xml.Element("operation").Attribute("name")) #>BusinessException.ErrorCode);
-                Assert.AreEqual("The <#= (string)xml.Attribute("name") #>BusinessLogicComponent.<#= (string)xml.Element("operation").Attribute("name") #>() business operation has thrown the <#= (string)error.Attribute("code") #> error code.", <#= CamelCased((string)xml.Element("operation").Attribute("name")) #>BusinessException.Message);
+                // Validate the <#= (string)xml.Element("operation").Attribute("name") #> business exception contains the <#= (string)error.Attribute("code") #> error code.
+                Assert.IsNotNull(<#= (string)xml.Element("operation").Attribute("name") #>BusinessException.Errors);
+                Assert.AreEqual(1, <#= (string)xml.Element("operation").Attribute("name") #>BusinessException.Errors.Length);
+                Assert.AreEqual(<#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorCodes.<#= (string)error.Attribute("code") #>, <#= (string)xml.Element("operation").Attribute("name") #>BusinessException.Errors[0].ErrorCode);
+                Assert.AreEqual(, <#= (string)xml.Element("operation").Attribute("name") #>BusinessException.Errors[0].Value);
             }
         }
 
