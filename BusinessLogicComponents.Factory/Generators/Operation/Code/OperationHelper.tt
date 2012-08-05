@@ -1,0 +1,51 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ include file="..\..\Common.tt" #>
+<#@ output extension=".cs" #>
+<#
+    string xmlPath = Host.ResolvePath(@"..\Blueprint.xml");
+    XElement xml = XElement.Load(xmlPath);
+#>
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using SampleHttpApplication.BusinessLogicComponents.Interface.<#= (string)xml.Attribute("name") #>.<#= (string)xml.Element("operation").Attribute("name") #>;
+using SampleHttpApplication.Infrastructure.Code.DataAnnotations;
+
+namespace SampleHttpApplication.BusinessLogicComponents.Code.<#= (string)xml.Attribute("name") #>
+{
+    /// <summary>
+    /// Represents the <#= (string)xml.Element("operation").Attribute("name") #> operation helper.
+    /// </summary>
+    public static class <#= (string)xml.Element("operation").Attribute("name") #>OperationHelper
+    {
+        /// <summary>
+        /// Adds the specified error code to the list when
+        /// the validation of a business request element fails.
+        /// </summary>
+        public static void AddIfInvalid(this List<<#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorBusinessExceptionElement> instance, object businessRequestElement, string propertyName, object propertyValue, <#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorCodes errorCode)
+        {
+            // Make sure the business request element is invalid.
+            if (ValidatorHelper.ValidateProperty(businessRequestElement, propertyName, propertyValue))
+            {
+                return;
+            }
+
+            // Add the specified error code to the list.
+            <#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorBusinessExceptionElement errorBusinessExceptionElement = new <#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorBusinessExceptionElement();
+            errorBusinessExceptionElement.ErrorCode = errorCode;
+            errorBusinessExceptionElement.Value = propertyValue;
+            instance.Add(errorBusinessExceptionElement);
+        }
+    }
+}

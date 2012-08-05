@@ -11,9 +11,9 @@ using SampleHttpApplication.Infrastructure.Code.DataAnnotations;
 namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
 {
     /// <summary>
-    /// Represents the NewSession operation validator.
+    /// Represents the NewSession operation helper.
     /// </summary>
-    public static class NewSessionOperationValidator
+    public static class NewSessionOperationHelper
     {
         /// <summary>
         /// Adds the specified error code to the list when

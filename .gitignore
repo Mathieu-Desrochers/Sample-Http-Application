@@ -16,6 +16,7 @@ BusinessLogicComponents.Factory/Generators/BusinessLogicComponent/Snippets/Depen
 BusinessLogicComponents.Factory/Generators/BusinessLogicComponent/Tests/BusinessLogicComponentTestHarness.cs
 BusinessLogicComponents.Factory/Generators/Operation/Code/Operation.cs
 BusinessLogicComponents.Factory/Generators/Operation/Code/OperationData.cs
+BusinessLogicComponents.Factory/Generators/Operation/Code/OperationHelper.cs
 BusinessLogicComponents.Factory/Generators/Operation/Interface/BusinessException.cs
 BusinessLogicComponents.Factory/Generators/Operation/Interface/BusinessRequest.cs
 BusinessLogicComponents.Factory/Generators/Operation/Interface/BusinessResponse.cs

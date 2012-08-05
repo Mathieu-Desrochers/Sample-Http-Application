@@ -11,9 +11,9 @@ using SampleHttpApplication.Infrastructure.Code.DataAnnotations;
 namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
 {
     /// <summary>
-    /// Represents the GetSessions operation validator.
+    /// Represents the GetSessions operation helper.
     /// </summary>
-    public static class GetSessionsOperationValidator
+    public static class GetSessionsOperationHelper
     {
         /// <summary>
         /// Adds the specified error code to the list when

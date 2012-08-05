@@ -59,6 +59,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Generators\Operation\Code\OperationHelper.cs">
+      <DependentUpon>OperationHelper.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Generators\Operation\Code\Operation.cs">
       <DependentUpon>Operation.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -134,6 +139,10 @@
     <None Include="Generators\Common.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Common.cs</LastGenOutput>
+    </None>
+    <None Include="Generators\Operation\Code\OperationHelper.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>OperationHelper.cs</LastGenOutput>
     </None>
     <None Include="Generators\Operation\Code\Operation.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
