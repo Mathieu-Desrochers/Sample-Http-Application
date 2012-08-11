@@ -22,27 +22,23 @@
 
     // Mock the invocation of the NewSession business operation.
     testHarness.MockedSchedulingBusinessLogicComponent
-        .Setup(mock => mock.NewSession(It.IsAny<IDatabaseConnection>(), It.IsAny<NewSessionBusinessRequest>()))
+        .Setup(mock => mock.NewSession(
+            It.IsAny<IDatabaseConnection>(),
+            It.Is<NewSessionBusinessRequest>(newSessionBusinessRequest =>
+            (
+                // Match the Session business request element.
+                newSessionBusinessRequest.Session.SessionCode ==  &&
+                newSessionBusinessRequest.Session.Name ==  &&
+                newSessionBusinessRequest.Session.StartDate ==  &&
+            ))))
         .Throws(new NewSessionBusinessException()
         {
-            ErrorCode = NewSessionBusinessException.ErrorCodes.InvalidSessionCode
-        })
-        .Verifiable();
-
-    // Mock the invocation of the NewSession business operation.
-    testHarness.MockedSchedulingBusinessLogicComponent
-        .Setup(mock => mock.NewSession(It.IsAny<IDatabaseConnection>(), It.IsAny<NewSessionBusinessRequest>()))
-        .Throws(new NewSessionBusinessException()
-        {
-            ErrorCode = NewSessionBusinessException.ErrorCodes.DuplicateSessionCode
-        })
-        .Verifiable();
-
-    // Mock the invocation of the NewSession business operation.
-    testHarness.MockedSchedulingBusinessLogicComponent
-        .Setup(mock => mock.NewSession(It.IsAny<IDatabaseConnection>(), It.IsAny<NewSessionBusinessRequest>()))
-        .Throws(new NewSessionBusinessException()
-        {
-            ErrorCode = NewSessionBusinessException.ErrorCodes.InvalidName
+            // Mock the NewSession business exception.
+            Errors = new NewSessionBusinessException.ErrorBusinessExceptionElement[]
+            {
+                new NewSessionBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewSessionBusinessException.ErrorCodes.InvalidSessionCode, Value =  },
+                new NewSessionBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewSessionBusinessException.ErrorCodes.DuplicateSessionCode, Value =  },
+                new NewSessionBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewSessionBusinessException.ErrorCodes.InvalidName, Value =  }
+            }
         })
         .Verifiable();

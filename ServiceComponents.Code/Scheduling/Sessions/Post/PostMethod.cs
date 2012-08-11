@@ -48,7 +48,7 @@ namespace SampleHttpApplication.ServiceComponents.Code.Scheduling.Sessions
             {
                 // Build a service exception.
                 ServiceException serviceException = new ServiceException();
-                serviceException.ErrorMessage = String.Format("SchedulingServiceComponent.SessionsController.Get() has invoked SessionBusinessLogicComponent.NewSession() and has caught a NewSession business exception. See the Errors property for details.");
+                serviceException.ErrorMessage = String.Format("SchedulingServiceComponent.SessionsController.Post() has invoked SessionBusinessLogicComponent.NewSession() and has caught a NewSession business exception. See the Errors property for details.");
 
                 // Build the Error service exception elements.
                 List<ServiceException.ErrorServiceExceptionElement> errorServiceExceptionElements = new List<ServiceException.ErrorServiceExceptionElement>();

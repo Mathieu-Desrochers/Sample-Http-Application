@@ -81,7 +81,7 @@ namespace SampleHttpApplication.ServiceComponents.Tests.Scheduling.Sessions.Post
         /// Should return all the error codes.
         /// </summary>
         [TestMethod]
-        public void ShouldReturnAllErrorCodes()
+        public void ShouldReturnErrorCodes()
         {
             // Build the test harness.
             SessionsControllerTestHarness testHarness = new SessionsControllerTestHarness(true, false);
@@ -103,6 +103,7 @@ namespace SampleHttpApplication.ServiceComponents.Tests.Scheduling.Sessions.Post
                     Errors = new NewSessionBusinessException.ErrorBusinessExceptionElement[]
                     {
                         new NewSessionBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewSessionBusinessException.ErrorCodes.InvalidSessionCode, Value = "Session-A" },
+                        new NewSessionBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewSessionBusinessException.ErrorCodes.DuplicateSessionCode, Value = "Session-A" },
                         new NewSessionBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewSessionBusinessException.ErrorCodes.InvalidName, Value = "Session Alpha" }
                     }
                 })
@@ -129,6 +130,10 @@ namespace SampleHttpApplication.ServiceComponents.Tests.Scheduling.Sessions.Post
             expectedJsonContent.Append("[");
             expectedJsonContent.Append("{");
             expectedJsonContent.Append("\"errorCode\":\"InvalidSessionCode\",");
+            expectedJsonContent.Append("\"value\":\"Session-A\"");
+            expectedJsonContent.Append("},");
+            expectedJsonContent.Append("{");
+            expectedJsonContent.Append("\"errorCode\":\"DuplicateSessionCode\",");
             expectedJsonContent.Append("\"value\":\"Session-A\"");
             expectedJsonContent.Append("},");
             expectedJsonContent.Append("{");
