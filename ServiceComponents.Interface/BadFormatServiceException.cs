@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 namespace SampleHttpApplication.ServiceComponents.Interface
 {
     /// <summary>
-    /// Represents the service exception.
+    /// Represents the BadFormat service exception.
     /// </summary>
-    public class ServiceException : Exception
+    public class BadFormatServiceException : Exception
     {
         /// <summary>
         /// The error message.
@@ -31,20 +31,15 @@ namespace SampleHttpApplication.ServiceComponents.Interface
         }
 
         /// <summary>
-        /// The errors.
+        /// The bad formats.
         /// </summary>
-        public ErrorServiceExceptionElement[] Errors;
-        public class ErrorServiceExceptionElement
+        public BadFormatServiceExceptionElement[] BadFormats;
+        public class BadFormatServiceExceptionElement
         {
             /// <summary>
-            /// The error code.
+            /// The badly formatted property.
             /// </summary>
-            public string ErrorCode;
-
-            /// <summary>
-            /// The erroneous value.
-            /// </summary>
-            public object Value;
+            public string BadFormat;
         }
     }
 }

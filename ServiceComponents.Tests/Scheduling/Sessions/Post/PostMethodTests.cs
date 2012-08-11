@@ -126,7 +126,6 @@ namespace SampleHttpApplication.ServiceComponents.Tests.Scheduling.Sessions.Post
 
             // Build the expected JSON content.
             StringBuilder expectedJsonContent = new StringBuilder();
-
             expectedJsonContent.Append("[");
             expectedJsonContent.Append("{");
             expectedJsonContent.Append("\"errorCode\":\"InvalidSessionCode\",");
@@ -145,6 +144,60 @@ namespace SampleHttpApplication.ServiceComponents.Tests.Scheduling.Sessions.Post
             // Validate the HTTP response message content.
             string httpResponseMessageContent = httpResponseMessage.Content.ReadAsStringAsync().Result;
             Assert.AreEqual(expectedJsonContent.ToString(), httpResponseMessageContent);
+        }
+
+        /// <summary>
+        /// Should return the StartDate bad format.
+        /// </summary>
+        private void ShouldReturnStartDateBadFormat(string startDate)
+        {
+            // Build the test harness.
+            SessionsControllerTestHarness testHarness = new SessionsControllerTestHarness(false, false);
+
+            // Build the request JSON content.
+            StringBuilder requestJsonContent = new StringBuilder();
+            requestJsonContent.Append("{");
+            requestJsonContent.Append("\"sessionCode\":\"Session-A\",");
+            requestJsonContent.Append("\"name\":\"Session Alpha\",");
+            requestJsonContent.Append(startDate);
+            requestJsonContent.Append("}");
+
+            // Invoke the HTTP POST method.
+            HttpRequestMessage httpRequestMessage = testHarness.BuildHttpRequest(HttpMethod.Post, "api/scheduling/sessions", requestJsonContent.ToString());
+            HttpResponseMessage httpResponseMessage = testHarness.HttpClient.SendAsync(httpRequestMessage).Result;
+
+            // Verify the mocked components.
+            testHarness.VerifyMockedComponents();
+
+            // Build the expected JSON content.
+            StringBuilder expectedJsonContent = new StringBuilder();
+            expectedJsonContent.Append("[");
+            expectedJsonContent.Append("{");
+            expectedJsonContent.Append("\"badFormat\":\"startDate\"");
+            expectedJsonContent.Append("}");
+            expectedJsonContent.Append("]");
+
+            // Validate the HTTP response message content.
+            string httpResponseMessageContent = httpResponseMessage.Content.ReadAsStringAsync().Result;
+            Assert.AreEqual(expectedJsonContent.ToString(), httpResponseMessageContent);
+        }
+
+        /// <summary>
+        /// Should return the StartDate bad format.
+        /// </summary>
+        [TestMethod]
+        public void ShouldReturnStartDateBadFormat_GivenEmptyStartDate()
+        {
+            ShouldReturnStartDateBadFormat("\"startDate\":\"\"");
+        }
+
+        /// <summary>
+        /// Should return the StartDate bad format.
+        /// </summary>
+        [TestMethod]
+        public void ShouldReturnStartDateBadFormat_GivenInvalidStartDate()
+        {
+            ShouldReturnStartDateBadFormat("\"startDate\":\"INVALID\"");
         }
     }
 }

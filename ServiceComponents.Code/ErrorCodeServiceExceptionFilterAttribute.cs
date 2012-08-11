@@ -12,23 +12,24 @@ using SampleHttpApplication.ServiceComponents.Interface;
 namespace SampleHttpApplication.ServiceComponents.Code
 {
     /// <summary>
-    /// Represents the unhandled exception filter attribute.
+    /// Represents the ErrorCode service exception filter attribute.
     /// </summary>
-    public class UnhandledExceptionFilterAttribute : ExceptionFilterAttribute
+    public class ErrorCodeServiceExceptionFilterAttribute : ExceptionFilterAttribute
     {
         /// <summary>
         /// Handles the specified exception.
         /// </summary>
         public override void OnException(HttpActionExecutedContext httpActionExecutedContext)
         {
-            // Make sure the exception was not already handled.
-            if (httpActionExecutedContext.Response != null)
+            // Handle the ErrorCode service exceptions only.
+            ErrorCodeServiceException errorCodeServiceException = httpActionExecutedContext.Exception as ErrorCodeServiceException;
+            if (errorCodeServiceException == null)
             {
                 return;
             }
 
-            // Return an HTTP response message with the InternalServerError status code.
-            HttpResponseMessage httpResponseMessage = httpActionExecutedContext.Request.CreateResponse(HttpStatusCode.InternalServerError);
+            // Return an HTTP response message containing the error codes.
+            HttpResponseMessage httpResponseMessage = httpActionExecutedContext.Request.CreateResponse(HttpStatusCode.BadRequest, errorCodeServiceException.ErrorCodes);
             httpActionExecutedContext.Response = httpResponseMessage;
         }
     }

@@ -61,7 +61,6 @@
     <Compile Include="DependencyInjection\DependencyResolverBuilder.cs" />
     <Compile Include="DependencyInjection\DependencyScope.cs" />
     <Compile Include="DependencyInjection\DependencyResolver.cs" />
-    <Compile Include="Http\ModelStateDictionaryExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

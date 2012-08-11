@@ -7,10 +7,10 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Transactions;
 using System.Web;
+using System.Web.Http.ModelBinding;
 
 using SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling.NewSession;
 using SampleHttpApplication.DataAccessComponents.Interface;
-using SampleHttpApplication.Infrastructure.Code.Http;
 using SampleHttpApplication.ServiceComponents.Interface;
 using SampleHttpApplication.ServiceComponents.Interface.Scheduling.Sessions;
 
@@ -46,25 +46,26 @@ namespace SampleHttpApplication.ServiceComponents.Code.Scheduling.Sessions
             }
             catch (NewSessionBusinessException ex)
             {
-                // Build a service exception.
-                ServiceException serviceException = new ServiceException();
-                serviceException.ErrorMessage = String.Format("SchedulingServiceComponent.SessionsController.Post() has invoked SessionBusinessLogicComponent.NewSession() and has caught a NewSession business exception. See the Errors property for details.");
+                // Build the ErrorCode service exception.
+                ErrorCodeServiceException errorCodeServiceException = new ErrorCodeServiceException();
+                errorCodeServiceException.ErrorMessage = String.Format("SchedulingServiceComponent.SessionsController.Post() has invoked SessionBusinessLogicComponent.NewSession() and has caught a NewSession business exception. See the ErrorCodes property for details.");
 
-                // Build the Error service exception elements.
-                List<ServiceException.ErrorServiceExceptionElement> errorServiceExceptionElements = new List<ServiceException.ErrorServiceExceptionElement>();
+                // Build the ErrorCode service exception elements.
+                List<ErrorCodeServiceException.ErrorCodeServiceExceptionElement> errorCodeServiceExceptionElements = new List<ErrorCodeServiceException.ErrorCodeServiceExceptionElement>();
                 foreach (NewSessionBusinessException.ErrorBusinessExceptionElement errorBusinessExceptionElement in ex.Errors)
                 {
-                    ServiceException.ErrorServiceExceptionElement errorServiceExceptionElement = new ServiceException.ErrorServiceExceptionElement();
-                    errorServiceExceptionElement.ErrorCode = errorBusinessExceptionElement.ErrorCode.ToString();
-                    errorServiceExceptionElement.Value = errorBusinessExceptionElement.Value;
-                    errorServiceExceptionElements.Add(errorServiceExceptionElement);
+                    // Build the ErrorCode service exception element.
+                    ErrorCodeServiceException.ErrorCodeServiceExceptionElement errorCodeServiceExceptionElement = new ErrorCodeServiceException.ErrorCodeServiceExceptionElement();
+                    errorCodeServiceExceptionElement.ErrorCode = errorBusinessExceptionElement.ErrorCode.ToString();
+                    errorCodeServiceExceptionElement.Value = errorBusinessExceptionElement.Value;
+                    errorCodeServiceExceptionElements.Add(errorCodeServiceExceptionElement);
                 }
 
-                // Set the Error service exception elements.
-                serviceException.Errors = errorServiceExceptionElements.ToArray();
+                // Set the ErrorCode service exception elements.
+                errorCodeServiceException.ErrorCodes = errorCodeServiceExceptionElements.ToArray();
 
-                // Throw the service exception.
-                throw serviceException;
+                // Throw the ErrorCode service exception.
+                throw errorCodeServiceException;
             }
         }
 
@@ -73,17 +74,29 @@ namespace SampleHttpApplication.ServiceComponents.Code.Scheduling.Sessions
         /// </summary>
         public async Task<HttpResponseMessage> Post(SessionResource sessionResource)
         {
-            //// Make sure the Session resource is valid.
-            //if (!this.ModelState.IsValid)
-            //{
-            //    // Build the InvalidFields service exception.
-            //    InvalidFieldsServiceException invalidFieldsServiceException = new InvalidFieldsServiceException();
-            //    invalidFieldsServiceException.ErrorMessage = "SchedulingServiceComponent.SessionsController.Post() was invoked with invalid fields.";
-            //    invalidFieldsServiceException.Details.InvalidFields = this.ModelState.GetInvalidFields();
+            // Make sure the Session resource is valid.
+            if (!this.ModelState.IsValid)
+            {
+                // Build the BadFormat service exception.
+                BadFormatServiceException badFormatServiceException = new BadFormatServiceException();
+                badFormatServiceException.ErrorMessage = "SchedulingServiceComponent.SessionsController.Post() was invoked with badly formatted values. See the BadFormats property for details.";
 
-            //    // Throw the InvalidFields service exception.
-            //    throw invalidFieldsServiceException;
-            //}
+                // Build the BadFormat service exception elements.
+                List<BadFormatServiceException.BadFormatServiceExceptionElement> badFormatServiceExceptionElements = new List<BadFormatServiceException.BadFormatServiceExceptionElement>();
+                foreach (KeyValuePair<string, ModelState> invalidModelState in this.ModelState.Where(modelStateEntry => modelStateEntry.Value.Errors.Any()))
+                {
+                    // Build the BadFormat service exception element.
+                    BadFormatServiceException.BadFormatServiceExceptionElement badFormatServiceExceptionElement = new BadFormatServiceException.BadFormatServiceExceptionElement();
+                    badFormatServiceExceptionElement.BadFormat = invalidModelState.Key.Split('.').Last();
+                    badFormatServiceExceptionElements.Add(badFormatServiceExceptionElement);
+                }
+
+                // Set the BadFormat service exception elements.
+                badFormatServiceException.BadFormats = badFormatServiceExceptionElements.ToArray();
+
+                // Throw the BadFormat service exception.
+                throw badFormatServiceException;
+            }
 
             // Open a database connection and begin a database transaction.
             using (IDatabaseConnection databaseConnection = await this.databaseConnectionProvider.OpenDatabaseConnection())

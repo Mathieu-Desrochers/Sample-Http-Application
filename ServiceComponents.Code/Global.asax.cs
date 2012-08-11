@@ -27,7 +27,8 @@ namespace SampleHttpApplication.ServiceComponents.Code
             httpConfiguration.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
             // Register the error handling filters.
-            httpConfiguration.Filters.Add(new ServiceExceptionFilterAttribute());
+            httpConfiguration.Filters.Add(new BadFormatServiceExceptionFilterAttribute());
+            httpConfiguration.Filters.Add(new ErrorCodeServiceExceptionFilterAttribute());
             httpConfiguration.Filters.Add(new UnhandledExceptionFilterAttribute());
 
             // Register the controller routes.
