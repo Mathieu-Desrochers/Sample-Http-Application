@@ -18,20 +18,6 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
     public partial class SchedulingBusinessLogicComponent
     {
         /// <summary>
-        /// Builds a NewSession business exception.
-        /// </summary>
-        private NewSessionBusinessException BuildNewSessionBusinessException(NewSessionBusinessException.ErrorBusinessExceptionElement[] errorBusinessExceptionElements)
-        {
-            // Build the NewSession business exception.
-            NewSessionBusinessException businessException = new NewSessionBusinessException();
-            businessException.ErrorMessage = String.Format("SchedulingBusinessLogicComponent.NewSession() has thrown a NewSession business exception. See the Errors property for details.");
-            businessException.Errors = errorBusinessExceptionElements;
-
-            // Return the NewSession business exception.
-            return businessException;
-        }
-
-        /// <summary>
         /// Validates the NewSession business request.
         /// </summary>
         private void ValidateNewSessionRequest(NewSessionBusinessRequest businessRequest)
@@ -41,9 +27,9 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
 
             // Validate the Session business request element.
             NewSessionBusinessRequest.SessionBusinessRequestElement sessionBusinessRequestElement = businessRequest.Session;
-            errorBusinessExceptionElements.AddIfInvalid(sessionBusinessRequestElement, "SessionCode", sessionBusinessRequestElement.SessionCode, NewSessionBusinessException.ErrorCodes.InvalidSessionCode);
-            errorBusinessExceptionElements.AddIfInvalid(sessionBusinessRequestElement, "Name", sessionBusinessRequestElement.Name, NewSessionBusinessException.ErrorCodes.InvalidName);
-
+            this.ValidateNewSessionRequestProperty(sessionBusinessRequestElement, "SessionCode", sessionBusinessRequestElement.SessionCode, NewSessionBusinessException.ErrorCodes.InvalidSessionCode, errorBusinessExceptionElements);
+            this.ValidateNewSessionRequestProperty(sessionBusinessRequestElement, "Name", sessionBusinessRequestElement.Name, NewSessionBusinessException.ErrorCodes.InvalidName, errorBusinessExceptionElements);
+            
             // Check if any errors were added to the list.
             if (errorBusinessExceptionElements.Any())
             {
@@ -63,8 +49,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
             if (operationData.SessionDataRow != null)
             {
                 // Throw a NewSession business exception.
-                NewSessionBusinessException.ErrorBusinessExceptionElement errorBusinessExceptionElement = new NewSessionBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewSessionBusinessException.ErrorCodes.DuplicateSessionCode, Value = businessRequest.Session.SessionCode };
-                NewSessionBusinessException businessException = this.BuildNewSessionBusinessException(new NewSessionBusinessException.ErrorBusinessExceptionElement[] { errorBusinessExceptionElement });
+                NewSessionBusinessException businessException = this.BuildNewSessionBusinessException(NewSessionBusinessException.ErrorCodes.DuplicateSessionCode, businessRequest.Session.SessionCode);
                 throw businessException;
             }
         }

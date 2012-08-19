@@ -20,7 +20,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling.Get
         }
 
         /// <summary>
-        /// The actual errors.
+        /// The errors.
         /// </summary>
         public ErrorBusinessExceptionElement[] Errors;
         public class ErrorBusinessExceptionElement
@@ -33,7 +33,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling.Get
             /// <summary>
             /// The erroneous value.
             /// </summary>
-            public object Value;
+            public object ErroneousValue;
         }
     }
 }

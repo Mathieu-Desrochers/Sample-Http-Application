@@ -11,27 +11,59 @@ using SampleHttpApplication.Infrastructure.Code.DataAnnotations;
 namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
 {
     /// <summary>
-    /// Represents the GetSessions operation helper.
+    /// Represents the Scheduling business logic component.
     /// </summary>
-    public static class GetSessionsOperationHelper
+    public partial class SchedulingBusinessLogicComponent
     {
         /// <summary>
-        /// Adds the specified error code to the list when
-        /// the validation of a business request element fails.
+        /// Validates the specified GetSessions business request property.
         /// </summary>
-        public static void AddIfInvalid(this List<GetSessionsBusinessException.ErrorBusinessExceptionElement> instance, object businessRequestElement, string propertyName, object propertyValue, GetSessionsBusinessException.ErrorCodes errorCode)
+        private void ValidateGetSessionsRequestProperty(object businessRequestElement, string propertyName, object propertyValue, GetSessionsBusinessException.ErrorCodes errorCode, List<GetSessionsBusinessException.ErrorBusinessExceptionElement> errorBusinessExceptionElements)
         {
-            // Make sure the business request element is invalid.
+            // Make sure the property is invalid.
             if (ValidatorHelper.ValidateProperty(businessRequestElement, propertyName, propertyValue))
             {
                 return;
             }
 
-            // Add the specified error code to the list.
+            // Build an Error business exception element.
             GetSessionsBusinessException.ErrorBusinessExceptionElement errorBusinessExceptionElement = new GetSessionsBusinessException.ErrorBusinessExceptionElement();
             errorBusinessExceptionElement.ErrorCode = errorCode;
-            errorBusinessExceptionElement.Value = propertyValue;
-            instance.Add(errorBusinessExceptionElement);
+            errorBusinessExceptionElement.ErroneousValue = propertyValue;
+
+            // Add the Error business exception element to the list.
+            errorBusinessExceptionElements.Add(errorBusinessExceptionElement);
+        }
+
+        /// <summary>
+        /// Builds a GetSessions business exception.
+        /// </summary>
+        private GetSessionsBusinessException BuildGetSessionsBusinessException(GetSessionsBusinessException.ErrorBusinessExceptionElement[] errorBusinessExceptionElements)
+        {
+            // Build the business exception.
+            GetSessionsBusinessException businessException = new GetSessionsBusinessException();
+            businessException.ErrorMessage = String.Format("SchedulingBusinessLogicComponent.GetSessions() has thrown a GetSessions business exception. See the Errors property for details.");
+            businessException.Errors = errorBusinessExceptionElements;
+
+            // Return the business exception.
+            return businessException;
+        }
+
+        /// <summary>
+        /// Builds a GetSessions business exception.
+        /// </summary>
+        private GetSessionsBusinessException BuildGetSessionsBusinessException(GetSessionsBusinessException.ErrorCodes errorCode, object erroneousValue)
+        {
+            // Build an Error business exception element.
+            GetSessionsBusinessException.ErrorBusinessExceptionElement errorBusinessExceptionElement = new GetSessionsBusinessException.ErrorBusinessExceptionElement();
+            errorBusinessExceptionElement.ErrorCode = errorCode;
+            errorBusinessExceptionElement.ErroneousValue = erroneousValue;
+
+            // Build the business exception.
+            GetSessionsBusinessException businessException = this.BuildGetSessionsBusinessException(new GetSessionsBusinessException.ErrorBusinessExceptionElement[] { errorBusinessExceptionElement });
+
+            // Return the business exception.
+            return businessException;
         }
     }
 }

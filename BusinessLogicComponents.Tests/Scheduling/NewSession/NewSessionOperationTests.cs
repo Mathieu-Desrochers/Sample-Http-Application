@@ -115,7 +115,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewSess
                 Assert.IsNotNull(NewSessionBusinessException.Errors);
                 Assert.AreEqual(1, NewSessionBusinessException.Errors.Length);
                 Assert.AreEqual(NewSessionBusinessException.ErrorCodes.InvalidSessionCode, NewSessionBusinessException.Errors[0].ErrorCode);
-                Assert.AreEqual(sessionCode, NewSessionBusinessException.Errors[0].Value);
+                Assert.AreEqual(sessionCode, NewSessionBusinessException.Errors[0].ErroneousValue);
             }
         }
 
@@ -193,7 +193,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewSess
                 Assert.IsNotNull(NewSessionBusinessException.Errors);
                 Assert.AreEqual(1, NewSessionBusinessException.Errors.Length);
                 Assert.AreEqual(NewSessionBusinessException.ErrorCodes.DuplicateSessionCode, NewSessionBusinessException.Errors[0].ErrorCode);
-                Assert.AreEqual("Session-A", NewSessionBusinessException.Errors[0].Value);
+                Assert.AreEqual("Session-A", NewSessionBusinessException.Errors[0].ErroneousValue);
             }
         }
 
@@ -237,7 +237,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewSess
                 Assert.IsNotNull(NewSessionBusinessException.Errors);
                 Assert.AreEqual(1, NewSessionBusinessException.Errors.Length);
                 Assert.AreEqual(NewSessionBusinessException.ErrorCodes.InvalidName, NewSessionBusinessException.Errors[0].ErrorCode);
-                Assert.AreEqual(name, NewSessionBusinessException.Errors[0].Value);
+                Assert.AreEqual(name, NewSessionBusinessException.Errors[0].ErroneousValue);
             }
         }
 

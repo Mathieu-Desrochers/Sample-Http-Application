@@ -2,10 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
@@ -21,6 +21,9 @@ namespace SampleHttpApplication.ServiceComponents.Tests.Scheduling.Sessions.Post
     [TestClass]
     public class PostMethodTests
     {
+        /// <summary>
+        /// Should succeed.
+        /// </summary>
         [TestMethod]
         public void ShouldSucceed()
         {
@@ -72,8 +75,11 @@ namespace SampleHttpApplication.ServiceComponents.Tests.Scheduling.Sessions.Post
             expectedJsonContent.Append("\"startDate\":\"2001-01-01T00:00:00\"");
             expectedJsonContent.Append("}");
 
-            // Validate the HTTP response message content.
+            // Read the HTTP response message content.
             string httpResponseMessageContent = httpResponseMessage.Content.ReadAsStringAsync().Result;
+
+            // Validate the HTTP response message.
+            Assert.AreEqual(HttpStatusCode.Created, httpResponseMessage.StatusCode);
             Assert.AreEqual(expectedJsonContent.ToString(), httpResponseMessageContent);
         }
 
@@ -102,9 +108,9 @@ namespace SampleHttpApplication.ServiceComponents.Tests.Scheduling.Sessions.Post
                     // Mock the NewSession business exception.
                     Errors = new NewSessionBusinessException.ErrorBusinessExceptionElement[]
                     {
-                        new NewSessionBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewSessionBusinessException.ErrorCodes.InvalidSessionCode, Value = "Session-A" },
-                        new NewSessionBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewSessionBusinessException.ErrorCodes.DuplicateSessionCode, Value = "Session-A" },
-                        new NewSessionBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewSessionBusinessException.ErrorCodes.InvalidName, Value = "Session Alpha" }
+                        new NewSessionBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewSessionBusinessException.ErrorCodes.InvalidSessionCode, ErroneousValue = "Session-A" },
+                        new NewSessionBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewSessionBusinessException.ErrorCodes.DuplicateSessionCode, ErroneousValue = "Session-A" },
+                        new NewSessionBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewSessionBusinessException.ErrorCodes.InvalidName, ErroneousValue = "Session Alpha" }
                     }
                 })
                 .Verifiable();
@@ -129,38 +135,38 @@ namespace SampleHttpApplication.ServiceComponents.Tests.Scheduling.Sessions.Post
             expectedJsonContent.Append("[");
             expectedJsonContent.Append("{");
             expectedJsonContent.Append("\"errorCode\":\"InvalidSessionCode\",");
-            expectedJsonContent.Append("\"value\":\"Session-A\"");
+            expectedJsonContent.Append("\"erroneousValue\":\"Session-A\"");
             expectedJsonContent.Append("},");
             expectedJsonContent.Append("{");
             expectedJsonContent.Append("\"errorCode\":\"DuplicateSessionCode\",");
-            expectedJsonContent.Append("\"value\":\"Session-A\"");
+            expectedJsonContent.Append("\"erroneousValue\":\"Session-A\"");
             expectedJsonContent.Append("},");
             expectedJsonContent.Append("{");
             expectedJsonContent.Append("\"errorCode\":\"InvalidName\",");
-            expectedJsonContent.Append("\"value\":\"Session Alpha\"");
+            expectedJsonContent.Append("\"erroneousValue\":\"Session Alpha\"");
             expectedJsonContent.Append("}");
             expectedJsonContent.Append("]");
 
-            // Validate the HTTP response message content.
+            // Read the HTTP response message content.
             string httpResponseMessageContent = httpResponseMessage.Content.ReadAsStringAsync().Result;
+
+            // Validate the HTTP response message.
+            Assert.AreEqual(HttpStatusCode.BadRequest, httpResponseMessage.StatusCode);
             Assert.AreEqual(expectedJsonContent.ToString(), httpResponseMessageContent);
         }
 
         /// <summary>
-        /// Should return the StartDate bad format.
+        /// Should return BadRequest.
         /// </summary>
-        private void ShouldReturnStartDateBadFormat(string startDate)
+        [TestMethod]
+        public void ShouldReturnBadRequest()
         {
             // Build the test harness.
             SessionsControllerTestHarness testHarness = new SessionsControllerTestHarness(false, false);
 
             // Build the request JSON content.
             StringBuilder requestJsonContent = new StringBuilder();
-            requestJsonContent.Append("{");
-            requestJsonContent.Append("\"sessionCode\":\"Session-A\",");
-            requestJsonContent.Append("\"name\":\"Session Alpha\",");
-            requestJsonContent.Append(startDate);
-            requestJsonContent.Append("}");
+            requestJsonContent.Append("bad request");
 
             // Invoke the HTTP POST method.
             HttpRequestMessage httpRequestMessage = testHarness.BuildHttpRequest(HttpMethod.Post, "api/scheduling/sessions", requestJsonContent.ToString());
@@ -169,35 +175,8 @@ namespace SampleHttpApplication.ServiceComponents.Tests.Scheduling.Sessions.Post
             // Verify the mocked components.
             testHarness.VerifyMockedComponents();
 
-            // Build the expected JSON content.
-            StringBuilder expectedJsonContent = new StringBuilder();
-            expectedJsonContent.Append("[");
-            expectedJsonContent.Append("{");
-            expectedJsonContent.Append("\"badFormat\":\"startDate\"");
-            expectedJsonContent.Append("}");
-            expectedJsonContent.Append("]");
-
-            // Validate the HTTP response message content.
-            string httpResponseMessageContent = httpResponseMessage.Content.ReadAsStringAsync().Result;
-            Assert.AreEqual(expectedJsonContent.ToString(), httpResponseMessageContent);
-        }
-
-        /// <summary>
-        /// Should return the StartDate bad format.
-        /// </summary>
-        [TestMethod]
-        public void ShouldReturnStartDateBadFormat_GivenEmptyStartDate()
-        {
-            ShouldReturnStartDateBadFormat("\"startDate\":\"\"");
-        }
-
-        /// <summary>
-        /// Should return the StartDate bad format.
-        /// </summary>
-        [TestMethod]
-        public void ShouldReturnStartDateBadFormat_GivenInvalidStartDate()
-        {
-            ShouldReturnStartDateBadFormat("\"startDate\":\"INVALID\"");
+            // Validate the HTTP response message.
+            Assert.AreEqual(HttpStatusCode.BadRequest, httpResponseMessage.StatusCode);
         }
     }
 }

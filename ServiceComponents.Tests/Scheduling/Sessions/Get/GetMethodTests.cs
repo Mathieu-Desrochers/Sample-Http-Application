@@ -2,10 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
@@ -52,8 +52,11 @@ namespace SampleHttpApplication.ServiceComponents.Tests.Scheduling.Sessions.Get
             expectedJsonContent.Append("[");
             expectedJsonContent.Append("]");
 
-            // Validate the HTTP response message content.
+            // Read the HTTP response message content.
             string httpResponseMessageContent = httpResponseMessage.Content.ReadAsStringAsync().Result;
+
+            // Validate the HTTP response message.
+            Assert.AreEqual(HttpStatusCode.OK, httpResponseMessage.StatusCode);
             Assert.AreEqual(expectedJsonContent.ToString(), httpResponseMessageContent);
         }
 
@@ -104,8 +107,11 @@ namespace SampleHttpApplication.ServiceComponents.Tests.Scheduling.Sessions.Get
             expectedJsonContent.Append("}");
             expectedJsonContent.Append("]");
 
-            // Validate the HTTP response message content.
+            // Read the HTTP response message content.
             string httpResponseMessageContent = httpResponseMessage.Content.ReadAsStringAsync().Result;
+
+            // Validate the HTTP response message.
+            Assert.AreEqual(HttpStatusCode.OK, httpResponseMessage.StatusCode);
             Assert.AreEqual(expectedJsonContent.ToString(), httpResponseMessageContent);
         }
 
@@ -186,8 +192,11 @@ namespace SampleHttpApplication.ServiceComponents.Tests.Scheduling.Sessions.Get
             expectedJsonContent.Append("}");
             expectedJsonContent.Append("]");
 
-            // Validate the HTTP response message content.
+            // Read the HTTP response message content.
             string httpResponseMessageContent = httpResponseMessage.Content.ReadAsStringAsync().Result;
+
+            // Validate the HTTP response message.
+            Assert.AreEqual(HttpStatusCode.OK, httpResponseMessage.StatusCode);
             Assert.AreEqual(expectedJsonContent.ToString(), httpResponseMessageContent);
         }
     }

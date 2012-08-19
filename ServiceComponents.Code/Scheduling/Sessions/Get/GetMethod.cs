@@ -7,7 +7,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Transactions;
 using System.Web;
-using System.Web.Http.ModelBinding;
+using System.Web.Http;
 
 using SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling.GetSessions;
 using SampleHttpApplication.DataAccessComponents.Interface;
@@ -37,28 +37,17 @@ namespace SampleHttpApplication.ServiceComponents.Code.Scheduling.Sessions
                 // The business operation succeeded.
                 return getSessionsBusinessResponse;
             }
-            catch (GetSessionsBusinessException ex)
+            catch (GetSessionsBusinessException getSessionsBusinessException)
             {
-                // Build the ErrorCode service exception.
-                ErrorCodeServiceException errorCodeServiceException = new ErrorCodeServiceException();
-                errorCodeServiceException.ErrorMessage = String.Format("SchedulingServiceComponent.SessionsController.Get() has invoked SessionBusinessLogicComponent.GetSessions() and has caught a GetSessions business exception. See the Errors property for details.");
-                
-                // Build the ErrorCode service exception elements.
-                List<ErrorCodeServiceException.ErrorCodeServiceExceptionElement> errorCodeServiceExceptionElements = new List<ErrorCodeServiceException.ErrorCodeServiceExceptionElement>();
-                foreach (GetSessionsBusinessException.ErrorBusinessExceptionElement errorBusinessExceptionElement in ex.Errors)
-                {
-                    // Build the ErrorCode service exception element.
-                    ErrorCodeServiceException.ErrorCodeServiceExceptionElement errorCodeServiceExceptionElement = new ErrorCodeServiceException.ErrorCodeServiceExceptionElement();
-                    errorCodeServiceExceptionElement.ErrorCode = errorBusinessExceptionElement.ErrorCode.ToString();
-                    errorCodeServiceExceptionElement.Value = errorBusinessExceptionElement.Value;
-                    errorCodeServiceExceptionElements.Add(errorCodeServiceExceptionElement);
-                }
-
-                // Set the ErrorCode service exception elements.
-                errorCodeServiceException.ErrorCodes = errorCodeServiceExceptionElements.ToArray();
+                // Wrap the GetSessions business exception into a service exception.
+                ServiceException serviceException = ServiceExceptionBuilder.BuildServiceException(
+                    "SchedulingServiceComponent.SessionsController.Get()",
+                    getSessionsBusinessException,
+                    getSessionsBusinessException.Errors.Select(error => error.ErrorCode.ToString()).ToArray(),
+                    getSessionsBusinessException.Errors.Select(error => error.ErroneousValue).ToArray());
 
                 // Throw the ErrorCode service exception.
-                throw errorCodeServiceException;
+                throw serviceException;
             }
         }
 

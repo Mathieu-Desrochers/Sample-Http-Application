@@ -12,24 +12,24 @@ using SampleHttpApplication.ServiceComponents.Interface;
 namespace SampleHttpApplication.ServiceComponents.Code
 {
     /// <summary>
-    /// Represents the BadFormat service exception filter attribute.
+    /// Represents the service exception filter attribute.
     /// </summary>
-    public class BadFormatServiceExceptionFilterAttribute : ExceptionFilterAttribute
+    public class ServiceExceptionFilterAttribute : ExceptionFilterAttribute
     {
         /// <summary>
         /// Handles the specified exception.
         /// </summary>
         public override void OnException(HttpActionExecutedContext httpActionExecutedContext)
         {
-            // Handle the BadFormat service exceptions only.
-            BadFormatServiceException badFormatServiceException = httpActionExecutedContext.Exception as BadFormatServiceException;
-            if (badFormatServiceException == null)
+            // Handle the service exceptions only.
+            ServiceException serviceException = httpActionExecutedContext.Exception as ServiceException;
+            if (serviceException == null)
             {
                 return;
             }
 
-            // Return an HTTP response message containing the bad formats.
-            HttpResponseMessage httpResponseMessage = httpActionExecutedContext.Request.CreateResponse(HttpStatusCode.BadRequest, badFormatServiceException.BadFormats);
+            // Return an HTTP response message containing the errors.
+            HttpResponseMessage httpResponseMessage = httpActionExecutedContext.Request.CreateResponse(HttpStatusCode.BadRequest, serviceException.Errors);
             httpActionExecutedContext.Response = httpResponseMessage;
         }
     }

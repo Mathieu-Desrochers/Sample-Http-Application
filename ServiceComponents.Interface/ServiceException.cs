@@ -5,33 +5,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling.NewSession
+namespace SampleHttpApplication.ServiceComponents.Interface
 {
     /// <summary>
-    /// Represents the NewSession business exception.
+    /// Represents the service exception.
     /// </summary>
-    public class NewSessionBusinessException : BusinessException
+    public class ServiceException : Exception
     {
         /// <summary>
-        /// The possible error codes.
+        /// Initialization constructor.
         /// </summary>
-        public enum ErrorCodes
+        public ServiceException(string message, Exception innerException)
+            : base(message, innerException)
         {
-            InvalidSessionCode,
-            DuplicateSessionCode,
-            InvalidName
         }
 
         /// <summary>
         /// The errors.
         /// </summary>
-        public ErrorBusinessExceptionElement[] Errors;
-        public class ErrorBusinessExceptionElement
+        public ErrorServiceExceptionElement[] Errors;
+        public class ErrorServiceExceptionElement
         {
             /// <summary>
             /// The error code.
             /// </summary>
-            public ErrorCodes ErrorCode;
+            public string ErrorCode;
 
             /// <summary>
             /// The erroneous value.

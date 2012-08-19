@@ -69,10 +69,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ErrorCodeServiceExceptionFilterAttribute.cs" />
+    <Compile Include="ServiceExceptionBuilder.cs" />
+    <Compile Include="ServiceExceptionFilterAttribute.cs" />
     <Compile Include="Scheduling\Sessions\Get\GetMethod.cs" />
     <Compile Include="UnhandledExceptionFilterAttribute.cs" />
-    <Compile Include="BadFormatServiceExceptionFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

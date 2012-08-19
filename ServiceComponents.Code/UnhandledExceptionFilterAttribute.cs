@@ -21,8 +21,9 @@ namespace SampleHttpApplication.ServiceComponents.Code
         /// </summary>
         public override void OnException(HttpActionExecutedContext httpActionExecutedContext)
         {
-            // Make sure the exception was not already handled.
-            if (httpActionExecutedContext.Response != null)
+            // Service exceptions are handled by their own filter.
+            ServiceException serviceException = httpActionExecutedContext.Exception as ServiceException;
+            if (serviceException != null)
             {
                 return;
             }

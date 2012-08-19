@@ -18,20 +18,6 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
     public partial class SchedulingBusinessLogicComponent
     {
         /// <summary>
-        /// Builds a GetSessions business exception.
-        /// </summary>
-        private GetSessionsBusinessException BuildGetSessionsBusinessException(GetSessionsBusinessException.ErrorBusinessExceptionElement[] errorBusinessExceptionElements)
-        {
-            // Build the GetSessions business exception.
-            GetSessionsBusinessException businessException = new GetSessionsBusinessException();
-            businessException.ErrorMessage = String.Format("SchedulingBusinessLogicComponent.GetSessions() has thrown a GetSessions business exception. See the Errors property for details.");
-            businessException.Errors = errorBusinessExceptionElements;
-
-            // Return the GetSessions business exception.
-            return businessException;
-        }
-
-        /// <summary>
         /// Validates the GetSessions business request.
         /// </summary>
         private void ValidateGetSessionsRequest(GetSessionsBusinessRequest businessRequest)
