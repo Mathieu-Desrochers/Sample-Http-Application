@@ -1,0 +1,7 @@
+﻿
+  <unity xmlns="http://schemas.microsoft.com/practices/2010/unity">
+    <assembly name="SampleHttpApplication.ServiceFacadeComponents.Code" />
+    <container>
+      <register type="SampleHttpApplication.ServiceFacadeComponents.Code.Scheduling.Sessions.SessionsController" />
+    </container>
+  </unity>

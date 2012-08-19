@@ -27,15 +27,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogicComponents.Fac
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogicComponents.Snippets", "BusinessLogicComponents.Snippets\BusinessLogicComponents.Snippets.csproj", "{CBAA8BC1-C3CB-4CD6-BF2E-ECD89BBB4FA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceComponents.Interface", "ServiceComponents.Interface\ServiceComponents.Interface.csproj", "{E1DFCC37-BF4C-453D-B5E2-DCDE24546AB9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceFacadeComponents.Interface", "ServiceFacadeComponents.Interface\ServiceFacadeComponents.Interface.csproj", "{E1DFCC37-BF4C-453D-B5E2-DCDE24546AB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceComponents.Code", "ServiceComponents.Code\ServiceComponents.Code.csproj", "{FF61B623-C258-4013-B59E-B1EA9EBB2B39}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceFacadeComponents.Code", "ServiceFacadeComponents.Code\ServiceFacadeComponents.Code.csproj", "{FF61B623-C258-4013-B59E-B1EA9EBB2B39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceComponents.Tests", "ServiceComponents.Tests\ServiceComponents.Tests.csproj", "{D7FF2425-17F0-4F19-A28E-598043EFA033}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceFacadeComponents.Tests", "ServiceFacadeComponents.Tests\ServiceFacadeComponents.Tests.csproj", "{D7FF2425-17F0-4F19-A28E-598043EFA033}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceComponents.Snippets", "ServiceComponents.Snippets\ServiceComponents.Snippets.csproj", "{EC6750FE-2854-47C3-A50A-1FD9DAAF404D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceFacadeComponents.Snippets", "ServiceFacadeComponents.Snippets\ServiceFacadeComponents.Snippets.csproj", "{EC6750FE-2854-47C3-A50A-1FD9DAAF404D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceComponents.Factory", "ServiceComponents.Factory\ServiceComponents.Factory.csproj", "{B1BD5820-130D-4659-80FB-44896EADEFBF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceFacadeComponents.Factory", "ServiceFacadeComponents.Factory\ServiceFacadeComponents.Factory.csproj", "{B1BD5820-130D-4659-80FB-44896EADEFBF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
