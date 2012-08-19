@@ -207,7 +207,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.<#= (st
                 Assert.IsNotNull(<#= (string)xml.Element("operation").Attribute("name") #>BusinessException.Errors);
                 Assert.AreEqual(1, <#= (string)xml.Element("operation").Attribute("name") #>BusinessException.Errors.Length);
                 Assert.AreEqual(<#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorCodes.<#= (string)error.Attribute("code") #>, <#= (string)xml.Element("operation").Attribute("name") #>BusinessException.Errors[0].ErrorCode);
-                Assert.AreEqual(, <#= (string)xml.Element("operation").Attribute("name") #>BusinessException.Errors[0].Value);
+                Assert.AreEqual(, <#= (string)xml.Element("operation").Attribute("name") #>BusinessException.Errors[0].ErroneousValue);
             }
         }
 
