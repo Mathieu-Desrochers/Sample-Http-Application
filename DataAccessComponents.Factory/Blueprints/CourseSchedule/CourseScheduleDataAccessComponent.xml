@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<dataAccessComponent name="CourseSchedule">
+  <columns>
+    <column name="CourseScheduleID" csharpType="int" sqlDbType="Int" isPrimaryKey="true" />
+    <column name="CourseScheduleCode" csharpType="string" sqlDbType="NVarChar" sqlDbTypeSize="50" isUnique="true">
+      <testValues>
+        <testValue1>"CourseSchedule-A"</testValue1>
+        <testValue2>"CourseSchedule-B"</testValue2>
+        <testValue3>"CourseSchedule-C"</testValue3>
+      </testValues>
+    </column>
+    <column name="SessionID" csharpType="int" sqlDbType="Int" isForeignKey="true">
+      <masterDataAccessComponent name="Session" />
+    </column>
+    <column name="DayOfWeek" csharpType="int" sqlDbType="Int">
+      <testValues>
+        <testValue1>1</testValue1>
+        <testValue2>2</testValue2>
+        <testValue3>3</testValue3>
+      </testValues>
+    </column>
+    <column name="Time" csharpType="TimeSpan" sqlDbType="Time">
+      <testValues>
+        <testValue1>new TimeSpan(9, 15, 0)</testValue1>
+        <testValue2>new TimeSpan(10, 30, 0)</testValue2>
+        <testValue3>new TimeSpan(11, 45, 0)</testValue3>
+      </testValues>
+    </column>
+  </columns>
+  <queries>
+    <query name="ReadByCourseScheduleID" results="single">
+      <summary>Reads the single CourseSchedule data row matching the specified CourseScheduleID.</summary>
+      <parameters>
+        <parameter name="CourseScheduleID" csharpType="int" sqlDbType="Int" />
+      </parameters>
+    </query>
+    <query name="ReadByCourseScheduleCode" results="single">
+      <summary>Reads the single CourseSchedule data row matching the specified CourseScheduleCode.</summary>
+      <parameters>
+        <parameter name="CourseScheduleCode" csharpType="string" sqlDbType="NVarChar" sqlDbTypeSize="50" />
+      </parameters>
+    </query>
+  </queries>
+</dataAccessComponent>

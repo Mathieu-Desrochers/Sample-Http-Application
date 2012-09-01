@@ -39,6 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CourseSchedule\CourseScheduleDataRow.cs" />
+    <Compile Include="CourseSchedule\ICourseScheduleDataAccessComponent.cs" />
     <Compile Include="IDatabaseConnection.cs" />
     <Compile Include="IDatabaseConnectionProvider.cs" />
     <Compile Include="IDatabaseTransaction.cs" />

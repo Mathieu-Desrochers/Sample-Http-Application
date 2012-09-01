@@ -1,0 +1,9 @@
+﻿
+  <unity xmlns="http://schemas.microsoft.com/practices/2010/unity">
+    <assembly name="SampleHttpApplication.DataAccessComponents.Code" />
+    <assembly name="SampleHttpApplication.DataAccessComponents.Interface" />
+    <container>
+      <register type="SampleHttpApplication.DataAccessComponents.Interface.IDatabaseConnectionProvider" mapTo="SampleHttpApplication.DataAccessComponents.Code.DatabaseConnectionProvider" />
+      <register type="SampleHttpApplication.DataAccessComponents.Interface.CourseSchedule.ICourseScheduleDataAccessComponent" mapTo="SampleHttpApplication.DataAccessComponents.Code.CourseSchedule.CourseScheduleDataAccessComponent" />
+    </container>
+  </unity>

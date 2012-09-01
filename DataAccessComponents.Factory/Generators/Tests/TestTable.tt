@@ -108,7 +108,8 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.<#= (string)xml.Attri
         { "decimal", "{{{0}}}" },
         { "Guid", "'{{{0}}}'" },
         { "int", "{{{0}}}" },
-        { "string", "'{{{0}}}'" }
+        { "string", "'{{{0}}}'" },
+        { "TimeSpan", "'{{{0}:hh\\\\:mm\\\\:ss}}'" }
     };
 
     public string GetInsertionToken(XElement xml, XElement column)
@@ -125,7 +126,8 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.<#= (string)xml.Attri
         { "decimal", "0.00m" },
         { "Guid", "Guid.Empty" },
         { "int", "0" },
-        { "string", "String.Empty" }
+        { "string", "String.Empty" },
+        { "TimeSpan", "new TimeSpan(10, 1, 1)" }
     };
 
     public string GetPlaceholderValue(XElement column)
@@ -141,7 +143,8 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.<#= (string)xml.Attri
         { "decimal", "new Random().Next()" },
         { "Guid", "Guid.NewGuid()" },
         { "int", "new Random().Next()" },
-        { "string", "Guid.NewGuid().ToString()" }
+        { "string", "Guid.NewGuid().ToString()" },
+        { "TimeSpan", "DateTime.Now.TimeOfDay" }
     };
 
     public string GetUniquePlaceholderValue(XElement column)

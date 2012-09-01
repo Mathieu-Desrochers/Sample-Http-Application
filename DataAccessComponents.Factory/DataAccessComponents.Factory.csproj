@@ -72,6 +72,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Blueprints\CourseSchedule\CourseScheduleDataAccessComponent.xml" />
     <Content Include="Blueprints\Session\SessionDataAccessComponent.xml" />
     <Content Include="Generators\Blueprint.xml" />
     <Content Include="Generators\Snippets\DependencyInjection.txt">

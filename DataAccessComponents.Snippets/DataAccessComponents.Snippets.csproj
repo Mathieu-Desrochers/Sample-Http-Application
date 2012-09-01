@@ -42,6 +42,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CourseSchedule\DependencyInjection.txt" />
+    <Content Include="CourseSchedule\Invocation.txt" />
+    <Content Include="CourseSchedule\Mocking.txt" />
     <Content Include="Session\DependencyInjection.txt" />
     <Content Include="Session\Invocation.txt" />
     <Content Include="Session\Mocking.txt" />

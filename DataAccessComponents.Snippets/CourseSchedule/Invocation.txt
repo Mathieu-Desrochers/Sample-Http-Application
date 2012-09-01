@@ -1,0 +1,24 @@
+﻿
+    // Create the CourseSchedule data row.
+    operationData.CourseScheduleDataRow = new CourseScheduleDataRow();
+    operationData.CourseScheduleDataRow.CourseScheduleCode = ;
+    operationData.CourseScheduleDataRow.SessionID = ;
+    operationData.CourseScheduleDataRow.DayOfWeek = ;
+    operationData.CourseScheduleDataRow.Time = ;
+    await this.courseScheduleDataAccessComponent.Create(databaseConnection, operationData.CourseScheduleDataRow);
+
+    // Read the CourseSchedule data row.
+    operationData.CourseScheduleDataRow = await this.courseScheduleDataAccessComponent.ReadByCourseScheduleID(databaseConnection, );
+
+    // Read the CourseSchedule data row.
+    operationData.CourseScheduleDataRow = await this.courseScheduleDataAccessComponent.ReadByCourseScheduleCode(databaseConnection, );
+
+    // Update the CourseSchedule data row.
+    operationData.CourseScheduleDataRow.CourseScheduleCode = ;
+    operationData.CourseScheduleDataRow.SessionID = ;
+    operationData.CourseScheduleDataRow.DayOfWeek = ;
+    operationData.CourseScheduleDataRow.Time = ;
+    await this.courseScheduleDataAccessComponent.Update(databaseConnection, operationData.CourseScheduleDataRow);
+
+    // Delete the CourseSchedule data row.
+    await this.courseScheduleDataAccessComponent.Delete(databaseConnection, operationData.CourseScheduleDataRow);

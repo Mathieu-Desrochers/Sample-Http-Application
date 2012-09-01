@@ -1,0 +1,70 @@
+﻿
+    // Mock the creation of the CourseSchedule data row.
+    testHarness.MockedCourseScheduleDataAccessComponent
+        .Setup(mock => mock.Create(
+            It.IsAny<IDatabaseConnection>(),
+            It.Is<CourseScheduleDataRow>(courseScheduleDataRow =>
+            (
+                courseScheduleDataRow.CourseScheduleCode ==  &&
+                courseScheduleDataRow.SessionID ==  &&
+                courseScheduleDataRow.DayOfWeek ==  &&
+                courseScheduleDataRow.Time == 
+            ))))
+        .Returns(Task.FromResult<object>(null))
+        .Callback((IDatabaseConnection databaseConnection, CourseScheduleDataRow courseScheduleDataRow) =>
+        {
+            courseScheduleDataRow.CourseScheduleID = ;
+        })
+        .Verifiable();
+
+    // Mock the reading of the CourseSchedule data row.
+    testHarness.MockedCourseScheduleDataAccessComponent
+        .Setup(mock => mock.ReadByCourseScheduleID(It.IsAny<IDatabaseConnection>(), ))
+        .Returns(Task.FromResult(new CourseScheduleDataRow()
+        {
+            CourseScheduleID = ,
+            CourseScheduleCode = ,
+            SessionID = ,
+            DayOfWeek = ,
+            Time = 
+        }))
+        .Verifiable();
+
+    // Mock the reading of the CourseSchedule data row.
+    testHarness.MockedCourseScheduleDataAccessComponent
+        .Setup(mock => mock.ReadByCourseScheduleCode(It.IsAny<IDatabaseConnection>(), ))
+        .Returns(Task.FromResult(new CourseScheduleDataRow()
+        {
+            CourseScheduleID = ,
+            CourseScheduleCode = ,
+            SessionID = ,
+            DayOfWeek = ,
+            Time = 
+        }))
+        .Verifiable();
+
+    // Mock the update of the CourseSchedule data row.
+    testHarness.MockedCourseScheduleDataAccessComponent
+        .Setup(mock => mock.Update(
+            It.IsAny<IDatabaseConnection>(),
+            It.Is<CourseScheduleDataRow>(courseScheduleDataRow =>
+            (
+                courseScheduleDataRow.CourseScheduleID ==  &&
+                courseScheduleDataRow.CourseScheduleCode ==  &&
+                courseScheduleDataRow.SessionID ==  &&
+                courseScheduleDataRow.DayOfWeek ==  &&
+                courseScheduleDataRow.Time == 
+            ))))
+        .Returns(Task.FromResult<object>(null))
+        .Verifiable();
+
+    // Mock the deletion of the CourseSchedule data row.
+    testHarness.MockedCourseScheduleDataAccessComponent
+        .Setup(mock => mock.Delete(
+            It.IsAny<IDatabaseConnection>(),
+            It.Is<CourseScheduleDataRow>(courseScheduleDataRow =>
+            (
+                courseScheduleDataRow.CourseScheduleID == 
+            ))))
+        .Returns(Task.FromResult<object>(null))
+        .Verifiable();
