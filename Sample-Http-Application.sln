@@ -37,6 +37,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceFacadeComponents.Sni
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceFacadeComponents.Factory", "ServiceFacadeComponents.Factory\ServiceFacadeComponents.Factory.csproj", "{B1BD5820-130D-4659-80FB-44896EADEFBF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Interface", "Infrastructure.Interface\Infrastructure.Interface.csproj", "{EE316CDB-6CC5-4CDE-A183-77B9CE5A569A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Tests", "Infrastructure.Tests\Infrastructure.Tests.csproj", "{F365B6A9-37C7-40C8-A4BA-267474464FE7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -104,6 +108,14 @@ Global
 		{EC6750FE-2854-47C3-A50A-1FD9DAAF404D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EC6750FE-2854-47C3-A50A-1FD9DAAF404D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC6750FE-2854-47C3-A50A-1FD9DAAF404D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE316CDB-6CC5-4CDE-A183-77B9CE5A569A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE316CDB-6CC5-4CDE-A183-77B9CE5A569A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE316CDB-6CC5-4CDE-A183-77B9CE5A569A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE316CDB-6CC5-4CDE-A183-77B9CE5A569A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F365B6A9-37C7-40C8-A4BA-267474464FE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F365B6A9-37C7-40C8-A4BA-267474464FE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F365B6A9-37C7-40C8-A4BA-267474464FE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F365B6A9-37C7-40C8-A4BA-267474464FE7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FF61B623-C258-4013-B59E-B1EA9EBB2B39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FF61B623-C258-4013-B59E-B1EA9EBB2B39}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF61B623-C258-4013-B59E-B1EA9EBB2B39}.Release|Any CPU.ActiveCfg = Release|Any CPU
