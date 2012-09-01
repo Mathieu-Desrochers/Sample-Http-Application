@@ -20,13 +20,6 @@ namespace SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling.New
         public class SessionBusinessRequestElement
         {
             /// <summary>
-            /// Gets or sets the SessionCode.
-            /// </summary>
-            [Required]
-            [StringLength(50)]
-            public string SessionCode { get; set; }
-
-            /// <summary>
             /// Gets or sets the Name.
             /// </summary>
             [Required]

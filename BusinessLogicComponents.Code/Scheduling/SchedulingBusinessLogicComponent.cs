@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling;
 using SampleHttpApplication.DataAccessComponents.Interface.Session;
+using SampleHttpApplication.Infrastructure.Interface.UniqueToken;
 
 namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
 {
@@ -21,12 +22,20 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
         private readonly ISessionDataAccessComponent sessionDataAccessComponent;
 
         /// <summary>
+        /// The unique token generator.
+        /// </summary>
+        private readonly IUniqueTokenGenerator uniqueTokenGenerator;
+
+        /// <summary>
         /// Initialization constructor.
         /// </summary>
-        public SchedulingBusinessLogicComponent(ISessionDataAccessComponent sessionDataAccessComponent)
+        public SchedulingBusinessLogicComponent(ISessionDataAccessComponent sessionDataAccessComponent, IUniqueTokenGenerator uniqueTokenGenerator)
         {
             // Initialize the data access components.
             this.sessionDataAccessComponent = sessionDataAccessComponent;
+
+            // Initialize the unique token generator.
+            this.uniqueTokenGenerator = uniqueTokenGenerator;
         }
     }
 }

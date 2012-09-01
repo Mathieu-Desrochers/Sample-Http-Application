@@ -91,7 +91,6 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.GetSess
 
             // Validate the Session business response element.
             Assert.IsNotNull(getSessionsBusinessResponse.Sessions[0]);
-            Assert.AreEqual(10001, getSessionsBusinessResponse.Sessions[0].SessionID);
             Assert.AreEqual("Session-A", getSessionsBusinessResponse.Sessions[0].SessionCode);
             Assert.AreEqual("Session Alpha", getSessionsBusinessResponse.Sessions[0].Name);
             Assert.AreEqual(new DateTime(2001, 1, 1), getSessionsBusinessResponse.Sessions[0].StartDate);
@@ -151,21 +150,18 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.GetSess
 
             // Validate the first Session business response element.
             Assert.IsNotNull(getSessionsBusinessResponse.Sessions[0]);
-            Assert.AreEqual(10001, getSessionsBusinessResponse.Sessions[0].SessionID);
             Assert.AreEqual("Session-A", getSessionsBusinessResponse.Sessions[0].SessionCode);
             Assert.AreEqual("Session Alpha", getSessionsBusinessResponse.Sessions[0].Name);
             Assert.AreEqual(new DateTime(2001, 1, 1), getSessionsBusinessResponse.Sessions[0].StartDate);
 
             // Validate the second Session business response element.
             Assert.IsNotNull(getSessionsBusinessResponse.Sessions[1]);
-            Assert.AreEqual(10002, getSessionsBusinessResponse.Sessions[1].SessionID);
             Assert.AreEqual("Session-B", getSessionsBusinessResponse.Sessions[1].SessionCode);
             Assert.AreEqual("Session Bravo", getSessionsBusinessResponse.Sessions[1].Name);
             Assert.AreEqual(new DateTime(2002, 2, 2), getSessionsBusinessResponse.Sessions[1].StartDate);
 
             // Validate the third Session business response element.
             Assert.IsNotNull(getSessionsBusinessResponse.Sessions[2]);
-            Assert.AreEqual(10003, getSessionsBusinessResponse.Sessions[2].SessionID);
             Assert.AreEqual("Session-C", getSessionsBusinessResponse.Sessions[2].SessionCode);
             Assert.AreEqual("Session Charlie", getSessionsBusinessResponse.Sessions[2].Name);
             Assert.AreEqual(new DateTime(2003, 3, 3), getSessionsBusinessResponse.Sessions[2].StartDate);

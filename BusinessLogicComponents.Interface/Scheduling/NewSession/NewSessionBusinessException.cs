@@ -17,8 +17,6 @@ namespace SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling.New
         /// </summary>
         public enum ErrorCodes
         {
-            InvalidSessionCode,
-            DuplicateSessionCode,
             InvalidName
         }
 

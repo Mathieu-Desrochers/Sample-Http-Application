@@ -69,7 +69,6 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Code.Scheduling.Sessions
                 {
                     // Build the Sessions resource.
                     SessionResource sessionResource = new SessionResource();
-                    sessionResource.SessionID = sessionBusinessResponseElement.SessionID;
                     sessionResource.SessionCode = sessionBusinessResponseElement.SessionCode;
                     sessionResource.Name = sessionBusinessResponseElement.Name;
                     sessionResource.StartDate = sessionBusinessResponseElement.StartDate;

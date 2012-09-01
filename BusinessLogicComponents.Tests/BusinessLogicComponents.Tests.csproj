@@ -62,6 +62,10 @@
       <Project>{e81b00ad-4645-4d5d-96d6-89791f81415a}</Project>
       <Name>DataAccessComponents.Interface</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Interface\Infrastructure.Interface.csproj">
+      <Project>{ee316cdb-6cc5-4cde-a183-77b9ce5a569a}</Project>
+      <Name>Infrastructure.Interface</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

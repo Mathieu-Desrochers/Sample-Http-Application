@@ -27,7 +27,6 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
 
             // Validate the Session business request element.
             NewSessionBusinessRequest.SessionBusinessRequestElement sessionBusinessRequestElement = businessRequest.Session;
-            this.ValidateNewSessionRequestProperty(sessionBusinessRequestElement, "SessionCode", sessionBusinessRequestElement.SessionCode, NewSessionBusinessException.ErrorCodes.InvalidSessionCode, errorBusinessExceptionElements);
             this.ValidateNewSessionRequestProperty(sessionBusinessRequestElement, "Name", sessionBusinessRequestElement.Name, NewSessionBusinessException.ErrorCodes.InvalidName, errorBusinessExceptionElements);
             
             // Check if any errors were added to the list.
@@ -42,16 +41,9 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
         /// <summary>
         /// Validates the NewSession business operation.
         /// </summary>
-        private async Task ValidateNewSessionOperation(IDatabaseConnection databaseConnection, NewSessionBusinessRequest businessRequest, NewSessionOperationData operationData)
+        private Task ValidateNewSessionOperation(IDatabaseConnection databaseConnection, NewSessionBusinessRequest businessRequest, NewSessionOperationData operationData)
         {
-            // Validate the DuplicateSessionCode error code.
-            operationData.SessionDataRow = await this.sessionDataAccessComponent.ReadBySessionCode(databaseConnection, businessRequest.Session.SessionCode);
-            if (operationData.SessionDataRow != null)
-            {
-                // Throw a NewSession business exception.
-                NewSessionBusinessException businessException = this.BuildNewSessionBusinessException(NewSessionBusinessException.ErrorCodes.DuplicateSessionCode, businessRequest.Session.SessionCode);
-                throw businessException;
-            }
+            return Task.FromResult<object>(null);
         }
 
         /// <summary>
@@ -68,9 +60,12 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
             // Validate the business operation.
             await this.ValidateNewSessionOperation(databaseConnection, businessRequest, operationData);
 
+            // Generate a unique session code.
+            string sessionCode = this.uniqueTokenGenerator.GenerateUniqueToken();
+
             // Create the Session data row.
             operationData.SessionDataRow = new SessionDataRow();
-            operationData.SessionDataRow.SessionCode = businessRequest.Session.SessionCode;
+            operationData.SessionDataRow.SessionCode = sessionCode;
             operationData.SessionDataRow.Name = businessRequest.Session.Name;
             operationData.SessionDataRow.StartDate = businessRequest.Session.StartDate;
             await this.sessionDataAccessComponent.Create(databaseConnection, operationData.SessionDataRow);
@@ -80,7 +75,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
 
             // Build the Session business response element.
             NewSessionBusinessResponse.SessionBusinessResponseElement sessionBusinessResponseElement = new NewSessionBusinessResponse.SessionBusinessResponseElement();
-            sessionBusinessResponseElement.SessionID = operationData.SessionDataRow.SessionID;
+            sessionBusinessResponseElement.SessionCode = operationData.SessionDataRow.SessionCode;
             businessResponse.Session = sessionBusinessResponseElement;
 
             // Return the business response.

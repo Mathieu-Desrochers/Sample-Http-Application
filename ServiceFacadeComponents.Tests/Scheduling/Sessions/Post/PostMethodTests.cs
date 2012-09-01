@@ -37,7 +37,6 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Tests.Scheduling.Session
                     It.Is<NewSessionBusinessRequest>(newSessionBusinessRequest =>
                     (
                         // Match the Session business request element.
-                        newSessionBusinessRequest.Session.SessionCode == "Session-A" &&
                         newSessionBusinessRequest.Session.Name == "Session Alpha" &&
                         newSessionBusinessRequest.Session.StartDate == new DateTime(2001, 1, 1)
                     ))))
@@ -46,7 +45,7 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Tests.Scheduling.Session
                     // Mock the Session business response element.
                     Session = new NewSessionBusinessResponse.SessionBusinessResponseElement()
                     {
-                        SessionID = 10001,
+                        SessionCode = "Session-A"
                     }
                 }))
                 .Verifiable();
@@ -54,7 +53,6 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Tests.Scheduling.Session
             // Build the request JSON content.
             StringBuilder requestJsonContent = new StringBuilder();
             requestJsonContent.Append("{");
-            requestJsonContent.Append("\"sessionCode\":\"Session-A\",");
             requestJsonContent.Append("\"name\":\"Session Alpha\",");
             requestJsonContent.Append("\"startDate\":\"2001-01-01T00:00:00\"");
             requestJsonContent.Append("}");
@@ -69,7 +67,6 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Tests.Scheduling.Session
             // Build the expected JSON content.
             StringBuilder expectedJsonContent = new StringBuilder();
             expectedJsonContent.Append("{");
-            expectedJsonContent.Append("\"sessionID\":10001,");
             expectedJsonContent.Append("\"sessionCode\":\"Session-A\",");
             expectedJsonContent.Append("\"name\":\"Session Alpha\",");
             expectedJsonContent.Append("\"startDate\":\"2001-01-01T00:00:00\"");
@@ -99,7 +96,6 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Tests.Scheduling.Session
                     It.Is<NewSessionBusinessRequest>(newSessionBusinessRequest =>
                     (
                         // Match the Session business request element.
-                        newSessionBusinessRequest.Session.SessionCode == "Session-A" &&
                         newSessionBusinessRequest.Session.Name == "Session Alpha" &&
                         newSessionBusinessRequest.Session.StartDate == new DateTime(2001, 1, 1)
                     ))))
@@ -108,8 +104,6 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Tests.Scheduling.Session
                     // Mock the NewSession business exception.
                     Errors = new NewSessionBusinessException.ErrorBusinessExceptionElement[]
                     {
-                        new NewSessionBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewSessionBusinessException.ErrorCodes.InvalidSessionCode, ErroneousValue = "Session-A" },
-                        new NewSessionBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewSessionBusinessException.ErrorCodes.DuplicateSessionCode, ErroneousValue = "Session-A" },
                         new NewSessionBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewSessionBusinessException.ErrorCodes.InvalidName, ErroneousValue = "Session Alpha" }
                     }
                 })
@@ -118,7 +112,6 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Tests.Scheduling.Session
             // Build the request JSON content.
             StringBuilder requestJsonContent = new StringBuilder();
             requestJsonContent.Append("{");
-            requestJsonContent.Append("\"sessionCode\":\"Session-A\",");
             requestJsonContent.Append("\"name\":\"Session Alpha\",");
             requestJsonContent.Append("\"startDate\":\"2001-01-01T00:00:00\"");
             requestJsonContent.Append("}");
@@ -133,14 +126,6 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Tests.Scheduling.Session
             // Build the expected JSON content.
             StringBuilder expectedJsonContent = new StringBuilder();
             expectedJsonContent.Append("[");
-            expectedJsonContent.Append("{");
-            expectedJsonContent.Append("\"errorCode\":\"InvalidSessionCode\",");
-            expectedJsonContent.Append("\"erroneousValue\":\"Session-A\"");
-            expectedJsonContent.Append("},");
-            expectedJsonContent.Append("{");
-            expectedJsonContent.Append("\"errorCode\":\"DuplicateSessionCode\",");
-            expectedJsonContent.Append("\"erroneousValue\":\"Session-A\"");
-            expectedJsonContent.Append("},");
             expectedJsonContent.Append("{");
             expectedJsonContent.Append("\"errorCode\":\"InvalidName\",");
             expectedJsonContent.Append("\"erroneousValue\":\"Session Alpha\"");
@@ -166,7 +151,7 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Tests.Scheduling.Session
 
             // Build the request JSON content.
             StringBuilder requestJsonContent = new StringBuilder();
-            requestJsonContent.Append("bad request");
+            requestJsonContent.Append("{x}");
 
             // Invoke the HTTP POST method.
             HttpRequestMessage httpRequestMessage = testHarness.BuildHttpRequest(HttpMethod.Post, "api/scheduling/sessions", requestJsonContent.ToString());

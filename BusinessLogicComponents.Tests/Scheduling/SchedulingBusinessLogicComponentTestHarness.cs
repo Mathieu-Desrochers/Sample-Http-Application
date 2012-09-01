@@ -9,6 +9,7 @@ using Moq;
 
 using SampleHttpApplication.BusinessLogicComponents.Code.Scheduling;
 using SampleHttpApplication.DataAccessComponents.Interface.Session;
+using SampleHttpApplication.Infrastructure.Interface.UniqueToken;
 
 namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling
 {
@@ -26,6 +27,11 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling
         /// The mocked data access components.
         /// </summary>
         public readonly Mock<ISessionDataAccessComponent> MockedSessionDataAccessComponent;
+
+        /// <summary>
+        /// The mocked unique token generator.
+        /// </summary>
+        public readonly Mock<IUniqueTokenGenerator> MockedUniqueTokenGenerator;
 
         /// <summary>
         /// The Scheduling business logic component.
@@ -47,9 +53,12 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling
             // Build the mocked data access components.
             this.MockedSessionDataAccessComponent = new Mock<ISessionDataAccessComponent>(MockBehavior.Strict);
 
+            // Build the mocked unique token generator.
+            this.MockedUniqueTokenGenerator = new Mock<IUniqueTokenGenerator>(MockBehavior.Strict);
+
             // Build the Scheduling business logic component as a partial mock.
             // This allows business operation A to be mocked while testing business operation B.
-            this.MockedSchedulingBusinessLogicComponent = new Mock<SchedulingBusinessLogicComponent>(this.MockedSessionDataAccessComponent.Object);
+            this.MockedSchedulingBusinessLogicComponent = new Mock<SchedulingBusinessLogicComponent>(this.MockedSessionDataAccessComponent.Object, this.MockedUniqueTokenGenerator.Object);
             this.MockedSchedulingBusinessLogicComponent.CallBase = true;
         }
 
@@ -60,6 +69,9 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling
         {
             // Verify the mocked data access components.
             this.MockedSessionDataAccessComponent.VerifyAll();
+
+            // Verify the mocked unique token generator.
+            this.MockedUniqueTokenGenerator.VerifyAll();
 
             // Verify the Scheduling business logic component.
             this.MockedSchedulingBusinessLogicComponent.VerifyAll();

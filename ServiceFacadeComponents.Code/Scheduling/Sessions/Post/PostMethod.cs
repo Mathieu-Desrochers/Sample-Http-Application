@@ -33,7 +33,6 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Code.Scheduling.Sessions
 
                 // Build the Session business request element.
                 NewSessionBusinessRequest.SessionBusinessRequestElement sessionBusinessRequestElement = new NewSessionBusinessRequest.SessionBusinessRequestElement();
-                sessionBusinessRequestElement.SessionCode = sessionResource.SessionCode;
                 sessionBusinessRequestElement.Name = sessionResource.Name;
                 sessionBusinessRequestElement.StartDate = sessionResource.StartDate;
                 newSessionBusinessRequest.Session = sessionBusinessRequestElement;
@@ -79,7 +78,7 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Code.Scheduling.Sessions
                 NewSessionBusinessResponse newSessionBusinessResponse = await this.InvokeNewSession(databaseConnection, sessionResource);
 
                 // Update the Session resource.
-                sessionResource.SessionID = newSessionBusinessResponse.Session.SessionID;
+                sessionResource.SessionCode = newSessionBusinessResponse.Session.SessionCode;
 
                 // Commit the database transaction.
                 databaseTransaction.Commit();

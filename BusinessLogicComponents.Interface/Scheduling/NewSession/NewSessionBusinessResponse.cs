@@ -19,9 +19,9 @@ namespace SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling.New
         public class SessionBusinessResponseElement
         {
             /// <summary>
-            /// Gets or sets the SessionID.
+            /// Gets or sets the SessionCode.
             /// </summary>
-            public int SessionID { get; set; }
+            public string SessionCode { get; set; }
         }
     }
 }

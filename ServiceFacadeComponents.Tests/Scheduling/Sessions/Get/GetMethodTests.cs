@@ -80,7 +80,6 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Tests.Scheduling.Session
                         // Mock the Session business response element.
                         new GetSessionsBusinessResponse.SessionBusinessResponseElement()
                         {
-                            SessionID = 10001,
                             SessionCode = "Session-A",
                             Name = "Session Alpha",
                             StartDate = new DateTime(2001, 1, 1)
@@ -100,7 +99,6 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Tests.Scheduling.Session
             StringBuilder expectedJsonContent = new StringBuilder();
             expectedJsonContent.Append("[");
             expectedJsonContent.Append("{");
-            expectedJsonContent.Append("\"sessionID\":10001,");
             expectedJsonContent.Append("\"sessionCode\":\"Session-A\",");
             expectedJsonContent.Append("\"name\":\"Session Alpha\",");
             expectedJsonContent.Append("\"startDate\":\"2001-01-01T00:00:00\"");
@@ -135,7 +133,6 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Tests.Scheduling.Session
                         // Mock the Session business response element.
                         new GetSessionsBusinessResponse.SessionBusinessResponseElement()
                         {
-                            SessionID = 10001,
                             SessionCode = "Session-A",
                             Name = "Session Alpha",
                             StartDate = new DateTime(2001, 1, 1)
@@ -144,7 +141,6 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Tests.Scheduling.Session
                         // Mock the Session business response element.
                         new GetSessionsBusinessResponse.SessionBusinessResponseElement()
                         {
-                            SessionID = 10002,
                             SessionCode = "Session-B",
                             Name = "Session Bravo",
                             StartDate = new DateTime(2002, 2, 2)
@@ -153,7 +149,6 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Tests.Scheduling.Session
                         // Mock the Session business response element.
                         new GetSessionsBusinessResponse.SessionBusinessResponseElement()
                         {
-                            SessionID = 10003,
                             SessionCode = "Session-C",
                             Name = "Session Charlie",
                             StartDate = new DateTime(2003, 3, 3)
@@ -173,19 +168,16 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Tests.Scheduling.Session
             StringBuilder expectedJsonContent = new StringBuilder();
             expectedJsonContent.Append("[");
             expectedJsonContent.Append("{");
-            expectedJsonContent.Append("\"sessionID\":10001,");
             expectedJsonContent.Append("\"sessionCode\":\"Session-A\",");
             expectedJsonContent.Append("\"name\":\"Session Alpha\",");
             expectedJsonContent.Append("\"startDate\":\"2001-01-01T00:00:00\"");
             expectedJsonContent.Append("},");
             expectedJsonContent.Append("{");
-            expectedJsonContent.Append("\"sessionID\":10002,");
             expectedJsonContent.Append("\"sessionCode\":\"Session-B\",");
             expectedJsonContent.Append("\"name\":\"Session Bravo\",");
             expectedJsonContent.Append("\"startDate\":\"2002-02-02T00:00:00\"");
             expectedJsonContent.Append("},");
             expectedJsonContent.Append("{");
-            expectedJsonContent.Append("\"sessionID\":10003,");
             expectedJsonContent.Append("\"sessionCode\":\"Session-C\",");
             expectedJsonContent.Append("\"name\":\"Session Charlie\",");
             expectedJsonContent.Append("\"startDate\":\"2003-03-03T00:00:00\"");

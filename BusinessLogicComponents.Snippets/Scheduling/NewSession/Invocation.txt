@@ -4,7 +4,6 @@
 
     // Build the Session business request element.
     NewSessionBusinessRequest.SessionBusinessRequestElement sessionBusinessRequestElement = new NewSessionBusinessRequest.SessionBusinessRequestElement();
-    sessionBusinessRequestElement.SessionCode = ;
     sessionBusinessRequestElement.Name = ;
     sessionBusinessRequestElement.StartDate = ;
     businessRequest.Session = sessionBusinessRequestElement;

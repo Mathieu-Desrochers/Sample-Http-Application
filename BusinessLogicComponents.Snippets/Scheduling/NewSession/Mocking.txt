@@ -6,7 +6,6 @@
             It.Is<NewSessionBusinessRequest>(newSessionBusinessRequest =>
             (
                 // Match the Session business request element.
-                newSessionBusinessRequest.Session.SessionCode ==  &&
                 newSessionBusinessRequest.Session.Name ==  &&
                 newSessionBusinessRequest.Session.StartDate ==  &&
             ))))
@@ -15,7 +14,7 @@
             // Mock the Session business response element.
             Session = new NewSessionBusinessResponse.SessionBusinessResponseElement()
             {
-                SessionID = ,
+                SessionCode = ,
             }
         }))
         .Verifiable();
@@ -27,7 +26,6 @@
             It.Is<NewSessionBusinessRequest>(newSessionBusinessRequest =>
             (
                 // Match the Session business request element.
-                newSessionBusinessRequest.Session.SessionCode ==  &&
                 newSessionBusinessRequest.Session.Name ==  &&
                 newSessionBusinessRequest.Session.StartDate ==  &&
             ))))
@@ -36,8 +34,6 @@
             // Mock the NewSession business exception.
             Errors = new NewSessionBusinessException.ErrorBusinessExceptionElement[]
             {
-                new NewSessionBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewSessionBusinessException.ErrorCodes.InvalidSessionCode, Value =  },
-                new NewSessionBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewSessionBusinessException.ErrorCodes.DuplicateSessionCode, Value =  },
                 new NewSessionBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewSessionBusinessException.ErrorCodes.InvalidName, Value =  }
             }
         })

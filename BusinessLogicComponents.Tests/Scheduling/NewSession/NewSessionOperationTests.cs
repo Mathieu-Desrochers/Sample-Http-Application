@@ -30,10 +30,10 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewSess
             // Build the test harness.
             SchedulingBusinessLogicComponentTestHarness testHarness = new SchedulingBusinessLogicComponentTestHarness();
 
-            // Mock the reading of the Session data row.
-            testHarness.MockedSessionDataAccessComponent
-                .Setup(mock => mock.ReadBySessionCode(It.IsAny<IDatabaseConnection>(), "Session-A"))
-                .Returns(Task.FromResult<SessionDataRow>(null))
+            // Mock the generation of the unique token.
+            testHarness.MockedUniqueTokenGenerator
+                .Setup(mock => mock.GenerateUniqueToken())
+                .Returns("j36dg49bu5m2qzfe")
                 .Verifiable();
 
             // Mock the creation of the Session data row.
@@ -42,7 +42,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewSess
                     It.IsAny<IDatabaseConnection>(),
                     It.Is<SessionDataRow>(sessionDataRow =>
                     (
-                        sessionDataRow.SessionCode == "Session-A" &&
+                        sessionDataRow.SessionCode == "j36dg49bu5m2qzfe" &&
                         sessionDataRow.Name == "Session Alpha" &&
                         sessionDataRow.StartDate == new DateTime(2001, 1, 1)
                     ))))
@@ -58,7 +58,6 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewSess
 
             // Build the Session business request element.
             NewSessionBusinessRequest.SessionBusinessRequestElement sessionBusinessRequestElement = new NewSessionBusinessRequest.SessionBusinessRequestElement();
-            sessionBusinessRequestElement.SessionCode = "Session-A";
             sessionBusinessRequestElement.Name = "Session Alpha";
             sessionBusinessRequestElement.StartDate = new DateTime(2001, 1, 1);
             newSessionBusinessRequest.Session = sessionBusinessRequestElement;
@@ -72,129 +71,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewSess
             // Validate the Session business response element.
             Assert.IsNotNull(newSessionBusinessResponse);
             Assert.IsNotNull(newSessionBusinessResponse.Session);
-            Assert.AreEqual(10001, newSessionBusinessResponse.Session.SessionID);
-        }
-
-        /// <summary>
-        /// Should throw the InvalidSessionCode error code.
-        /// </summary>
-        private void ShouldThrowInvalidSessionCodeErrorCode(string sessionCode)
-        {
-            // Build the test harness.
-            SchedulingBusinessLogicComponentTestHarness testHarness = new SchedulingBusinessLogicComponentTestHarness();
-
-            // Build the NewSession business request.
-            NewSessionBusinessRequest newSessionBusinessRequest = new NewSessionBusinessRequest();
-
-            // Build the Session business request element.
-            NewSessionBusinessRequest.SessionBusinessRequestElement sessionBusinessRequestElement = new NewSessionBusinessRequest.SessionBusinessRequestElement();
-            sessionBusinessRequestElement.SessionCode = sessionCode;
-            sessionBusinessRequestElement.Name = "Session Alpha";
-            sessionBusinessRequestElement.StartDate = new DateTime(2001, 1, 1);
-            newSessionBusinessRequest.Session = sessionBusinessRequestElement;
-
-            try
-            {
-                // Invoke the NewSession business operation.
-                testHarness.SchedulingBusinessLogicComponent.NewSession(testHarness.MockedDatabaseConnection, newSessionBusinessRequest).Wait();
-
-                // Validate an exception was thrown.
-                Assert.Fail();
-            }
-            catch (AggregateException ex)
-            {
-                // Verify the mocked components.
-                testHarness.VerifyMockedComponents();
-
-                // Validate a NewSession business exception was thrown.
-                NewSessionBusinessException NewSessionBusinessException = ex.InnerExceptions[0] as NewSessionBusinessException;
-                Assert.IsNotNull(NewSessionBusinessException);
-                Assert.AreEqual("SchedulingBusinessLogicComponent.NewSession() has thrown a NewSession business exception. See the Errors property for details.", NewSessionBusinessException.Message);
-
-                // Validate the NewSession business exception contains the InvalidSessionCode error code.
-                Assert.IsNotNull(NewSessionBusinessException.Errors);
-                Assert.AreEqual(1, NewSessionBusinessException.Errors.Length);
-                Assert.AreEqual(NewSessionBusinessException.ErrorCodes.InvalidSessionCode, NewSessionBusinessException.Errors[0].ErrorCode);
-                Assert.AreEqual(sessionCode, NewSessionBusinessException.Errors[0].ErroneousValue);
-            }
-        }
-
-        /// <summary>
-        /// Should throw the InvalidSessionCode error code.
-        /// </summary>
-        [TestMethod]
-        public void ShouldThrowInvalidSessionCodeErrorCode_GivenNullSessionCode()
-        {
-            ShouldThrowInvalidSessionCodeErrorCode(null);
-        }
-
-        /// <summary>
-        /// Should throw the InvalidSessionCode error code.
-        /// </summary>
-        [TestMethod]
-        public void ShouldThrowInvalidSessionCodeErrorCode_GivenEmptySessionCode()
-        {
-            ShouldThrowInvalidSessionCodeErrorCode("");
-        }
-
-        /// <summary>
-        /// Should throw the InvalidSessionCode error code.
-        /// </summary>
-        [TestMethod]
-        public void ShouldThrowInvalidSessionCodeErrorCode_GivenTooLongSessionCode()
-        {
-            ShouldThrowInvalidSessionCodeErrorCode(new String('a', 51));
-        }
-
-        /// <summary>
-        /// Should throw the DuplicateSessionCode error code.
-        /// </summary>
-        [TestMethod]
-        public void ShouldThrowDuplicateSessionCodeErrorCode()
-        {
-            // Build the test harness.
-            SchedulingBusinessLogicComponentTestHarness testHarness = new SchedulingBusinessLogicComponentTestHarness();
-
-            // Mock the reading of the Session data row.
-            testHarness.MockedSessionDataAccessComponent
-                .Setup(mock => mock.ReadBySessionCode(It.IsAny<IDatabaseConnection>(), "Session-A"))
-                .Returns(Task.FromResult(new SessionDataRow()))
-                .Verifiable();
-
-            // Build the NewSession business request.
-            NewSessionBusinessRequest newSessionBusinessRequest = new NewSessionBusinessRequest();
-
-            // Build the Session business request element.
-            NewSessionBusinessRequest.SessionBusinessRequestElement sessionBusinessRequestElement = new NewSessionBusinessRequest.SessionBusinessRequestElement();
-            sessionBusinessRequestElement.SessionCode = "Session-A";
-            sessionBusinessRequestElement.Name = "Session Alpha";
-            sessionBusinessRequestElement.StartDate = new DateTime(2001, 1, 1);
-            newSessionBusinessRequest.Session = sessionBusinessRequestElement;
-
-            try
-            {
-                // Invoke the NewSession business operation.
-                testHarness.SchedulingBusinessLogicComponent.NewSession(testHarness.MockedDatabaseConnection, newSessionBusinessRequest).Wait();
-
-                // Validate an exception was thrown.
-                Assert.Fail();
-            }
-            catch (AggregateException ex)
-            {
-                // Verify the mocked components.
-                testHarness.VerifyMockedComponents();
-
-                // Validate a NewSession business exception was thrown.
-                NewSessionBusinessException NewSessionBusinessException = ex.InnerExceptions[0] as NewSessionBusinessException;
-                Assert.IsNotNull(NewSessionBusinessException);
-                Assert.AreEqual("SchedulingBusinessLogicComponent.NewSession() has thrown a NewSession business exception. See the Errors property for details.", NewSessionBusinessException.Message);
-
-                // Validate the NewSession business exception contains the DuplicateSessionCode error code.
-                Assert.IsNotNull(NewSessionBusinessException.Errors);
-                Assert.AreEqual(1, NewSessionBusinessException.Errors.Length);
-                Assert.AreEqual(NewSessionBusinessException.ErrorCodes.DuplicateSessionCode, NewSessionBusinessException.Errors[0].ErrorCode);
-                Assert.AreEqual("Session-A", NewSessionBusinessException.Errors[0].ErroneousValue);
-            }
+            Assert.AreEqual("j36dg49bu5m2qzfe", newSessionBusinessResponse.Session.SessionCode);
         }
 
         /// <summary>
@@ -210,7 +87,6 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewSess
 
             // Build the Session business request element.
             NewSessionBusinessRequest.SessionBusinessRequestElement sessionBusinessRequestElement = new NewSessionBusinessRequest.SessionBusinessRequestElement();
-            sessionBusinessRequestElement.SessionCode = "Session-A";
             sessionBusinessRequestElement.Name = name;
             sessionBusinessRequestElement.StartDate = new DateTime(2001, 1, 1);
             newSessionBusinessRequest.Session = sessionBusinessRequestElement;

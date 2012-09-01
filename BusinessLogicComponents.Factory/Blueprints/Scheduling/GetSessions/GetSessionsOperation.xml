@@ -5,7 +5,6 @@
     <response>
       <responseElement singularName="Session" pluralName="Sessions" count="multiple">
         <summary>The sessions.</summary>
-        <property name="SessionID" type="int" />
         <property name="SessionCode" type="string" />
         <property name="Name" type="string" />
         <property name="StartDate" type="DateTime" />

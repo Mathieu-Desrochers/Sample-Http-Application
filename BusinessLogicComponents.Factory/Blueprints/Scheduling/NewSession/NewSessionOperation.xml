@@ -4,7 +4,6 @@
     <request>
       <requestElement singularName="Session" pluralName="Sessions" count="single">
         <summary>The new session.</summary>
-        <property name="SessionCode" type="string" />
         <property name="Name" type="string" />
         <property name="StartDate" type="DateTime" />
       </requestElement>
@@ -12,17 +11,14 @@
     <response>
       <responseElement singularName="Session" pluralName="Sessions" count="single">
         <summary>The new session.</summary>
-        <property name="SessionID" type="int" />
+        <property name="SessionCode" type="string" />
       </responseElement>
     </response>
     <errors>
-      <error code="InvalidSessionCode" />
-      <error code="DuplicateSessionCode" />
       <error code="InvalidName" />
     </errors>
     <dataAccessComponents>
       <dataAccessComponent name="Session" operation="create" />
-      <dataAccessComponent name="Session" operation="read" query="ReadBySessionCode" results="single" />
     </dataAccessComponents>
   </operation>
 </businessLogicComponent>

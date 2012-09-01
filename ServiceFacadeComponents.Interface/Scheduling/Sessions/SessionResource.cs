@@ -14,11 +14,6 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Interface.Scheduling.Ses
     public class SessionResource
     {
         /// <summary>
-        /// Gets or sets the SessionID.
-        /// </summary>
-        public int SessionID { get; set; }
-
-        /// <summary>
         /// Gets or sets the SessionCode.
         /// </summary>
         public string SessionCode { get; set; }

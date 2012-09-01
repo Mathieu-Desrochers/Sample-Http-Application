@@ -59,7 +59,6 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
             {
                 // Build the Session business response element.
                 GetSessionsBusinessResponse.SessionBusinessResponseElement sessionBusinessResponseElement = new GetSessionsBusinessResponse.SessionBusinessResponseElement();
-                sessionBusinessResponseElement.SessionID = sessionDataRow.SessionID;
                 sessionBusinessResponseElement.SessionCode = sessionDataRow.SessionCode;
                 sessionBusinessResponseElement.Name = sessionDataRow.Name;
                 sessionBusinessResponseElement.StartDate = sessionDataRow.StartDate;
