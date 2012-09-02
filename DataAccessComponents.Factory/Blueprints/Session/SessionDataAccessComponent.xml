@@ -1,7 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <dataAccessComponent name="Session">
   <columns>
-    <column name="SessionID" csharpType="int" sqlDbType="Int" isPrimaryKey="true" />
+    <column name="SessionID" csharpType="int" sqlDbType="Int" isPrimaryKey="true">
+      <detailsDataAccessComponents>
+        <detailsDataAccessComponent name="CourseSchedule" />
+      </detailsDataAccessComponents>
+    </column>
     <column name="SessionCode" csharpType="string" sqlDbType="NVarChar" sqlDbTypeSize="50" isUnique="true">
       <testValues>
         <testValue1>"Session-A"</testValue1>

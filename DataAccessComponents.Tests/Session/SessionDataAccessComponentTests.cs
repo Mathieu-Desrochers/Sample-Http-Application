@@ -12,6 +12,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SampleHttpApplication.DataAccessComponents.Code;
 using SampleHttpApplication.DataAccessComponents.Code.Session;
 using SampleHttpApplication.DataAccessComponents.Interface.Session;
+using SampleHttpApplication.DataAccessComponents.Tests.CourseSchedule;
 
 namespace SampleHttpApplication.DataAccessComponents.Tests.Session
 {
@@ -459,6 +460,51 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.Session
 
             // Validate the Session data row was deleted in the database.
             SessionTestTable.AssertAbsence(sessionID);
+        }
+
+        /// <summary>
+        /// Tests the Delete method.
+        /// </summary>
+        [TestMethod]
+        public void Delete_ShouldThrowException_GivenCourseScheduleDetails()
+        {
+            // Insert the Session data row in the database.
+            int sessionID = SessionTestTable.InsertWithValues(
+                "Session-A",
+                "Session Alpha",
+                new DateTime(2001, 1, 1));
+
+            // Insert the details CourseSchedule data row in the database.
+            int courseScheduleID = CourseScheduleTestTable.InsertPlaceholder(sessionID: sessionID);
+
+            // Build the Session data row.
+            SessionDataRow sessionDataRow = new SessionDataRow();
+            sessionDataRow.SessionID = sessionID;
+            sessionDataRow.SessionCode = "Session-A";
+            sessionDataRow.Name = "Session Alpha";
+            sessionDataRow.StartDate = new DateTime(2001, 1, 1);
+
+            // Build the database connection.
+            using (DatabaseConnection databaseConnection = new DatabaseConnection(TestDatabase.ConnectionString))
+            {
+                // Open the database connection.
+                databaseConnection.Open().Wait();
+
+                try
+                {
+                    // Delete the Session data row.
+                    SessionDataAccessComponent sessionDataAccessComponent = new SessionDataAccessComponent();
+                    sessionDataAccessComponent.Delete(databaseConnection, sessionDataRow).Wait();
+
+                    // Validate an exception was thrown.
+                    Assert.Fail();
+                }
+                catch (AggregateException ex)
+                {
+                    // Validate an SQL exception was thrown.
+                    Assert.IsInstanceOfType(ex.InnerExceptions[0], typeof(SqlException));
+                }
+            }
         }
 
         /// <summary>
