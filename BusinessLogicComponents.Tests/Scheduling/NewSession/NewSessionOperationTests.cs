@@ -33,7 +33,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewSess
             // Mock the generation of the unique token.
             testHarness.MockedUniqueTokenGenerator
                 .Setup(mock => mock.GenerateUniqueToken())
-                .Returns("j36dg49bu5m2qzfe")
+                .Returns("6dk61ufcuzp3f7vs")
                 .Verifiable();
 
             // Mock the creation of the Session data row.
@@ -42,7 +42,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewSess
                     It.IsAny<IDatabaseConnection>(),
                     It.Is<SessionDataRow>(sessionDataRow =>
                     (
-                        sessionDataRow.SessionCode == "j36dg49bu5m2qzfe" &&
+                        sessionDataRow.SessionCode == "6dk61ufcuzp3f7vs" &&
                         sessionDataRow.Name == "Session Alpha" &&
                         sessionDataRow.StartDate == new DateTime(2001, 1, 1)
                     ))))
@@ -71,7 +71,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewSess
             // Validate the Session business response element.
             Assert.IsNotNull(newSessionBusinessResponse);
             Assert.IsNotNull(newSessionBusinessResponse.Session);
-            Assert.AreEqual("j36dg49bu5m2qzfe", newSessionBusinessResponse.Session.SessionCode);
+            Assert.AreEqual("6dk61ufcuzp3f7vs", newSessionBusinessResponse.Session.SessionCode);
         }
 
         /// <summary>

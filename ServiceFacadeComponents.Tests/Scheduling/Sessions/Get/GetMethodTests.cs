@@ -80,7 +80,7 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Tests.Scheduling.Session
                         // Mock the Session business response element.
                         new GetSessionsBusinessResponse.SessionBusinessResponseElement()
                         {
-                            SessionCode = "Session-A",
+                            SessionCode = "6dk61ufcuzp3f7vs",
                             Name = "Session Alpha",
                             StartDate = new DateTime(2001, 1, 1)
                         }
@@ -99,7 +99,7 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Tests.Scheduling.Session
             StringBuilder expectedJsonContent = new StringBuilder();
             expectedJsonContent.Append("[");
             expectedJsonContent.Append("{");
-            expectedJsonContent.Append("\"sessionCode\":\"Session-A\",");
+            expectedJsonContent.Append("\"sessionCode\":\"6dk61ufcuzp3f7vs\",");
             expectedJsonContent.Append("\"name\":\"Session Alpha\",");
             expectedJsonContent.Append("\"startDate\":\"2001-01-01T00:00:00\"");
             expectedJsonContent.Append("}");
@@ -133,7 +133,7 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Tests.Scheduling.Session
                         // Mock the Session business response element.
                         new GetSessionsBusinessResponse.SessionBusinessResponseElement()
                         {
-                            SessionCode = "Session-A",
+                            SessionCode = "6dk61ufcuzp3f7vs",
                             Name = "Session Alpha",
                             StartDate = new DateTime(2001, 1, 1)
                         },
@@ -141,7 +141,7 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Tests.Scheduling.Session
                         // Mock the Session business response element.
                         new GetSessionsBusinessResponse.SessionBusinessResponseElement()
                         {
-                            SessionCode = "Session-B",
+                            SessionCode = "n3p4y556gt9f17hw",
                             Name = "Session Bravo",
                             StartDate = new DateTime(2002, 2, 2)
                         },
@@ -149,7 +149,7 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Tests.Scheduling.Session
                         // Mock the Session business response element.
                         new GetSessionsBusinessResponse.SessionBusinessResponseElement()
                         {
-                            SessionCode = "Session-C",
+                            SessionCode = "x36s2tccz8yxp1hq",
                             Name = "Session Charlie",
                             StartDate = new DateTime(2003, 3, 3)
                         }
@@ -168,17 +168,17 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Tests.Scheduling.Session
             StringBuilder expectedJsonContent = new StringBuilder();
             expectedJsonContent.Append("[");
             expectedJsonContent.Append("{");
-            expectedJsonContent.Append("\"sessionCode\":\"Session-A\",");
+            expectedJsonContent.Append("\"sessionCode\":\"6dk61ufcuzp3f7vs\",");
             expectedJsonContent.Append("\"name\":\"Session Alpha\",");
             expectedJsonContent.Append("\"startDate\":\"2001-01-01T00:00:00\"");
             expectedJsonContent.Append("},");
             expectedJsonContent.Append("{");
-            expectedJsonContent.Append("\"sessionCode\":\"Session-B\",");
+            expectedJsonContent.Append("\"sessionCode\":\"n3p4y556gt9f17hw\",");
             expectedJsonContent.Append("\"name\":\"Session Bravo\",");
             expectedJsonContent.Append("\"startDate\":\"2002-02-02T00:00:00\"");
             expectedJsonContent.Append("},");
             expectedJsonContent.Append("{");
-            expectedJsonContent.Append("\"sessionCode\":\"Session-C\",");
+            expectedJsonContent.Append("\"sessionCode\":\"x36s2tccz8yxp1hq\",");
             expectedJsonContent.Append("\"name\":\"Session Charlie\",");
             expectedJsonContent.Append("\"startDate\":\"2003-03-03T00:00:00\"");
             expectedJsonContent.Append("}");

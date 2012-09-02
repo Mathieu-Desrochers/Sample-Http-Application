@@ -33,11 +33,11 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewCour
 
             // Mock the reading of the Session data row.
             testHarness.MockedSessionDataAccessComponent
-                .Setup(mock => mock.ReadBySessionCode(It.IsAny<IDatabaseConnection>(), "j36dg49bu5m2qzfe"))
+                .Setup(mock => mock.ReadBySessionCode(It.IsAny<IDatabaseConnection>(), "6dk61ufcuzp3f7vs"))
                 .Returns(Task.FromResult(new SessionDataRow()
                 {
                     SessionID = 10001,
-                    SessionCode = "j36dg49bu5m2qzfe",
+                    SessionCode = "6dk61ufcuzp3f7vs",
                     Name = "Session Alpha",
                     StartDate = new DateTime(2001, 1, 1)
                 }))
@@ -46,7 +46,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewCour
             // Mock the generation of the unique token.
             testHarness.MockedUniqueTokenGenerator
                 .Setup(mock => mock.GenerateUniqueToken())
-                .Returns("n7sr5v29uzaplf7x")
+                .Returns("zzcj32kpd6huzp1n")
                 .Verifiable();
 
             // Mock the creation of the CourseSchedule data row.
@@ -55,10 +55,10 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewCour
                     It.IsAny<IDatabaseConnection>(),
                     It.Is<CourseScheduleDataRow>(courseScheduleDataRow =>
                     (
-                        courseScheduleDataRow.CourseScheduleCode == "n7sr5v29uzaplf7x" &&
+                        courseScheduleDataRow.CourseScheduleCode == "zzcj32kpd6huzp1n" &&
                         courseScheduleDataRow.SessionID == 10001 &&
                         courseScheduleDataRow.DayOfWeek == (int)DayOfWeek.Monday &&
-                        courseScheduleDataRow.Time == new TimeSpan(10, 15, 0)
+                        courseScheduleDataRow.Time == new TimeSpan(9, 15, 0)
                     ))))
                 .Returns(Task.FromResult<object>(null))
                 .Callback((IDatabaseConnection databaseConnection, CourseScheduleDataRow courseScheduleDataRow) =>
@@ -72,13 +72,13 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewCour
 
             // Build the Session business request element.
             NewCourseScheduleBusinessRequest.SessionBusinessRequestElement sessionBusinessRequestElement = new NewCourseScheduleBusinessRequest.SessionBusinessRequestElement();
-            sessionBusinessRequestElement.SessionCode = "j36dg49bu5m2qzfe";
+            sessionBusinessRequestElement.SessionCode = "6dk61ufcuzp3f7vs";
             newCourseScheduleBusinessRequest.Session = sessionBusinessRequestElement;
 
             // Build the CourseSchedule business request element.
             NewCourseScheduleBusinessRequest.CourseScheduleBusinessRequestElement courseScheduleBusinessRequestElement = new NewCourseScheduleBusinessRequest.CourseScheduleBusinessRequestElement();
             courseScheduleBusinessRequestElement.DayOfWeek = DayOfWeek.Monday;
-            courseScheduleBusinessRequestElement.Time = new TimeSpan(10, 15, 0);
+            courseScheduleBusinessRequestElement.Time = new TimeSpan(9, 15, 0);
             newCourseScheduleBusinessRequest.CourseSchedule = courseScheduleBusinessRequestElement;
 
             // Invoke the NewCourseSchedule business operation.
@@ -90,7 +90,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewCour
             // Validate the CourseSchedule business response element.
             Assert.IsNotNull(newCourseScheduleBusinessResponse);
             Assert.IsNotNull(newCourseScheduleBusinessResponse.CourseSchedule);
-            Assert.AreEqual("n7sr5v29uzaplf7x", newCourseScheduleBusinessResponse.CourseSchedule.CourseScheduleCode);
+            Assert.AreEqual("zzcj32kpd6huzp1n", newCourseScheduleBusinessResponse.CourseSchedule.CourseScheduleCode);
         }
 
         /// <summary>
@@ -101,12 +101,6 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewCour
             // Build the test harness.
             SchedulingBusinessLogicComponentTestHarness testHarness = new SchedulingBusinessLogicComponentTestHarness();
 
-            // Mock the reading of the Session data row.
-            testHarness.MockedSessionDataAccessComponent
-                .Setup(mock => mock.ReadBySessionCode(It.IsAny<IDatabaseConnection>(), "j36dg49bu5m2qzfe"))
-                .Returns(Task.FromResult<SessionDataRow>(null))
-                .Verifiable();
-
             // Build the NewCourseSchedule business request.
             NewCourseScheduleBusinessRequest newCourseScheduleBusinessRequest = new NewCourseScheduleBusinessRequest();
 
@@ -114,6 +108,12 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewCour
             NewCourseScheduleBusinessRequest.SessionBusinessRequestElement sessionBusinessRequestElement = new NewCourseScheduleBusinessRequest.SessionBusinessRequestElement();
             sessionBusinessRequestElement.SessionCode = sessionCode;
             newCourseScheduleBusinessRequest.Session = sessionBusinessRequestElement;
+
+            // Build the CourseSchedule business request element.
+            NewCourseScheduleBusinessRequest.CourseScheduleBusinessRequestElement courseScheduleBusinessRequestElement = new NewCourseScheduleBusinessRequest.CourseScheduleBusinessRequestElement();
+            courseScheduleBusinessRequestElement.DayOfWeek = DayOfWeek.Monday;
+            courseScheduleBusinessRequestElement.Time = new TimeSpan(9, 15, 0);
+            newCourseScheduleBusinessRequest.CourseSchedule = courseScheduleBusinessRequestElement;
 
             try
             {
@@ -145,7 +145,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewCour
         /// Should throw the InvalidSessionCode error code.
         /// </summary>
         [TestMethod]
-        private void ShouldThrowInvalidSessionCodeErrorCode_GivenNullSessionCode()
+        public void ShouldThrowInvalidSessionCodeErrorCode_GivenNullSessionCode()
         {
             ShouldThrowInvalidSessionCodeErrorCode(null);
         }
@@ -154,9 +154,9 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewCour
         /// Should throw the InvalidSessionCode error code.
         /// </summary>
         [TestMethod]
-        private void ShouldThrowInvalidSessionCodeErrorCode_GivenNonRegularExpressionMatchingSessionCode()
+        public void ShouldThrowInvalidSessionCodeErrorCode_GivenNonRegularExpressionMatchingSessionCode()
         {
-            ShouldThrowInvalidSessionCodeErrorCode("abcde");
+            ShouldThrowInvalidSessionCodeErrorCode("x");
         }
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewCour
 
             // Mock the reading of the Session data row.
             testHarness.MockedSessionDataAccessComponent
-                .Setup(mock => mock.ReadBySessionCode(It.IsAny<IDatabaseConnection>(), "j36dg49bu5m2qzfe"))
+                .Setup(mock => mock.ReadBySessionCode(It.IsAny<IDatabaseConnection>(), "6dk61ufcuzp3f7vs"))
                 .Returns(Task.FromResult<SessionDataRow>(null))
                 .Verifiable();
 
@@ -179,13 +179,13 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewCour
 
             // Build the Session business request element.
             NewCourseScheduleBusinessRequest.SessionBusinessRequestElement sessionBusinessRequestElement = new NewCourseScheduleBusinessRequest.SessionBusinessRequestElement();
-            sessionBusinessRequestElement.SessionCode = "j36dg49bu5m2qzfe";
+            sessionBusinessRequestElement.SessionCode = "6dk61ufcuzp3f7vs";
             newCourseScheduleBusinessRequest.Session = sessionBusinessRequestElement;
 
             // Build the CourseSchedule business request element.
             NewCourseScheduleBusinessRequest.CourseScheduleBusinessRequestElement courseScheduleBusinessRequestElement = new NewCourseScheduleBusinessRequest.CourseScheduleBusinessRequestElement();
             courseScheduleBusinessRequestElement.DayOfWeek = DayOfWeek.Monday;
-            courseScheduleBusinessRequestElement.Time = new TimeSpan(10, 15, 0);
+            courseScheduleBusinessRequestElement.Time = new TimeSpan(9, 15, 0);
             newCourseScheduleBusinessRequest.CourseSchedule = courseScheduleBusinessRequestElement;
 
             try
@@ -210,7 +210,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewCour
                 Assert.IsNotNull(NewCourseScheduleBusinessException.Errors);
                 Assert.AreEqual(1, NewCourseScheduleBusinessException.Errors.Length);
                 Assert.AreEqual(NewCourseScheduleBusinessException.ErrorCodes.InvalidSessionCode, NewCourseScheduleBusinessException.Errors[0].ErrorCode);
-                Assert.AreEqual("j36dg49bu5m2qzfe", NewCourseScheduleBusinessException.Errors[0].ErroneousValue);
+                Assert.AreEqual("6dk61ufcuzp3f7vs", NewCourseScheduleBusinessException.Errors[0].ErroneousValue);
             }
         }
 
@@ -227,7 +227,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewCour
 
             // Build the Session business request element.
             NewCourseScheduleBusinessRequest.SessionBusinessRequestElement sessionBusinessRequestElement = new NewCourseScheduleBusinessRequest.SessionBusinessRequestElement();
-            sessionBusinessRequestElement.SessionCode = "j36dg49bu5m2qzfe";
+            sessionBusinessRequestElement.SessionCode = "6dk61ufcuzp3f7vs";
             newCourseScheduleBusinessRequest.Session = sessionBusinessRequestElement;
 
             // Build the CourseSchedule business request element.

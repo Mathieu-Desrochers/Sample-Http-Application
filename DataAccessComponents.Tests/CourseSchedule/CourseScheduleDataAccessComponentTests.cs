@@ -47,7 +47,7 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.CourseSchedule
 
             // Build the CourseSchedule data row.
             CourseScheduleDataRow courseScheduleDataRow = new CourseScheduleDataRow();
-            courseScheduleDataRow.CourseScheduleCode = "CourseSchedule-A";
+            courseScheduleDataRow.CourseScheduleCode = "zzcj32kpd6huzp1n";
             courseScheduleDataRow.SessionID = sessionID;
             courseScheduleDataRow.DayOfWeek = 1;
             courseScheduleDataRow.Time = new TimeSpan(9, 15, 0);
@@ -69,7 +69,7 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.CourseSchedule
             // Validate the CourseSchedule data row was inserted in the database.
             CourseScheduleTestTable.AssertPresence(
                 courseScheduleDataRow.CourseScheduleID,
-                "CourseSchedule-A",
+                "zzcj32kpd6huzp1n",
                 sessionID,
                 1,
                 new TimeSpan(9, 15, 0));
@@ -86,7 +86,7 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.CourseSchedule
 
             // Build the CourseSchedule data row.
             CourseScheduleDataRow courseScheduleDataRow = new CourseScheduleDataRow();
-            courseScheduleDataRow.CourseScheduleCode = "CourseSchedule-A";
+            courseScheduleDataRow.CourseScheduleCode = "zzcj32kpd6huzp1n";
             courseScheduleDataRow.SessionID = -1;
             courseScheduleDataRow.DayOfWeek = 1;
             courseScheduleDataRow.Time = new TimeSpan(9, 15, 0);
@@ -124,11 +124,11 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.CourseSchedule
             int sessionID = SessionTestTable.InsertPlaceholder();
 
             // Insert the duplicate CourseSchedule data row in the database.
-            int courseScheduleID = CourseScheduleTestTable.InsertPlaceholder(courseScheduleCode: "CourseSchedule-A");
+            int courseScheduleID = CourseScheduleTestTable.InsertPlaceholder(courseScheduleCode: "zzcj32kpd6huzp1n");
 
             // Build the CourseSchedule data row.
             CourseScheduleDataRow courseScheduleDataRow = new CourseScheduleDataRow();
-            courseScheduleDataRow.CourseScheduleCode = "CourseSchedule-A";
+            courseScheduleDataRow.CourseScheduleCode = "zzcj32kpd6huzp1n";
             courseScheduleDataRow.SessionID = sessionID;
             courseScheduleDataRow.DayOfWeek = 1;
             courseScheduleDataRow.Time = new TimeSpan(9, 15, 0);
@@ -167,7 +167,7 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.CourseSchedule
 
             // Insert the CourseSchedule data row in the database.
             int courseScheduleID = CourseScheduleTestTable.InsertWithValues(
-                "CourseSchedule-A",
+                "zzcj32kpd6huzp1n",
                 sessionID,
                 1,
                 new TimeSpan(9, 15, 0));
@@ -187,7 +187,7 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.CourseSchedule
             // Validate the CourseSchedule data row.
             Assert.IsNotNull(courseScheduleDataRow);
             Assert.AreEqual(courseScheduleID, courseScheduleDataRow.CourseScheduleID);
-            Assert.AreEqual("CourseSchedule-A", courseScheduleDataRow.CourseScheduleCode);
+            Assert.AreEqual("zzcj32kpd6huzp1n", courseScheduleDataRow.CourseScheduleCode);
             Assert.AreEqual(sessionID, courseScheduleDataRow.SessionID);
             Assert.AreEqual(1, courseScheduleDataRow.DayOfWeek);
             Assert.AreEqual(new TimeSpan(9, 15, 0), courseScheduleDataRow.Time);
@@ -204,7 +204,7 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.CourseSchedule
 
             // Insert the CourseSchedule data row in the database.
             int courseScheduleID = CourseScheduleTestTable.InsertWithValues(
-                "CourseSchedule-A",
+                "zzcj32kpd6huzp1n",
                 sessionID,
                 1,
                 new TimeSpan(9, 15, 0));
@@ -236,7 +236,7 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.CourseSchedule
 
             // Insert the CourseSchedule data row in the database.
             int courseScheduleID = CourseScheduleTestTable.InsertWithValues(
-                "CourseSchedule-A",
+                "zzcj32kpd6huzp1n",
                 sessionID,
                 1,
                 new TimeSpan(9, 15, 0));
@@ -250,13 +250,13 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.CourseSchedule
 
                 // Read the CourseSchedule data row.
                 CourseScheduleDataAccessComponent courseScheduleDataAccessComponent = new CourseScheduleDataAccessComponent();
-                courseScheduleDataRow = courseScheduleDataAccessComponent.ReadByCourseScheduleCode(databaseConnection, "CourseSchedule-A").Result;
+                courseScheduleDataRow = courseScheduleDataAccessComponent.ReadByCourseScheduleCode(databaseConnection, "zzcj32kpd6huzp1n").Result;
             }
 
             // Validate the CourseSchedule data row.
             Assert.IsNotNull(courseScheduleDataRow);
             Assert.AreEqual(courseScheduleID, courseScheduleDataRow.CourseScheduleID);
-            Assert.AreEqual("CourseSchedule-A", courseScheduleDataRow.CourseScheduleCode);
+            Assert.AreEqual("zzcj32kpd6huzp1n", courseScheduleDataRow.CourseScheduleCode);
             Assert.AreEqual(sessionID, courseScheduleDataRow.SessionID);
             Assert.AreEqual(1, courseScheduleDataRow.DayOfWeek);
             Assert.AreEqual(new TimeSpan(9, 15, 0), courseScheduleDataRow.Time);
@@ -273,7 +273,7 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.CourseSchedule
 
             // Insert the CourseSchedule data row in the database.
             int courseScheduleID = CourseScheduleTestTable.InsertWithValues(
-                "CourseSchedule-A",
+                "zzcj32kpd6huzp1n",
                 sessionID,
                 1,
                 new TimeSpan(9, 15, 0));
@@ -308,7 +308,7 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.CourseSchedule
 
             // Insert the CourseSchedule data row in the database.
             int courseScheduleID = CourseScheduleTestTable.InsertWithValues(
-                "CourseSchedule-A",
+                "zzcj32kpd6huzp1n",
                 firstSessionID,
                 1,
                 new TimeSpan(9, 15, 0));
@@ -316,7 +316,7 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.CourseSchedule
             // Build the CourseSchedule data row.
             CourseScheduleDataRow courseScheduleDataRow = new CourseScheduleDataRow();
             courseScheduleDataRow.CourseScheduleID = courseScheduleID;
-            courseScheduleDataRow.CourseScheduleCode = "CourseSchedule-B";
+            courseScheduleDataRow.CourseScheduleCode = "8zu96quwvk70ng1e";
             courseScheduleDataRow.SessionID = secondSessionID;
             courseScheduleDataRow.DayOfWeek = 2;
             courseScheduleDataRow.Time = new TimeSpan(10, 30, 0);
@@ -335,7 +335,7 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.CourseSchedule
             // Validate the CourseSchedule data row was updated in the database.
             CourseScheduleTestTable.AssertPresence(
                 courseScheduleID,
-                "CourseSchedule-B",
+                "8zu96quwvk70ng1e",
                 secondSessionID,
                 2,
                 new TimeSpan(10, 30, 0));
@@ -355,7 +355,7 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.CourseSchedule
 
             // Insert the CourseSchedule data row in the database.
             int courseScheduleID = CourseScheduleTestTable.InsertWithValues(
-                "CourseSchedule-A",
+                "zzcj32kpd6huzp1n",
                 firstSessionID,
                 1,
                 new TimeSpan(9, 15, 0));
@@ -363,7 +363,7 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.CourseSchedule
             // Build the CourseSchedule data row.
             CourseScheduleDataRow courseScheduleDataRow = new CourseScheduleDataRow();
             courseScheduleDataRow.CourseScheduleID = courseScheduleID;
-            courseScheduleDataRow.CourseScheduleCode = "CourseSchedule-B";
+            courseScheduleDataRow.CourseScheduleCode = "8zu96quwvk70ng1e";
             courseScheduleDataRow.SessionID = -1;
             courseScheduleDataRow.DayOfWeek = 2;
             courseScheduleDataRow.Time = new TimeSpan(10, 30, 0);
@@ -405,18 +405,18 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.CourseSchedule
 
             // Insert the CourseSchedule data row in the database.
             int courseScheduleID = CourseScheduleTestTable.InsertWithValues(
-                "CourseSchedule-A",
+                "zzcj32kpd6huzp1n",
                 firstSessionID,
                 1,
                 new TimeSpan(9, 15, 0));
 
             // Insert the duplicate CourseSchedule data row in the database.
-            int duplicateCourseScheduleID = CourseScheduleTestTable.InsertPlaceholder(courseScheduleCode: "CourseSchedule-B");
+            int duplicateCourseScheduleID = CourseScheduleTestTable.InsertPlaceholder(courseScheduleCode: "8zu96quwvk70ng1e");
 
             // Build the CourseSchedule data row.
             CourseScheduleDataRow courseScheduleDataRow = new CourseScheduleDataRow();
             courseScheduleDataRow.CourseScheduleID = courseScheduleID;
-            courseScheduleDataRow.CourseScheduleCode = "CourseSchedule-B";
+            courseScheduleDataRow.CourseScheduleCode = "8zu96quwvk70ng1e";
             courseScheduleDataRow.SessionID = secondSessionID;
             courseScheduleDataRow.DayOfWeek = 2;
             courseScheduleDataRow.Time = new TimeSpan(10, 30, 0);
@@ -455,7 +455,7 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.CourseSchedule
 
             // Insert the CourseSchedule data row in the database.
             int courseScheduleID = CourseScheduleTestTable.InsertWithValues(
-                "CourseSchedule-A",
+                "zzcj32kpd6huzp1n",
                 sessionID,
                 1,
                 new TimeSpan(9, 15, 0));
@@ -463,7 +463,7 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.CourseSchedule
             // Build the CourseSchedule data row.
             CourseScheduleDataRow courseScheduleDataRow = new CourseScheduleDataRow();
             courseScheduleDataRow.CourseScheduleID = courseScheduleID;
-            courseScheduleDataRow.CourseScheduleCode = "CourseSchedule-A";
+            courseScheduleDataRow.CourseScheduleCode = "zzcj32kpd6huzp1n";
             courseScheduleDataRow.SessionID = sessionID;
             courseScheduleDataRow.DayOfWeek = 1;
             courseScheduleDataRow.Time = new TimeSpan(9, 15, 0);

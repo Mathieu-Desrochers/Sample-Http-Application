@@ -4,9 +4,9 @@
     <column name="CourseScheduleID" csharpType="int" sqlDbType="Int" isPrimaryKey="true" />
     <column name="CourseScheduleCode" csharpType="string" sqlDbType="NVarChar" sqlDbTypeSize="50" isUnique="true">
       <testValues>
-        <testValue1>"CourseSchedule-A"</testValue1>
-        <testValue2>"CourseSchedule-B"</testValue2>
-        <testValue3>"CourseSchedule-C"</testValue3>
+        <testValue1>"zzcj32kpd6huzp1n"</testValue1>
+        <testValue2>"8zu96quwvk70ng1e"</testValue2>
+        <testValue3>"kv1p8bgxrmvsjjsc"</testValue3>
       </testValues>
     </column>
     <column name="SessionID" csharpType="int" sqlDbType="Int" isForeignKey="true">

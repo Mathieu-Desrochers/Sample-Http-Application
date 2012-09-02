@@ -8,9 +8,9 @@
     </column>
     <column name="SessionCode" csharpType="string" sqlDbType="NVarChar" sqlDbTypeSize="50" isUnique="true">
       <testValues>
-        <testValue1>"Session-A"</testValue1>
-        <testValue2>"Session-B"</testValue2>
-        <testValue3>"Session-C"</testValue3>
+        <testValue1>"6dk61ufcuzp3f7vs"</testValue1>
+        <testValue2>"n3p4y556gt9f17hw"</testValue2>
+        <testValue3>"x36s2tccz8yxp1hq"</testValue3>
       </testValues>
     </column>
     <column name="Name" csharpType="string" sqlDbType="NVarChar" sqlDbTypeSize="50">

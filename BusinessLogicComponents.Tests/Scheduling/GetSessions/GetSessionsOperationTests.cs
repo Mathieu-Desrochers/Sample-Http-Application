@@ -68,7 +68,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.GetSess
                     new SessionDataRow()
                     {
                         SessionID = 10001,
-                        SessionCode = "Session-A",
+                        SessionCode = "6dk61ufcuzp3f7vs",
                         Name = "Session Alpha",
                         StartDate = new DateTime(2001, 1, 1)
                     }
@@ -91,7 +91,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.GetSess
 
             // Validate the Session business response element.
             Assert.IsNotNull(getSessionsBusinessResponse.Sessions[0]);
-            Assert.AreEqual("Session-A", getSessionsBusinessResponse.Sessions[0].SessionCode);
+            Assert.AreEqual("6dk61ufcuzp3f7vs", getSessionsBusinessResponse.Sessions[0].SessionCode);
             Assert.AreEqual("Session Alpha", getSessionsBusinessResponse.Sessions[0].Name);
             Assert.AreEqual(new DateTime(2001, 1, 1), getSessionsBusinessResponse.Sessions[0].StartDate);
         }
@@ -113,21 +113,21 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.GetSess
                     new SessionDataRow()
                     {
                         SessionID = 10001,
-                        SessionCode = "Session-A",
+                        SessionCode = "6dk61ufcuzp3f7vs",
                         Name = "Session Alpha",
                         StartDate = new DateTime(2001, 1, 1)
                     },
                     new SessionDataRow()
                     {
                         SessionID = 10002,
-                        SessionCode = "Session-B",
+                        SessionCode = "n3p4y556gt9f17hw",
                         Name = "Session Bravo",
                         StartDate = new DateTime(2002, 2, 2)
                     },
                     new SessionDataRow()
                     {
                         SessionID = 10003,
-                        SessionCode = "Session-C",
+                        SessionCode = "x36s2tccz8yxp1hq",
                         Name = "Session Charlie",
                         StartDate = new DateTime(2003, 3, 3)
                     }
@@ -150,19 +150,19 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.GetSess
 
             // Validate the first Session business response element.
             Assert.IsNotNull(getSessionsBusinessResponse.Sessions[0]);
-            Assert.AreEqual("Session-A", getSessionsBusinessResponse.Sessions[0].SessionCode);
+            Assert.AreEqual("6dk61ufcuzp3f7vs", getSessionsBusinessResponse.Sessions[0].SessionCode);
             Assert.AreEqual("Session Alpha", getSessionsBusinessResponse.Sessions[0].Name);
             Assert.AreEqual(new DateTime(2001, 1, 1), getSessionsBusinessResponse.Sessions[0].StartDate);
 
             // Validate the second Session business response element.
             Assert.IsNotNull(getSessionsBusinessResponse.Sessions[1]);
-            Assert.AreEqual("Session-B", getSessionsBusinessResponse.Sessions[1].SessionCode);
+            Assert.AreEqual("n3p4y556gt9f17hw", getSessionsBusinessResponse.Sessions[1].SessionCode);
             Assert.AreEqual("Session Bravo", getSessionsBusinessResponse.Sessions[1].Name);
             Assert.AreEqual(new DateTime(2002, 2, 2), getSessionsBusinessResponse.Sessions[1].StartDate);
 
             // Validate the third Session business response element.
             Assert.IsNotNull(getSessionsBusinessResponse.Sessions[2]);
-            Assert.AreEqual("Session-C", getSessionsBusinessResponse.Sessions[2].SessionCode);
+            Assert.AreEqual("x36s2tccz8yxp1hq", getSessionsBusinessResponse.Sessions[2].SessionCode);
             Assert.AreEqual("Session Charlie", getSessionsBusinessResponse.Sessions[2].Name);
             Assert.AreEqual(new DateTime(2003, 3, 3), getSessionsBusinessResponse.Sessions[2].StartDate);
         }

@@ -45,7 +45,7 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Tests.Scheduling.Session
                     // Mock the Session business response element.
                     Session = new NewSessionBusinessResponse.SessionBusinessResponseElement()
                     {
-                        SessionCode = "Session-A"
+                        SessionCode = "6dk61ufcuzp3f7vs"
                     }
                 }))
                 .Verifiable();
@@ -67,7 +67,7 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Tests.Scheduling.Session
             // Build the expected JSON content.
             StringBuilder expectedJsonContent = new StringBuilder();
             expectedJsonContent.Append("{");
-            expectedJsonContent.Append("\"sessionCode\":\"Session-A\",");
+            expectedJsonContent.Append("\"sessionCode\":\"6dk61ufcuzp3f7vs\",");
             expectedJsonContent.Append("\"name\":\"Session Alpha\",");
             expectedJsonContent.Append("\"startDate\":\"2001-01-01T00:00:00\"");
             expectedJsonContent.Append("}");
