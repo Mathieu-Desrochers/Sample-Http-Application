@@ -26,6 +26,10 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
             // Build the list of errors.
             List<NewCourseScheduleBusinessException.ErrorBusinessExceptionElement> errorBusinessExceptionElements = new List<NewCourseScheduleBusinessException.ErrorBusinessExceptionElement>();
 
+            // Validate the Session business request element.
+            NewCourseScheduleBusinessRequest.SessionBusinessRequestElement sessionBusinessRequestElement = businessRequest.Session;
+            this.ValidateNewCourseScheduleRequestProperty(sessionBusinessRequestElement, "SessionCode", sessionBusinessRequestElement.SessionCode, NewCourseScheduleBusinessException.ErrorCodes.InvalidSessionCode, errorBusinessExceptionElements);
+
             // Validate the CourseSchedule business request element.
             NewCourseScheduleBusinessRequest.CourseScheduleBusinessRequestElement courseScheduleBusinessRequestElement = businessRequest.CourseSchedule;
             this.ValidateNewCourseScheduleRequestProperty(courseScheduleBusinessRequestElement, "Time", courseScheduleBusinessRequestElement.Time, NewCourseScheduleBusinessException.ErrorCodes.InvalidTime, errorBusinessExceptionElements);

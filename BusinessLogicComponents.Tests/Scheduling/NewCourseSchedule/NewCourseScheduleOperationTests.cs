@@ -96,8 +96,74 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewCour
         /// <summary>
         /// Should throw the InvalidSessionCode error code.
         /// </summary>
+        private void ShouldThrowInvalidSessionCodeErrorCode(string sessionCode)
+        {
+            // Build the test harness.
+            SchedulingBusinessLogicComponentTestHarness testHarness = new SchedulingBusinessLogicComponentTestHarness();
+
+            // Mock the reading of the Session data row.
+            testHarness.MockedSessionDataAccessComponent
+                .Setup(mock => mock.ReadBySessionCode(It.IsAny<IDatabaseConnection>(), "j36dg49bu5m2qzfe"))
+                .Returns(Task.FromResult<SessionDataRow>(null))
+                .Verifiable();
+
+            // Build the NewCourseSchedule business request.
+            NewCourseScheduleBusinessRequest newCourseScheduleBusinessRequest = new NewCourseScheduleBusinessRequest();
+
+            // Build the Session business request element.
+            NewCourseScheduleBusinessRequest.SessionBusinessRequestElement sessionBusinessRequestElement = new NewCourseScheduleBusinessRequest.SessionBusinessRequestElement();
+            sessionBusinessRequestElement.SessionCode = sessionCode;
+            newCourseScheduleBusinessRequest.Session = sessionBusinessRequestElement;
+
+            try
+            {
+                // Invoke the NewCourseSchedule business operation.
+                testHarness.SchedulingBusinessLogicComponent.NewCourseSchedule(testHarness.MockedDatabaseConnection, newCourseScheduleBusinessRequest).Wait();
+
+                // Validate an exception was thrown.
+                Assert.Fail();
+            }
+            catch (AggregateException ex)
+            {
+                // Verify the mocked components.
+                testHarness.VerifyMockedComponents();
+
+                // Validate a NewCourseSchedule business exception was thrown.
+                NewCourseScheduleBusinessException NewCourseScheduleBusinessException = ex.InnerExceptions[0] as NewCourseScheduleBusinessException;
+                Assert.IsNotNull(NewCourseScheduleBusinessException);
+                Assert.AreEqual("SchedulingBusinessLogicComponent.NewCourseSchedule() has thrown a NewCourseSchedule business exception. See the Errors property for details.", NewCourseScheduleBusinessException.Message);
+
+                // Validate the NewCourseSchedule business exception contains the InvalidSessionCode error code.
+                Assert.IsNotNull(NewCourseScheduleBusinessException.Errors);
+                Assert.AreEqual(1, NewCourseScheduleBusinessException.Errors.Length);
+                Assert.AreEqual(NewCourseScheduleBusinessException.ErrorCodes.InvalidSessionCode, NewCourseScheduleBusinessException.Errors[0].ErrorCode);
+                Assert.AreEqual(sessionCode, NewCourseScheduleBusinessException.Errors[0].ErroneousValue);
+            }
+        }
+
+        /// <summary>
+        /// Should throw the InvalidSessionCode error code.
+        /// </summary>
         [TestMethod]
-        public void ShouldThrowInvalidSessionCodeErrorCode()
+        private void ShouldThrowInvalidSessionCodeErrorCode_GivenNullSessionCode()
+        {
+            ShouldThrowInvalidSessionCodeErrorCode(null);
+        }
+
+        /// <summary>
+        /// Should throw the InvalidSessionCode error code.
+        /// </summary>
+        [TestMethod]
+        private void ShouldThrowInvalidSessionCodeErrorCode_GivenNonRegularExpressionMatchingSessionCode()
+        {
+            ShouldThrowInvalidSessionCodeErrorCode("abcde");
+        }
+
+        /// <summary>
+        /// Should throw the InvalidSessionCode error code.
+        /// </summary>
+        [TestMethod]
+        public void ShouldThrowInvalidSessionCodeErrorCode_GivenNonExistingSessionCode()
         {
             // Build the test harness.
             SchedulingBusinessLogicComponentTestHarness testHarness = new SchedulingBusinessLogicComponentTestHarness();

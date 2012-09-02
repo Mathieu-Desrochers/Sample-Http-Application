@@ -25,6 +25,8 @@ namespace SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling.New
             /// <summary>
             /// Gets or sets the SessionCode.
             /// </summary>
+            [Required]
+            [RegularExpression(@"[abcdefghjkmnpqrstuvwxyz1234567890]{16}")]
             public string SessionCode { get; set; }
         }
 
@@ -37,11 +39,13 @@ namespace SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling.New
             /// <summary>
             /// Gets or sets the DayOfWeek.
             /// </summary>
+            [Required]
             public DayOfWeek DayOfWeek { get; set; }
 
             /// <summary>
             /// Gets or sets the Time.
             /// </summary>
+            [Required]
             [TimeSpanRange("00:00:00", "23:59:59")]
             public TimeSpan Time { get; set; }
         }
