@@ -60,7 +60,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
             // Validate the business operation.
             await this.ValidateNewSessionOperation(databaseConnection, businessRequest, operationData);
 
-            // Generate a unique session code.
+            // Generate a unique Session code.
             string sessionCode = this.uniqueTokenGenerator.GenerateUniqueToken();
 
             // Create the Session data row.

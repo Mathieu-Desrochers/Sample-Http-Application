@@ -1,0 +1,17 @@
+﻿
+    // Build the business request.
+    NewCourseScheduleBusinessRequest newCourseScheduleBusinessRequest = new NewCourseScheduleBusinessRequest();
+
+    // Build the Session business request element.
+    NewCourseScheduleBusinessRequest.SessionBusinessRequestElement sessionBusinessRequestElement = new NewCourseScheduleBusinessRequest.SessionBusinessRequestElement();
+    sessionBusinessRequestElement.SessionCode = ;
+    businessRequest.Session = sessionBusinessRequestElement;
+
+    // Build the CourseSchedule business request element.
+    NewCourseScheduleBusinessRequest.CourseScheduleBusinessRequestElement courseScheduleBusinessRequestElement = new NewCourseScheduleBusinessRequest.CourseScheduleBusinessRequestElement();
+    courseScheduleBusinessRequestElement.DayOfWeek = ;
+    courseScheduleBusinessRequestElement.Time = ;
+    businessRequest.CourseSchedule = courseScheduleBusinessRequestElement;
+
+    // Invoke the NewCourseSchedule business operation.
+    NewCourseScheduleBusinessResponse newCourseScheduleBusinessResponse = await this.schedulingBusinessLogicComponent.NewCourseSchedule(databaseConnection, newCourseScheduleBusinessRequest);

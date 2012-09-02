@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAnnotations\ValidationAttributes\TimeSpanRangeAttribute.cs" />
     <Compile Include="DataAnnotations\ValidatorHelper.cs" />
     <Compile Include="DependencyInjection\DependencyResolverBuilder.cs" />
     <Compile Include="DependencyInjection\DependencyScope.cs" />
@@ -70,6 +71,7 @@
       <Name>Infrastructure.Interface</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

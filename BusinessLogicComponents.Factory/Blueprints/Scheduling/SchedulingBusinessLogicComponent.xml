@@ -4,11 +4,15 @@
     <operation name="GetSessions">
       <summary>Returns all the sessions.</summary>
     </operation>
+    <operation name="NewCourseSchedule">
+      <summary>Creates a new course schedule.</summary>
+    </operation>
     <operation name="NewSession">
       <summary>Creates a new session.</summary>
     </operation>
   </operations>
   <dataAccessComponents>
+    <dataAccessComponent name="CourseSchedule" />
     <dataAccessComponent name="Session" />
   </dataAccessComponents>
 </businessLogicComponent>

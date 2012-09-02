@@ -43,6 +43,9 @@
     <Compile Include="Scheduling\GetSessions\GetSessionsOperation.cs" />
     <Compile Include="Scheduling\GetSessions\GetSessionsOperationData.cs" />
     <Compile Include="Scheduling\GetSessions\GetSessionsOperationHelper.cs" />
+    <Compile Include="Scheduling\NewCourseSchedule\NewCourseScheduleOperation.cs" />
+    <Compile Include="Scheduling\NewCourseSchedule\NewCourseScheduleOperationData.cs" />
+    <Compile Include="Scheduling\NewCourseSchedule\NewCourseScheduleOperationHelper.cs" />
     <Compile Include="Scheduling\NewSession\NewSessionOperation.cs" />
     <Compile Include="Scheduling\NewSession\NewSessionOperationData.cs" />
     <Compile Include="Scheduling\NewSession\NewSessionOperationHelper.cs" />

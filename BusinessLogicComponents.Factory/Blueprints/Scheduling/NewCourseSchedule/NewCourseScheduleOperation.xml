@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<businessLogicComponent name="Scheduling">
+  <operation name="NewCourseSchedule">
+    <request>
+      <requestElement singularName="Session" pluralName="Sessions" count="single">
+        <summary>The session.</summary>
+        <property name="SessionCode" type="string" />
+      </requestElement>
+      <requestElement singularName="CourseSchedule" pluralName="CourseSchedules" count="single">
+        <summary>The new course schedule.</summary>
+        <property name="DayOfWeek" type="DayOfWeek" />
+        <property name="Time" type="TimeSpan" />
+      </requestElement>
+    </request>
+    <response>
+      <responseElement singularName="CourseSchedule" pluralName="CourseSchedules" count="single">
+        <summary>The new course schedule.</summary>
+        <property name="CourseScheduleCode" type="string" />
+      </responseElement>
+    </response>
+    <errors>
+      <error code="InvalidSessionCode" />
+      <error code="InvalidTime" />
+    </errors>
+    <dataAccessComponents>
+      <dataAccessComponent name="Session" operation="read" query="ReadBySessionCode" results="single" />
+      <dataAccessComponent name="CourseSchedule" operation="create" />
+    </dataAccessComponents>
+  </operation>
+</businessLogicComponent>

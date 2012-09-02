@@ -46,6 +46,9 @@
     <Compile Include="Scheduling\GetSessions\GetSessionsBusinessRequest.cs" />
     <Compile Include="Scheduling\GetSessions\GetSessionsBusinessResponse.cs" />
     <Compile Include="Scheduling\ISchedulingBusinessLogicComponent.cs" />
+    <Compile Include="Scheduling\NewCourseSchedule\NewCourseScheduleBusinessException.cs" />
+    <Compile Include="Scheduling\NewCourseSchedule\NewCourseScheduleBusinessRequest.cs" />
+    <Compile Include="Scheduling\NewCourseSchedule\NewCourseScheduleBusinessResponse.cs" />
     <Compile Include="Scheduling\NewSession\NewSessionBusinessException.cs" />
     <Compile Include="Scheduling\NewSession\NewSessionBusinessResponse.cs" />
     <Compile Include="Scheduling\NewSession\NewSessionBusinessRequest.cs" />
@@ -55,6 +58,14 @@
     <ProjectReference Include="..\DataAccessComponents.Interface\DataAccessComponents.Interface.csproj">
       <Project>{e81b00ad-4645-4d5d-96d6-89791f81415a}</Project>
       <Name>DataAccessComponents.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Code\Infrastructure.Code.csproj">
+      <Project>{9e727235-a262-4393-be68-a38b6bf44d3a}</Project>
+      <Name>Infrastructure.Code</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Interface\Infrastructure.Interface.csproj">
+      <Project>{ee316cdb-6cc5-4cde-a183-77b9ce5a569a}</Project>
+      <Name>Infrastructure.Interface</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

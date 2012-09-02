@@ -50,7 +50,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.<#= (string)xml.Att
             // Validate the <#= (string)requestElement.Attribute("singularName") #> business request element.
             <#= (string)xml.Element("operation").Attribute("name") #>BusinessRequest.<#= (string)requestElement.Attribute("singularName") #>BusinessRequestElement <#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElement = <#= parentRequestElements.Peek() #>.<#= (string)requestElement.Attribute("singularName") #>;
 <#         foreach (XElement property in requestElement.Elements("property")) { #>
-            this.ValidateNewSessionRequestProperty(<#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElement, "<#= (string)property.Attribute("name") #>", <#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElement.<#= (string)property.Attribute("name") #>, <#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorCodes., errorBusinessExceptionElements);
+            this.Validate<#= (string)xml.Element("operation").Attribute("name") #>RequestProperty(<#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElement, "<#= (string)property.Attribute("name") #>", <#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElement.<#= (string)property.Attribute("name") #>, <#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorCodes., errorBusinessExceptionElements);
 <#         } #>
 <#         parentRequestElements.Push(CamelCased((string)requestElement.Attribute("singularName")) + "BusinessRequestElement"); #>
 <#     } else if ((string)requestElement.Attribute("count") == "multiple") { #>
@@ -59,7 +59,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.<#= (string)xml.Att
             {
                 // Validate the <#= (string)requestElement.Attribute("singularName") #> business request element.
 <#         foreach (XElement property in requestElement.Elements("property")) { #>
-                this.ValidateNewSessionRequestProperty(<#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElement, "<#= (string)property.Attribute("name") #>", <#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElement.<#= (string)property.Attribute("name") #>, <#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorCodes., errorBusinessExceptionElements);
+                this.Validate<#= (string)xml.Element("operation").Attribute("name") #>RequestProperty(<#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElement, "<#= (string)property.Attribute("name") #>", <#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElement.<#= (string)property.Attribute("name") #>, <#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorCodes., errorBusinessExceptionElements);
 <#         } #>
 <#         parentRequestElements.Push(CamelCased((string)requestElement.Attribute("singularName")) + "BusinessRequestElements"); #>
 <#         PushIndent("    "); #>

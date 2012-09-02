@@ -45,6 +45,8 @@
     <Content Include="Scheduling\GetSessions\Invocation.txt" />
     <Content Include="Scheduling\GetSessions\Mocking.txt" />
     <Content Include="Scheduling\DependencyInjection.txt" />
+    <Content Include="Scheduling\NewCourseSchedule\Invocation.txt" />
+    <Content Include="Scheduling\NewCourseSchedule\Mocking.txt" />
     <Content Include="Scheduling\NewSession\Mocking.txt" />
     <Content Include="Scheduling\NewSession\Invocation.txt" />
   </ItemGroup>
