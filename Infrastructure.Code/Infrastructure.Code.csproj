@@ -58,7 +58,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAnnotations\ValidationAttributes\TimeSpanRangeAttribute.cs" />
-    <Compile Include="DataAnnotations\ValidationError.cs" />
     <Compile Include="DataAnnotations\ValidatorHelper.cs" />
     <Compile Include="DependencyInjection\DependencyResolverBuilder.cs" />
     <Compile Include="DependencyInjection\DependencyScope.cs" />
