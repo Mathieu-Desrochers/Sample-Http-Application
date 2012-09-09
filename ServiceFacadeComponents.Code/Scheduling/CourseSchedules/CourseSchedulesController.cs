@@ -10,12 +10,12 @@ using System.Web.Http.Routing;
 using SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling;
 using SampleHttpApplication.DataAccessComponents.Interface;
 
-namespace SampleHttpApplication.ServiceFacadeComponents.Code.Scheduling.Sessions
+namespace SampleHttpApplication.ServiceFacadeComponents.Code.Scheduling.CourseSchedules
 {
     /// <summary>
-    /// Represents the Sessions controller.
+    /// Represents the CourseSchedules controller.
     /// </summary>
-    public partial class SessionsController : ApiController
+    public partial class CourseSchedulesController : ApiController
     {
         /// <summary>
         /// The database connection provider.
@@ -30,7 +30,7 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Code.Scheduling.Sessions
         /// <summary>
         /// Initialization conctructor.
         /// </summary>
-        public SessionsController(IDatabaseConnectionProvider databaseConnectionProvider, ISchedulingBusinessLogicComponent schedulingBusinessLogicComponent)
+        public CourseSchedulesController(IDatabaseConnectionProvider databaseConnectionProvider, ISchedulingBusinessLogicComponent schedulingBusinessLogicComponent)
         {
             // Initialize the database connection provider.
             this.databaseConnectionProvider = databaseConnectionProvider;
@@ -45,13 +45,13 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Code.Scheduling.Sessions
         public static void RegisterRoutes(HttpRouteCollection httpRouteCollection)
         {
             // Build the HTTP method contraint.
-            HttpMethodConstraint httpMethodConstraint = new HttpMethodConstraint(HttpMethod.Get, HttpMethod.Post);
+            HttpMethodConstraint httpMethodConstraint = new HttpMethodConstraint(HttpMethod.Post);
 
             // Map the HTTP route.
             httpRouteCollection.MapHttpRoute(
                 name: "",
-                routeTemplate: "api/scheduling/sessions",
-                defaults: new { controller = "Sessions" },
+                routeTemplate: "api/scheduling/course-schedules",
+                defaults: new { controller = "CourseSchedules" },
                 constraints: new { httpMethods = httpMethodConstraint });
         }
     }

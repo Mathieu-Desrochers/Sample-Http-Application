@@ -24,7 +24,7 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Code.Scheduling.Sessions
         /// <summary>
         /// Invokes the NewSession business operation.
         /// </summary>
-        private async Task<NewSessionBusinessResponse> InvokeNewSession(IDatabaseConnection databaseConnection, SessionResource sessionResource)
+        private async Task<NewSessionBusinessResponse> InvokeNewSession(IDatabaseConnection databaseConnection, SessionResource resource)
         {
             try
             {
@@ -32,10 +32,13 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Code.Scheduling.Sessions
                 NewSessionBusinessRequest newSessionBusinessRequest = new NewSessionBusinessRequest();
 
                 // Build the Session business request element.
-                NewSessionBusinessRequest.SessionBusinessRequestElement sessionBusinessRequestElement = new NewSessionBusinessRequest.SessionBusinessRequestElement();
-                sessionBusinessRequestElement.Name = sessionResource.Name;
-                sessionBusinessRequestElement.StartDate = sessionResource.StartDate;
-                newSessionBusinessRequest.Session = sessionBusinessRequestElement;
+                if (resource != null)
+                {
+                    NewSessionBusinessRequest.SessionBusinessRequestElement sessionBusinessRequestElement = new NewSessionBusinessRequest.SessionBusinessRequestElement();
+                    sessionBusinessRequestElement.Name = resource.Name;
+                    sessionBusinessRequestElement.StartDate = resource.StartDate;
+                    newSessionBusinessRequest.Session = sessionBusinessRequestElement;
+                }
 
                 // Invoke the NewSession business operation.
                 NewSessionBusinessResponse newSessionBusinessResponse = await this.schedulingBusinessLogicComponent.NewSession(databaseConnection, newSessionBusinessRequest);
@@ -60,9 +63,9 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Code.Scheduling.Sessions
         /// <summary>
         /// Executes the HTTP POST method.
         /// </summary>
-        public async Task<HttpResponseMessage> Post(SessionResource sessionResource)
+        public async Task<HttpResponseMessage> Post(SessionResource resource)
         {
-            // Make sure the Session resource is valid.
+            // Make sure the resource is valid.
             if (!this.ModelState.IsValid)
             {
                 HttpResponseMessage httpResponseMessage = new HttpResponseMessage(HttpStatusCode.BadRequest);
@@ -75,16 +78,16 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Code.Scheduling.Sessions
             using (IDatabaseTransaction databaseTransaction = databaseConnection.BeginDatabaseTransaction())
             {
                 // Invoke the NewSession business operation.
-                NewSessionBusinessResponse newSessionBusinessResponse = await this.InvokeNewSession(databaseConnection, sessionResource);
+                NewSessionBusinessResponse newSessionBusinessResponse = await this.InvokeNewSession(databaseConnection, resource);
 
-                // Update the Session resource.
-                sessionResource.SessionCode = newSessionBusinessResponse.Session.SessionCode;
+                // Update the resource.
+                resource.SessionCode = newSessionBusinessResponse.Session.SessionCode;
 
                 // Commit the database transaction.
                 databaseTransaction.Commit();
 
-                // Build an HTTP response message containing the Session resource.
-                HttpResponseMessage httpResponseMessage = this.Request.CreateResponse<SessionResource>(HttpStatusCode.Created, sessionResource);
+                // Build an HTTP response message.
+                HttpResponseMessage httpResponseMessage = this.Request.CreateResponse(HttpStatusCode.Created, resource);
                 return httpResponseMessage;
             }
         }

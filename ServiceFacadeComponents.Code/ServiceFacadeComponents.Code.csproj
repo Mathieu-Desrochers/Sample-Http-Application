@@ -68,6 +68,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Scheduling\CourseSchedules\CourseSchedulesController.cs" />
+    <Compile Include="Scheduling\CourseSchedules\Post\PostMethod.cs" />
     <Compile Include="ServiceExceptionBuilder.cs" />
     <Compile Include="ServiceExceptionFilterAttribute.cs" />
     <Compile Include="Scheduling\Sessions\Get\GetMethod.cs" />

@@ -63,11 +63,11 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Code.Scheduling.Sessions
                 // Invoke the GetSessions business operation.
                 GetSessionsBusinessResponse getSessionsBusinessResponse = await this.InvokeGetSessions(databaseConnection);
 
-                // Build the Sessions resources.
+                // Build the Session resources.
                 List<SessionResource> sessionResources = new List<SessionResource>();
                 foreach (GetSessionsBusinessResponse.SessionBusinessResponseElement sessionBusinessResponseElement in getSessionsBusinessResponse.Sessions)
                 {
-                    // Build the Sessions resource.
+                    // Build the Session resource.
                     SessionResource sessionResource = new SessionResource();
                     sessionResource.SessionCode = sessionBusinessResponseElement.SessionCode;
                     sessionResource.Name = sessionBusinessResponseElement.Name;
@@ -78,8 +78,8 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Code.Scheduling.Sessions
                 // Commit the database transaction.
                 databaseTransaction.Commit();
 
-                // Return an HTTP response message containing the Session resources.
-                HttpResponseMessage httpResponseMessage = this.Request.CreateResponse<SessionResource[]>(HttpStatusCode.OK, sessionResources.ToArray());
+                // Return an HTTP response message.
+                HttpResponseMessage httpResponseMessage = this.Request.CreateResponse(HttpStatusCode.OK, sessionResources.ToArray());
                 return httpResponseMessage;
             }
         }
