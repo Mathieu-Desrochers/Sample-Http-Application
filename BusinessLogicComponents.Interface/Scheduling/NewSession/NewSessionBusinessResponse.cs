@@ -15,7 +15,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling.New
         /// <summary>
         /// The new session.
         /// </summary>
-        public SessionBusinessResponseElement Session;
+        public SessionBusinessResponseElement Session { get; set; }
         public class SessionBusinessResponseElement
         {
             /// <summary>

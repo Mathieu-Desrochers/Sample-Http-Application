@@ -19,7 +19,9 @@
       </responseElement>
     </response>
     <errors>
+      <error code="InvalidSession" />
       <error code="InvalidSessionCode" />
+      <error code="InvalidCourseSchedule" />
       <error code="InvalidTime" />
     </errors>
     <dataAccessComponents>

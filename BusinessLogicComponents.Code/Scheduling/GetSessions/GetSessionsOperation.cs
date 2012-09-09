@@ -38,11 +38,11 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
         /// </summary>
         public async virtual Task<GetSessionsBusinessResponse> GetSessions(IDatabaseConnection databaseConnection, GetSessionsBusinessRequest businessRequest)
         {
-            // Initialize the operation data.
-            GetSessionsOperationData operationData = new GetSessionsOperationData();
-
             // Validate the business request.
             this.ValidateGetSessionsRequest(businessRequest);
+
+            // Initialize the operation data.
+            GetSessionsOperationData operationData = new GetSessionsOperationData();
 
             // Validate the business operation.
             await this.ValidateGetSessionsOperation(databaseConnection, businessRequest, operationData);

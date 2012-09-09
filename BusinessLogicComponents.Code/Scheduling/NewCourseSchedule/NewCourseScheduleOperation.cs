@@ -27,12 +27,22 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
             List<NewCourseScheduleBusinessException.ErrorBusinessExceptionElement> errorBusinessExceptionElements = new List<NewCourseScheduleBusinessException.ErrorBusinessExceptionElement>();
 
             // Validate the Session business request element.
-            NewCourseScheduleBusinessRequest.SessionBusinessRequestElement sessionBusinessRequestElement = businessRequest.Session;
-            this.ValidateNewCourseScheduleRequestProperty(sessionBusinessRequestElement, "SessionCode", sessionBusinessRequestElement.SessionCode, NewCourseScheduleBusinessException.ErrorCodes.InvalidSessionCode, errorBusinessExceptionElements);
+            this.ValidateNewCourseScheduleRequestProperty(businessRequest, "Session", businessRequest.Session, NewCourseScheduleBusinessException.ErrorCodes.InvalidSession, errorBusinessExceptionElements);
+            if (businessRequest.Session != null)
+            {
+                // Validate the Session business request element properties.
+                NewCourseScheduleBusinessRequest.SessionBusinessRequestElement sessionBusinessRequestElement = businessRequest.Session;
+                this.ValidateNewCourseScheduleRequestProperty(sessionBusinessRequestElement, "SessionCode", sessionBusinessRequestElement.SessionCode, NewCourseScheduleBusinessException.ErrorCodes.InvalidSessionCode, errorBusinessExceptionElements);
+            }
 
             // Validate the CourseSchedule business request element.
-            NewCourseScheduleBusinessRequest.CourseScheduleBusinessRequestElement courseScheduleBusinessRequestElement = businessRequest.CourseSchedule;
-            this.ValidateNewCourseScheduleRequestProperty(courseScheduleBusinessRequestElement, "Time", courseScheduleBusinessRequestElement.Time, NewCourseScheduleBusinessException.ErrorCodes.InvalidTime, errorBusinessExceptionElements);
+            this.ValidateNewCourseScheduleRequestProperty(businessRequest, "CourseSchedule", businessRequest.CourseSchedule, NewCourseScheduleBusinessException.ErrorCodes.InvalidCourseSchedule, errorBusinessExceptionElements);
+            if (businessRequest.CourseSchedule != null)
+            {
+                // Validate the CourseSchedule business request element properties.
+                NewCourseScheduleBusinessRequest.CourseScheduleBusinessRequestElement courseScheduleBusinessRequestElement = businessRequest.CourseSchedule;
+                this.ValidateNewCourseScheduleRequestProperty(courseScheduleBusinessRequestElement, "Time", courseScheduleBusinessRequestElement.Time, NewCourseScheduleBusinessException.ErrorCodes.InvalidTime, errorBusinessExceptionElements);
+            }
 
             // Check if any errors were added to the list.
             if (errorBusinessExceptionElements.Any())
@@ -63,11 +73,11 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
         /// </summary>
         public async virtual Task<NewCourseScheduleBusinessResponse> NewCourseSchedule(IDatabaseConnection databaseConnection, NewCourseScheduleBusinessRequest businessRequest)
         {
-            // Initialize the operation data.
-            NewCourseScheduleOperationData operationData = new NewCourseScheduleOperationData();
-
             // Validate the business request.
             this.ValidateNewCourseScheduleRequest(businessRequest);
+
+            // Initialize the operation data.
+            NewCourseScheduleOperationData operationData = new NewCourseScheduleOperationData();
 
             // Validate the business operation.
             await this.ValidateNewCourseScheduleOperation(databaseConnection, businessRequest, operationData);

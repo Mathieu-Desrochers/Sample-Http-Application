@@ -17,6 +17,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling.New
         /// </summary>
         public enum ErrorCodes
         {
+            InvalidSession,
             InvalidName
         }
 

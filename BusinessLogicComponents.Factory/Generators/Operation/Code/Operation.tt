@@ -48,20 +48,27 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.<#= (string)xml.Att
 <# ForEachSeparatedRecursive(xml.Descendants("request").Elements("requestElement"), (requestElement) => { #>
 <#     if ((string)requestElement.Attribute("count") == "single") { #>
             // Validate the <#= (string)requestElement.Attribute("singularName") #> business request element.
-            <#= (string)xml.Element("operation").Attribute("name") #>BusinessRequest.<#= (string)requestElement.Attribute("singularName") #>BusinessRequestElement <#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElement = <#= parentRequestElements.Peek() #>.<#= (string)requestElement.Attribute("singularName") #>;
+            this.Validate<#= (string)xml.Element("operation").Attribute("name") #>RequestProperty(<#= parentRequestElements.Peek() #>, "<#= (string)requestElement.Attribute("singularName") #>", <#= parentRequestElements.Peek() #>.<#= (string)requestElement.Attribute("singularName") #>, <#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorCodes., errorBusinessExceptionElements);
+            if (<#= parentRequestElements.Peek() #>.<#= (string)requestElement.Attribute("singularName") #> != null)
+            {
+                // Validate the <#= (string)requestElement.Attribute("singularName") #> business request element properties.
+                <#= (string)xml.Element("operation").Attribute("name") #>BusinessRequest.<#= (string)requestElement.Attribute("singularName") #>BusinessRequestElement <#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElement = <#= parentRequestElements.Peek() #>.<#= (string)requestElement.Attribute("singularName") #>;
 <#         foreach (XElement property in requestElement.Elements("property")) { #>
-            this.Validate<#= (string)xml.Element("operation").Attribute("name") #>RequestProperty(<#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElement, "<#= (string)property.Attribute("name") #>", <#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElement.<#= (string)property.Attribute("name") #>, <#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorCodes., errorBusinessExceptionElements);
+                this.Validate<#= (string)xml.Element("operation").Attribute("name") #>RequestProperty(<#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElement, "<#= (string)property.Attribute("name") #>", <#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElement.<#= (string)property.Attribute("name") #>, <#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorCodes., errorBusinessExceptionElements);
 <#         } #>
 <#         parentRequestElements.Push(CamelCased((string)requestElement.Attribute("singularName")) + "BusinessRequestElement"); #>
 <#     } else if ((string)requestElement.Attribute("count") == "multiple") { #>
             // Validate the <#= (string)requestElement.Attribute("singularName") #> business request elements.
-            foreach (<#= (string)xml.Element("operation").Attribute("name") #>BusinessRequest.<#= (string)requestElement.Attribute("singularName") #>BusinessRequestElement <#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElement in <#= parentRequestElements.Peek() #>.<#= (string)requestElement.Attribute("pluralName") #>)
+            this.Validate<#= (string)xml.Element("operation").Attribute("name") #>RequestProperty(<#= parentRequestElements.Peek() #>, "<#= (string)requestElement.Attribute("pluralName") #>", <#= parentRequestElements.Peek() #>.<#= (string)requestElement.Attribute("singularName") #>, <#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorCodes., errorBusinessExceptionElements);
+            if (<#= parentRequestElements.Peek() #>.<#= (string)requestElement.Attribute("pluralName") #> != null)
             {
-                // Validate the <#= (string)requestElement.Attribute("singularName") #> business request element.
+                foreach (<#= (string)xml.Element("operation").Attribute("name") #>BusinessRequest.<#= (string)requestElement.Attribute("singularName") #>BusinessRequestElement <#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElement in <#= parentRequestElements.Peek() #>.<#= (string)requestElement.Attribute("pluralName") #>)
+                {
+                    // Validate the <#= (string)requestElement.Attribute("singularName") #> business request element properties.
 <#         foreach (XElement property in requestElement.Elements("property")) { #>
-                this.Validate<#= (string)xml.Element("operation").Attribute("name") #>RequestProperty(<#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElement, "<#= (string)property.Attribute("name") #>", <#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElement.<#= (string)property.Attribute("name") #>, <#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorCodes., errorBusinessExceptionElements);
+                    this.Validate<#= (string)xml.Element("operation").Attribute("name") #>RequestProperty(<#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElement, "<#= (string)property.Attribute("name") #>", <#= CamelCased((string)requestElement.Attribute("singularName")) #>BusinessRequestElement.<#= (string)property.Attribute("name") #>, <#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorCodes., errorBusinessExceptionElements);
 <#         } #>
-<#         parentRequestElements.Push(CamelCased((string)requestElement.Attribute("singularName")) + "BusinessRequestElements"); #>
+<#         parentRequestElements.Push(CamelCased((string)requestElement.Attribute("singularName")) + "BusinessRequestElement"); #>
 <#         PushIndent("    "); #>
 <#     } #>
 <#     if (requestElement.Elements("requestElement").Any()) { #>
@@ -69,13 +76,16 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.<#= (string)xml.Att
 <#     } #>
 <# }, (requestElement) => requestElement.Elements("requestElement"), (requestElement) => { #>
 <#     parentRequestElements.Pop(); #>
-<#     if ((string)requestElement.Attribute("count") == "multiple") { #>
+<#     if ((string)requestElement.Attribute("count") == "single") { #>
+            }
+<#     } else if ((string)requestElement.Attribute("count") == "multiple") { #>
 <#         PopIndent(); #>
+                }
             }
 <#     } #>
 <# }, () => { #>
 
-<# }, false); #>
+<# }, true); #>
 
             // Check if any errors were added to the list.
             if (errorBusinessExceptionElements.Any())
@@ -139,11 +149,11 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.<#= (string)xml.Att
         /// </summary>
         public async virtual Task<<#= (string)xml.Element("operation").Attribute("name") #>BusinessResponse> <#= (string)xml.Element("operation").Attribute("name") #>(IDatabaseConnection databaseConnection, <#= (string)xml.Element("operation").Attribute("name") #>BusinessRequest businessRequest)
         {
-            // Initialize the operation data.
-            <#= (string)xml.Element("operation").Attribute("name") #>OperationData operationData = new <#= (string)xml.Element("operation").Attribute("name") #>OperationData();
-
             // Validate the business request.
             this.Validate<#= (string)xml.Element("operation").Attribute("name") #>Request(businessRequest);
+
+            // Initialize the operation data.
+            <#= (string)xml.Element("operation").Attribute("name") #>OperationData operationData = new <#= (string)xml.Element("operation").Attribute("name") #>OperationData();
 
             // Validate the business operation.
             await this.Validate<#= (string)xml.Element("operation").Attribute("name") #>Operation(databaseConnection, businessRequest, operationData);

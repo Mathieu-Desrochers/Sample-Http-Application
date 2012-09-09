@@ -16,7 +16,8 @@ namespace SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling.New
         /// <summary>
         /// The new session.
         /// </summary>
-        public SessionBusinessRequestElement Session;
+        [Required]
+        public SessionBusinessRequestElement Session { get; set; }
         public class SessionBusinessRequestElement
         {
             /// <summary>
@@ -29,7 +30,6 @@ namespace SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling.New
             /// <summary>
             /// Gets or sets the StartDate.
             /// </summary>
-            [Required]
             public DateTime StartDate { get; set; }
         }
     }

@@ -75,6 +75,47 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewSess
         }
 
         /// <summary>
+        /// Should throw the InvalidSession error code.
+        /// </summary>
+        [TestMethod]
+        public void ShouldThrowInvalidSessionErrorCode()
+        {
+            // Build the test harness.
+            SchedulingBusinessLogicComponentTestHarness testHarness = new SchedulingBusinessLogicComponentTestHarness();
+
+            // Build the NewSession business request.
+            NewSessionBusinessRequest newSessionBusinessRequest = new NewSessionBusinessRequest();
+
+            // Build the Session business request element.
+            newSessionBusinessRequest.Session = null;
+
+            try
+            {
+                // Invoke the NewSession business operation.
+                testHarness.SchedulingBusinessLogicComponent.NewSession(testHarness.MockedDatabaseConnection, newSessionBusinessRequest).Wait();
+
+                // Validate an exception was thrown.
+                Assert.Fail();
+            }
+            catch (AggregateException ex)
+            {
+                // Verify the mocked components.
+                testHarness.VerifyMockedComponents();
+
+                // Validate a NewSession business exception was thrown.
+                NewSessionBusinessException NewSessionBusinessException = ex.InnerExceptions[0] as NewSessionBusinessException;
+                Assert.IsNotNull(NewSessionBusinessException);
+                Assert.AreEqual("SchedulingBusinessLogicComponent.NewSession() has thrown a NewSession business exception. See the Errors property for details.", NewSessionBusinessException.Message);
+
+                // Validate the NewSession business exception contains the InvalidSession error code.
+                Assert.IsNotNull(NewSessionBusinessException.Errors);
+                Assert.AreEqual(1, NewSessionBusinessException.Errors.Length);
+                Assert.AreEqual(NewSessionBusinessException.ErrorCodes.InvalidSession, NewSessionBusinessException.Errors[0].ErrorCode);
+                Assert.AreEqual(null, NewSessionBusinessException.Errors[0].ErroneousValue);
+            }
+        }
+
+        /// <summary>
         /// Should throw the InvalidName error code.
         /// </summary>
         private void ShouldThrowInvalidNameErrorCode(string name)

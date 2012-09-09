@@ -20,13 +20,13 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
         /// </summary>
         private void ValidateGetSessionsRequestProperty(object businessRequestElement, string propertyName, object propertyValue, GetSessionsBusinessException.ErrorCodes errorCode, List<GetSessionsBusinessException.ErrorBusinessExceptionElement> errorBusinessExceptionElements)
         {
-            // Make sure the property is invalid.
+            // Check if the property is valid.
             if (ValidatorHelper.ValidateProperty(businessRequestElement, propertyName, propertyValue))
             {
                 return;
             }
 
-            // Build an Error business exception element.
+            // Build the Error business exception element.
             GetSessionsBusinessException.ErrorBusinessExceptionElement errorBusinessExceptionElement = new GetSessionsBusinessException.ErrorBusinessExceptionElement();
             errorBusinessExceptionElement.ErrorCode = errorCode;
             errorBusinessExceptionElement.ErroneousValue = propertyValue;

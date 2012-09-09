@@ -15,7 +15,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling.New
         /// <summary>
         /// The new course schedule.
         /// </summary>
-        public CourseScheduleBusinessResponseElement CourseSchedule;
+        public CourseScheduleBusinessResponseElement CourseSchedule { get; set; }
         public class CourseScheduleBusinessResponseElement
         {
             /// <summary>

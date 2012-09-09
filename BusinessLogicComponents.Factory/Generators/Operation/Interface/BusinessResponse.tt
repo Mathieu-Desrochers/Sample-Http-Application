@@ -31,9 +31,9 @@ namespace SampleHttpApplication.BusinessLogicComponents.Interface.<#= (string)xm
         /// <#= (string)responseElement.Element("summary") #>
         /// </summary>
 <#     if ((string)responseElement.Attribute("count") == "single") { #>
-        public <#= (string)responseElement.Attribute("singularName") #>BusinessResponseElement <#= (string)responseElement.Attribute("singularName") #>;
+        public <#= (string)responseElement.Attribute("singularName") #>BusinessResponseElement <#= (string)responseElement.Attribute("singularName") #> { get; set; }
 <#     } else if ((string)responseElement.Attribute("count") == "multiple") { #>
-        public <#= (string)responseElement.Attribute("singularName") #>BusinessResponseElement[] <#= (string)responseElement.Attribute("pluralName") #>;
+        public <#= (string)responseElement.Attribute("singularName") #>BusinessResponseElement[] <#= (string)responseElement.Attribute("pluralName") #> { get; set; }
 <#     } #>
         public class <#= (string)responseElement.Attribute("singularName") #>BusinessResponseElement
         {

@@ -19,7 +19,8 @@ namespace SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling.New
         /// <summary>
         /// The session.
         /// </summary>
-        public SessionBusinessRequestElement Session;
+        [Required]
+        public SessionBusinessRequestElement Session { get; set; }
         public class SessionBusinessRequestElement
         {
             /// <summary>
@@ -33,19 +34,18 @@ namespace SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling.New
         /// <summary>
         /// The new course schedule.
         /// </summary>
-        public CourseScheduleBusinessRequestElement CourseSchedule;
+        [Required]
+        public CourseScheduleBusinessRequestElement CourseSchedule { get; set; }
         public class CourseScheduleBusinessRequestElement
         {
             /// <summary>
             /// Gets or sets the DayOfWeek.
             /// </summary>
-            [Required]
             public DayOfWeek DayOfWeek { get; set; }
 
             /// <summary>
             /// Gets or sets the Time.
             /// </summary>
-            [Required]
             [TimeSpanRange("00:00:00", "23:59:59")]
             public TimeSpan Time { get; set; }
         }

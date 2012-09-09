@@ -26,9 +26,14 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
             List<NewSessionBusinessException.ErrorBusinessExceptionElement> errorBusinessExceptionElements = new List<NewSessionBusinessException.ErrorBusinessExceptionElement>();
 
             // Validate the Session business request element.
-            NewSessionBusinessRequest.SessionBusinessRequestElement sessionBusinessRequestElement = businessRequest.Session;
-            this.ValidateNewSessionRequestProperty(sessionBusinessRequestElement, "Name", sessionBusinessRequestElement.Name, NewSessionBusinessException.ErrorCodes.InvalidName, errorBusinessExceptionElements);
-            
+            this.ValidateNewSessionRequestProperty(businessRequest, "Session", businessRequest.Session, NewSessionBusinessException.ErrorCodes.InvalidSession, errorBusinessExceptionElements);
+            if (businessRequest.Session != null)
+            {
+                // Validate the Session business request element properties.
+                NewSessionBusinessRequest.SessionBusinessRequestElement sessionBusinessRequestElement = businessRequest.Session;
+                this.ValidateNewSessionRequestProperty(sessionBusinessRequestElement, "Name", sessionBusinessRequestElement.Name, NewSessionBusinessException.ErrorCodes.InvalidName, errorBusinessExceptionElements);
+            }
+
             // Check if any errors were added to the list.
             if (errorBusinessExceptionElements.Any())
             {
@@ -51,11 +56,11 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
         /// </summary>
         public async virtual Task<NewSessionBusinessResponse> NewSession(IDatabaseConnection databaseConnection, NewSessionBusinessRequest businessRequest)
         {
-            // Initialize the operation data.
-            NewSessionOperationData operationData = new NewSessionOperationData();
-
             // Validate the business request.
             this.ValidateNewSessionRequest(businessRequest);
+
+            // Initialize the operation data.
+            NewSessionOperationData operationData = new NewSessionOperationData();
 
             // Validate the business operation.
             await this.ValidateNewSessionOperation(databaseConnection, businessRequest, operationData);

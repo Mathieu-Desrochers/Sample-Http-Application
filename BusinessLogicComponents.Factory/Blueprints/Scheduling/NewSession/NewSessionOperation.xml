@@ -15,6 +15,7 @@
       </responseElement>
     </response>
     <errors>
+      <error code="InvalidSession" />
       <error code="InvalidName" />
     </errors>
     <dataAccessComponents>
