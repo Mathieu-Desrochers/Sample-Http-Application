@@ -1,5 +1,5 @@
 ﻿
-    // Build the business request.
+    // Build the NewCourseSchedule business request.
     NewCourseScheduleBusinessRequest newCourseScheduleBusinessRequest = new NewCourseScheduleBusinessRequest();
 
     // Build the Session business request element.

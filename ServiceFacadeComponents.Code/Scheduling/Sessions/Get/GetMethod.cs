@@ -28,7 +28,7 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Code.Scheduling.Sessions
         {
             try
             {
-                // Build the business request.
+                // Build the GetSessions business request.
                 GetSessionsBusinessRequest getSessionsBusinessRequest = new GetSessionsBusinessRequest();
 
                 // Invoke the GetSessions business operation.

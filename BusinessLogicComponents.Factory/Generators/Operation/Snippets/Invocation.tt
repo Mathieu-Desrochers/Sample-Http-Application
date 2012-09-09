@@ -13,7 +13,7 @@
     XElement xml = XElement.Load(xmlPath);
 #>
 
-    // Build the business request.
+    // Build the <#= (string)xml.Element("operation").Attribute("name") #> business request.
     <#= (string)xml.Element("operation").Attribute("name") #>BusinessRequest <#= CamelCased((string)xml.Element("operation").Attribute("name")) #>BusinessRequest = new <#= (string)xml.Element("operation").Attribute("name") #>BusinessRequest();
 
 <# Stack<string> parentRequestElements = new Stack<string>(new string[] { "businessRequest" }); #>
