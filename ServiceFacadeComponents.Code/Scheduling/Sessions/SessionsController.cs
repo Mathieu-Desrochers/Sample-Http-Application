@@ -49,7 +49,7 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Code.Scheduling.Sessions
 
             // Map the HTTP route.
             httpRouteCollection.MapHttpRoute(
-                name: "",
+                name: "api/scheduling/sessions",
                 routeTemplate: "api/scheduling/sessions",
                 defaults: new { controller = "Sessions" },
                 constraints: new { httpMethods = httpMethodConstraint });

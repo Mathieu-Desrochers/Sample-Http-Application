@@ -49,7 +49,7 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Code.Scheduling.CourseSc
 
             // Map the HTTP route.
             httpRouteCollection.MapHttpRoute(
-                name: "",
+                name: "api/scheduling/course-schedules",
                 routeTemplate: "api/scheduling/course-schedules",
                 defaults: new { controller = "CourseSchedules" },
                 constraints: new { httpMethods = httpMethodConstraint });

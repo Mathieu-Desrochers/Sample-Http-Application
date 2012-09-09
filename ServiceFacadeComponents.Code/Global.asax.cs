@@ -8,6 +8,7 @@ using System.Web.Http;
 using Newtonsoft.Json.Serialization;
 
 using SampleHttpApplication.Infrastructure.Code.DependencyInjection;
+using SampleHttpApplication.ServiceFacadeComponents.Code.Scheduling.CourseSchedules;
 using SampleHttpApplication.ServiceFacadeComponents.Code.Scheduling.Sessions;
 using SampleHttpApplication.ServiceFacadeComponents.Interface;
 
@@ -31,6 +32,7 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Code
             httpConfiguration.Filters.Add(new UnhandledExceptionFilterAttribute());
 
             // Register the controller routes.
+            CourseSchedulesController.RegisterRoutes(httpConfiguration.Routes);
             SessionsController.RegisterRoutes(httpConfiguration.Routes);
         }
 

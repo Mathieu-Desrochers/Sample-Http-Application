@@ -91,30 +91,20 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Tests.Scheduling.Session
 
             // Mock the invocation of the NewSession business operation.
             testHarness.MockedSchedulingBusinessLogicComponent
-                .Setup(mock => mock.NewSession(
-                    It.IsAny<IDatabaseConnection>(),
-                    It.Is<NewSessionBusinessRequest>(newSessionBusinessRequest =>
-                    (
-                        // Match the Session business request element.
-                        newSessionBusinessRequest.Session.Name == "Session Alpha" &&
-                        newSessionBusinessRequest.Session.StartDate == new DateTime(2001, 1, 1)
-                    ))))
+                .Setup(mock => mock.NewSession(It.IsAny<IDatabaseConnection>(), It.IsAny<NewSessionBusinessRequest>()))
                 .Throws(new NewSessionBusinessException()
                 {
                     // Mock the NewSession business exception.
                     Errors = new NewSessionBusinessException.ErrorBusinessExceptionElement[]
                     {
-                        new NewSessionBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewSessionBusinessException.ErrorCodes.InvalidName, ErroneousValue = "Session Alpha" }
+                        new NewSessionBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewSessionBusinessException.ErrorCodes.InvalidSession, ErroneousValue = null },
+                        new NewSessionBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewSessionBusinessException.ErrorCodes.InvalidName, ErroneousValue = "Session Alpha" },
                     }
                 })
                 .Verifiable();
 
             // Build the request JSON content.
             StringBuilder requestJsonContent = new StringBuilder();
-            requestJsonContent.Append("{");
-            requestJsonContent.Append("\"name\":\"Session Alpha\",");
-            requestJsonContent.Append("\"startDate\":\"2001-01-01T00:00:00\"");
-            requestJsonContent.Append("}");
 
             // Invoke the HTTP POST method.
             HttpRequestMessage httpRequestMessage = testHarness.BuildHttpRequest(HttpMethod.Post, "api/scheduling/sessions", requestJsonContent.ToString());
@@ -126,6 +116,10 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Tests.Scheduling.Session
             // Build the expected JSON content.
             StringBuilder expectedJsonContent = new StringBuilder();
             expectedJsonContent.Append("[");
+            expectedJsonContent.Append("{");
+            expectedJsonContent.Append("\"errorCode\":\"InvalidSession\",");
+            expectedJsonContent.Append("\"erroneousValue\":null");
+            expectedJsonContent.Append("},");
             expectedJsonContent.Append("{");
             expectedJsonContent.Append("\"errorCode\":\"InvalidName\",");
             expectedJsonContent.Append("\"erroneousValue\":\"Session Alpha\"");

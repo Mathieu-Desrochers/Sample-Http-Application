@@ -48,6 +48,8 @@
   <ItemGroup>
     <Compile Include="MockedDependencyResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scheduling\CourseSchedules\CourseSchedulesControllerTestHarness.cs" />
+    <Compile Include="Scheduling\CourseSchedules\Post\PostMethodTests.cs" />
     <Compile Include="Scheduling\Sessions\Get\GetMethodTests.cs" />
     <Compile Include="Scheduling\Sessions\Post\PostMethodTests.cs" />
     <Compile Include="Scheduling\Sessions\SessionsControllerTestHarness.cs" />
