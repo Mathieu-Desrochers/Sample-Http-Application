@@ -74,7 +74,9 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Code.Scheduling.CourseSc
         public async Task<HttpResponseMessage> Post(CourseScheduleResource resource)
         {
             // Make sure the resource is valid.
-            if (!this.ModelState.IsValid)
+            bool resourceIsNull = resource == null;
+            bool resourceIsInvalid = this.ModelState.IsValid == false;
+            if (resourceIsNull || resourceIsInvalid)
             {
                 HttpResponseMessage httpResponseMessage = new HttpResponseMessage(HttpStatusCode.BadRequest);
                 HttpResponseException httpResponseException = new HttpResponseException(httpResponseMessage);
@@ -88,8 +90,11 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Code.Scheduling.CourseSc
                 // Invoke the NewCourseSchedule business operation.
                 NewCourseScheduleBusinessResponse newCourseScheduleBusinessResponse = await this.InvokeNewCourseSchedule(databaseConnection, resource);
 
-                // Update the resource.
-                resource.CourseSchedule.CourseScheduleCode = newCourseScheduleBusinessResponse.CourseSchedule.CourseScheduleCode;
+                // Update the CourseSchedule resource element.
+                if (resource.CourseSchedule != null)
+                {
+                    resource.CourseSchedule.CourseScheduleCode = newCourseScheduleBusinessResponse.CourseSchedule.CourseScheduleCode;
+                }
 
                 // Commit the database transaction.
                 databaseTransaction.Commit();

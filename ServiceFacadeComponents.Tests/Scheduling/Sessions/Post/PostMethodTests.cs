@@ -53,8 +53,11 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Tests.Scheduling.Session
             // Build the request JSON content.
             StringBuilder requestJsonContent = new StringBuilder();
             requestJsonContent.Append("{");
+            requestJsonContent.Append("session:");
+            requestJsonContent.Append("{");
             requestJsonContent.Append("\"name\":\"Session Alpha\",");
             requestJsonContent.Append("\"startDate\":\"2001-01-01T00:00:00\"");
+            requestJsonContent.Append("}");
             requestJsonContent.Append("}");
 
             // Invoke the HTTP POST method.
@@ -67,9 +70,12 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Tests.Scheduling.Session
             // Build the expected JSON content.
             StringBuilder expectedJsonContent = new StringBuilder();
             expectedJsonContent.Append("{");
+            expectedJsonContent.Append("\"session\":");
+            expectedJsonContent.Append("{");
             expectedJsonContent.Append("\"sessionCode\":\"6dk61ufcuzp3f7vs\",");
             expectedJsonContent.Append("\"name\":\"Session Alpha\",");
             expectedJsonContent.Append("\"startDate\":\"2001-01-01T00:00:00\"");
+            expectedJsonContent.Append("}");
             expectedJsonContent.Append("}");
 
             // Read the HTTP response message content.
@@ -105,6 +111,8 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Tests.Scheduling.Session
 
             // Build the request JSON content.
             StringBuilder requestJsonContent = new StringBuilder();
+            requestJsonContent.Append("{");
+            requestJsonContent.Append("}");
 
             // Invoke the HTTP POST method.
             HttpRequestMessage httpRequestMessage = testHarness.BuildHttpRequest(HttpMethod.Post, "api/scheduling/sessions", requestJsonContent.ToString());

@@ -26,7 +26,7 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Interface.Scheduling.Cou
         }
 
         /// <summary>
-        /// The new course schedule.
+        /// The course schedule.
         /// </summary>
         public CourseScheduleResourceElement CourseSchedule { get; set; }
         public class CourseScheduleResourceElement

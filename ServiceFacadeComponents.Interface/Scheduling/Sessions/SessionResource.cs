@@ -14,18 +14,25 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Interface.Scheduling.Ses
     public class SessionResource
     {
         /// <summary>
-        /// Gets or sets the SessionCode.
+        /// The session.
         /// </summary>
-        public string SessionCode { get; set; }
+        public SessionResourceElement Session { get; set; }
+        public class SessionResourceElement
+        {
+            /// <summary>
+            /// Gets or sets the SessionCode.
+            /// </summary>
+            public string SessionCode { get; set; }
 
-        /// <summary>
-        /// Gets or sets the Name.
-        /// </summary>
-        public string Name { get; set; }
+            /// <summary>
+            /// Gets or sets the Name.
+            /// </summary>
+            public string Name { get; set; }
 
-        /// <summary>
-        /// Gets or sets the StartDate.
-        /// </summary>
-        public DateTime StartDate { get; set; }
+            /// <summary>
+            /// Gets or sets the StartDate.
+            /// </summary>
+            public DateTime StartDate { get; set; }
+        }
     }
 }

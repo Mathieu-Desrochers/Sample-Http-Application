@@ -69,10 +69,14 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Code.Scheduling.Sessions
                 {
                     // Build the Session resource.
                     SessionResource sessionResource = new SessionResource();
-                    sessionResource.SessionCode = sessionBusinessResponseElement.SessionCode;
-                    sessionResource.Name = sessionBusinessResponseElement.Name;
-                    sessionResource.StartDate = sessionBusinessResponseElement.StartDate;
                     sessionResources.Add(sessionResource);
+                    
+                    // Build the Session resource element.
+                    SessionResource.SessionResourceElement sessionResourceElement = new SessionResource.SessionResourceElement();
+                    sessionResourceElement.SessionCode = sessionBusinessResponseElement.SessionCode;
+                    sessionResourceElement.Name = sessionBusinessResponseElement.Name;
+                    sessionResourceElement.StartDate = sessionBusinessResponseElement.StartDate;
+                    sessionResource.Session = sessionResourceElement;
                 }
 
                 // Commit the database transaction.

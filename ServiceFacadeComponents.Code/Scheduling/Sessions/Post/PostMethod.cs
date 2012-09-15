@@ -32,11 +32,11 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Code.Scheduling.Sessions
                 NewSessionBusinessRequest newSessionBusinessRequest = new NewSessionBusinessRequest();
 
                 // Build the Session business request element.
-                if (resource != null)
+                if (resource.Session != null)
                 {
                     NewSessionBusinessRequest.SessionBusinessRequestElement sessionBusinessRequestElement = new NewSessionBusinessRequest.SessionBusinessRequestElement();
-                    sessionBusinessRequestElement.Name = resource.Name;
-                    sessionBusinessRequestElement.StartDate = resource.StartDate;
+                    sessionBusinessRequestElement.Name = resource.Session.Name;
+                    sessionBusinessRequestElement.StartDate = resource.Session.StartDate;
                     newSessionBusinessRequest.Session = sessionBusinessRequestElement;
                 }
 
@@ -66,7 +66,9 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Code.Scheduling.Sessions
         public async Task<HttpResponseMessage> Post(SessionResource resource)
         {
             // Make sure the resource is valid.
-            if (!this.ModelState.IsValid)
+            bool resourceIsNull = resource == null;
+            bool resourceIsInvalid = this.ModelState.IsValid == false;
+            if (resourceIsNull || resourceIsInvalid)
             {
                 HttpResponseMessage httpResponseMessage = new HttpResponseMessage(HttpStatusCode.BadRequest);
                 HttpResponseException httpResponseException = new HttpResponseException(httpResponseMessage);
@@ -80,8 +82,11 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Code.Scheduling.Sessions
                 // Invoke the NewSession business operation.
                 NewSessionBusinessResponse newSessionBusinessResponse = await this.InvokeNewSession(databaseConnection, resource);
 
-                // Update the resource.
-                resource.SessionCode = newSessionBusinessResponse.Session.SessionCode;
+                // Update the Session resource element.
+                if (resource.Session != null)
+                {
+                    resource.Session.SessionCode = newSessionBusinessResponse.Session.SessionCode;
+                }
 
                 // Commit the database transaction.
                 databaseTransaction.Commit();
