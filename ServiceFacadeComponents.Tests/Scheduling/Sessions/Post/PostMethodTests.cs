@@ -104,7 +104,7 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Tests.Scheduling.Session
                     Errors = new NewSessionBusinessException.ErrorBusinessExceptionElement[]
                     {
                         new NewSessionBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewSessionBusinessException.ErrorCodes.InvalidSession, ErroneousValue = null },
-                        new NewSessionBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewSessionBusinessException.ErrorCodes.InvalidName, ErroneousValue = "Session Alpha" },
+                        new NewSessionBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewSessionBusinessException.ErrorCodes.InvalidName, ErroneousValue = "Session Alpha" }
                     }
                 })
                 .Verifiable();

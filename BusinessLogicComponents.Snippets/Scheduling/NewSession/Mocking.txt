@@ -21,20 +21,14 @@
 
     // Mock the invocation of the NewSession business operation.
     testHarness.MockedSchedulingBusinessLogicComponent
-        .Setup(mock => mock.NewSession(
-            It.IsAny<IDatabaseConnection>(),
-            It.Is<NewSessionBusinessRequest>(newSessionBusinessRequest =>
-            (
-                // Match the Session business request element.
-                newSessionBusinessRequest.Session.Name ==  &&
-                newSessionBusinessRequest.Session.StartDate ==  &&
-            ))))
+        .Setup(mock => mock.NewSession(It.IsAny<IDatabaseConnection>(), It.IsAny<NewSessionBusinessRequest>()))
         .Throws(new NewSessionBusinessException()
         {
             // Mock the NewSession business exception.
             Errors = new NewSessionBusinessException.ErrorBusinessExceptionElement[]
             {
-                new NewSessionBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewSessionBusinessException.ErrorCodes.InvalidName, Value =  }
+                new NewSessionBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewSessionBusinessException.ErrorCodes.InvalidSession, ErroneousValue =  },
+                new NewSessionBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewSessionBusinessException.ErrorCodes.InvalidName, ErroneousValue =  }
             }
         })
         .Verifiable();

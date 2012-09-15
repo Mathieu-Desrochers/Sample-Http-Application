@@ -88,42 +88,14 @@
 
     // Mock the invocation of the <#= (string)xml.Element("operation").Attribute("name") #> business operation.
     testHarness.Mocked<#= (string)xml.Attribute("name") #>BusinessLogicComponent
-        .Setup(mock => mock.<#= (string)xml.Element("operation").Attribute("name") #>(
-            It.IsAny<IDatabaseConnection>(),
-            It.Is<<#= (string)xml.Element("operation").Attribute("name") #>BusinessRequest>(<#= CamelCased((string)xml.Element("operation").Attribute("name")) #>BusinessRequest =>
-            (
-<# parentRequestElements = new Stack<string>(new string[] { CamelCased((string)xml.Element("operation").Attribute("name")) + "BusinessRequest" }); #>
-<# ForEachSeparatedRecursive(xml.Descendants("request").Elements("requestElement"), (requestElement) => { #>
-<#     if ((string)requestElement.Attribute("count") == "single") { #>
-                // Match the <#= (string)requestElement.Attribute("singularName") #> business request element.
-<#         foreach (XElement property in requestElement.Elements("property")) { #>
-                <#= parentRequestElements.Peek() #>.<#= (string)requestElement.Attribute("singularName") #>.<#= (string)property.Attribute("name") #> ==  &&
-<#         } #>
-<#         parentRequestElements.Push(parentRequestElements.Peek() + "." + (string)requestElement.Attribute("singularName")); #>
-<#     } else if ((string)requestElement.Attribute("count") == "multiple") { #>
-                // Match the <#= (string)requestElement.Attribute("singularName") #> business request elements.
-                <#= parentRequestElements.Peek() #>.<#= (string)requestElement.Attribute("pluralName") #>.Count ==  &&
-<#         foreach (XElement property in requestElement.Elements("property")) { #>
-                <#= parentRequestElements.Peek() #>.<#= (string)requestElement.Attribute("pluralName") #>[0].<#= (string)property.Attribute("name") #> ==  &&
-<#         } #>
-<#         parentRequestElements.Push(parentRequestElements.Peek() + "." + (string)requestElement.Attribute("pluralName") + "[0]"); #>
-<#     } #>
-<#     if (requestElement.Elements("requestElement").Any()) { #>
-
-<#     } #>
-<# }, (requestElement) => requestElement.Elements("requestElement"), (requestElement) => { #>
-<#     parentRequestElements.Pop(); #>
-<# }, () => { #>
-
-<# }, false); #>
-            ))))
+        .Setup(mock => mock.<#= (string)xml.Element("operation").Attribute("name") #>(It.IsAny<IDatabaseConnection>(), It.IsAny<<#= (string)xml.Element("operation").Attribute("name") #>BusinessRequest>()))
         .Throws(new <#= (string)xml.Element("operation").Attribute("name") #>BusinessException()
         {
             // Mock the <#= (string)xml.Element("operation").Attribute("name") #> business exception.
             Errors = new <#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorBusinessExceptionElement[]
             {
 <# ForEachSeparated(xml.Descendants("errors").Elements("error"), (error) => { #>
-                new <#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorBusinessExceptionElement() { ErrorCode = <#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorCodes.<#= (string)error.Attribute("code") #>, Value =  }<# }, () => { #>,
+                new <#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorBusinessExceptionElement() { ErrorCode = <#= (string)xml.Element("operation").Attribute("name") #>BusinessException.ErrorCodes.<#= (string)error.Attribute("code") #>, ErroneousValue =  }<# }, () => { #>,
 <# }); #>
 
             }

@@ -24,24 +24,16 @@
 
     // Mock the invocation of the NewCourseSchedule business operation.
     testHarness.MockedSchedulingBusinessLogicComponent
-        .Setup(mock => mock.NewCourseSchedule(
-            It.IsAny<IDatabaseConnection>(),
-            It.Is<NewCourseScheduleBusinessRequest>(newCourseScheduleBusinessRequest =>
-            (
-                // Match the Session business request element.
-                newCourseScheduleBusinessRequest.Session.SessionCode ==  &&
-
-                // Match the CourseSchedule business request element.
-                newCourseScheduleBusinessRequest.CourseSchedule.DayOfWeek ==  &&
-                newCourseScheduleBusinessRequest.CourseSchedule.Time ==  &&
-            ))))
+        .Setup(mock => mock.NewCourseSchedule(It.IsAny<IDatabaseConnection>(), It.IsAny<NewCourseScheduleBusinessRequest>()))
         .Throws(new NewCourseScheduleBusinessException()
         {
             // Mock the NewCourseSchedule business exception.
             Errors = new NewCourseScheduleBusinessException.ErrorBusinessExceptionElement[]
             {
-                new NewCourseScheduleBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewCourseScheduleBusinessException.ErrorCodes.InvalidSessionCode, Value =  },
-                new NewCourseScheduleBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewCourseScheduleBusinessException.ErrorCodes.InvalidTime, Value =  }
+                new NewCourseScheduleBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewCourseScheduleBusinessException.ErrorCodes.InvalidSession, ErroneousValue =  },
+                new NewCourseScheduleBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewCourseScheduleBusinessException.ErrorCodes.InvalidSessionCode, ErroneousValue =  },
+                new NewCourseScheduleBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewCourseScheduleBusinessException.ErrorCodes.InvalidCourseSchedule, ErroneousValue =  },
+                new NewCourseScheduleBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewCourseScheduleBusinessException.ErrorCodes.InvalidTime, ErroneousValue =  }
             }
         })
         .Verifiable();

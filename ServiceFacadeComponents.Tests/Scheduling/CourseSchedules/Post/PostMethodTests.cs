@@ -96,5 +96,95 @@ namespace SampleHttpApplication.ServiceFacadeComponents.Tests.Scheduling.CourseS
             Assert.AreEqual(HttpStatusCode.Created, httpResponseMessage.StatusCode);
             Assert.AreEqual(expectedJsonContent.ToString(), httpResponseMessageContent);
         }
+
+        /// <summary>
+        /// Should return all the error codes.
+        /// </summary>
+        [TestMethod]
+        public void ShouldReturnErrorCodes()
+        {
+            // Build the test harness.
+            CourseSchedulesControllerTestHarness testHarness = new CourseSchedulesControllerTestHarness(true, false);
+
+            // Mock the invocation of the NewCourseSchedule business operation.
+            testHarness.MockedSchedulingBusinessLogicComponent
+                .Setup(mock => mock.NewCourseSchedule(It.IsAny<IDatabaseConnection>(), It.IsAny<NewCourseScheduleBusinessRequest>()))
+                .Throws(new NewCourseScheduleBusinessException()
+                {
+                    // Mock the NewCourseSchedule business exception.
+                    Errors = new NewCourseScheduleBusinessException.ErrorBusinessExceptionElement[]
+                    {
+                        new NewCourseScheduleBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewCourseScheduleBusinessException.ErrorCodes.InvalidSession, ErroneousValue = null },
+                        new NewCourseScheduleBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewCourseScheduleBusinessException.ErrorCodes.InvalidSessionCode, ErroneousValue = "6dk61ufcuzp3f7vs" },
+                        new NewCourseScheduleBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewCourseScheduleBusinessException.ErrorCodes.InvalidCourseSchedule, ErroneousValue = null },
+                        new NewCourseScheduleBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewCourseScheduleBusinessException.ErrorCodes.InvalidTime, ErroneousValue = new TimeSpan(9, 15, 0) }
+                    }
+                })
+                .Verifiable();
+
+            // Build the request JSON content.
+            StringBuilder requestJsonContent = new StringBuilder();
+            requestJsonContent.Append("{");
+            requestJsonContent.Append("}");
+
+            // Invoke the HTTP POST method.
+            HttpRequestMessage httpRequestMessage = testHarness.BuildHttpRequest(HttpMethod.Post, "api/scheduling/course-schedules", requestJsonContent.ToString());
+            HttpResponseMessage httpResponseMessage = testHarness.HttpClient.SendAsync(httpRequestMessage).Result;
+
+            // Verify the mocked components.
+            testHarness.VerifyMockedComponents();
+
+            // Build the expected JSON content.
+            StringBuilder expectedJsonContent = new StringBuilder();
+            expectedJsonContent.Append("[");
+            expectedJsonContent.Append("{");
+            expectedJsonContent.Append("\"errorCode\":\"InvalidSession\",");
+            expectedJsonContent.Append("\"erroneousValue\":null");
+            expectedJsonContent.Append("},");
+            expectedJsonContent.Append("{");
+            expectedJsonContent.Append("\"errorCode\":\"InvalidSessionCode\",");
+            expectedJsonContent.Append("\"erroneousValue\":\"6dk61ufcuzp3f7vs\"");
+            expectedJsonContent.Append("},");
+            expectedJsonContent.Append("{");
+            expectedJsonContent.Append("\"errorCode\":\"InvalidCourseSchedule\",");
+            expectedJsonContent.Append("\"erroneousValue\":null");
+            expectedJsonContent.Append("},");
+            expectedJsonContent.Append("{");
+            expectedJsonContent.Append("\"errorCode\":\"InvalidTime\",");
+            expectedJsonContent.Append("\"erroneousValue\":\"09:15:00\"");
+            expectedJsonContent.Append("}");
+            expectedJsonContent.Append("]");
+
+            // Read the HTTP response message content.
+            string httpResponseMessageContent = httpResponseMessage.Content.ReadAsStringAsync().Result;
+
+            // Validate the HTTP response message.
+            Assert.AreEqual(HttpStatusCode.BadRequest, httpResponseMessage.StatusCode);
+            Assert.AreEqual(expectedJsonContent.ToString(), httpResponseMessageContent);
+        }
+
+        /// <summary>
+        /// Should return BadRequest.
+        /// </summary>
+        [TestMethod]
+        public void ShouldReturnBadRequest()
+        {
+            // Build the test harness.
+            CourseSchedulesControllerTestHarness testHarness = new CourseSchedulesControllerTestHarness(false, false);
+
+            // Build the request JSON content.
+            StringBuilder requestJsonContent = new StringBuilder();
+            requestJsonContent.Append("{x}");
+
+            // Invoke the HTTP POST method.
+            HttpRequestMessage httpRequestMessage = testHarness.BuildHttpRequest(HttpMethod.Post, "api/scheduling/course-schedules", requestJsonContent.ToString());
+            HttpResponseMessage httpResponseMessage = testHarness.HttpClient.SendAsync(httpRequestMessage).Result;
+
+            // Verify the mocked components.
+            testHarness.VerifyMockedComponents();
+
+            // Validate the HTTP response message.
+            Assert.AreEqual(HttpStatusCode.BadRequest, httpResponseMessage.StatusCode);
+        }
     }
 }

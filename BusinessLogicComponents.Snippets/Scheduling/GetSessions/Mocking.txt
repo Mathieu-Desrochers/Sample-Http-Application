@@ -21,3 +21,16 @@
             }
         }))
         .Verifiable();
+
+    // Mock the invocation of the GetSessions business operation.
+    testHarness.MockedSchedulingBusinessLogicComponent
+        .Setup(mock => mock.GetSessions(It.IsAny<IDatabaseConnection>(), It.IsAny<GetSessionsBusinessRequest>()))
+        .Throws(new GetSessionsBusinessException()
+        {
+            // Mock the GetSessions business exception.
+            Errors = new GetSessionsBusinessException.ErrorBusinessExceptionElement[]
+            {
+
+            }
+        })
+        .Verifiable();
