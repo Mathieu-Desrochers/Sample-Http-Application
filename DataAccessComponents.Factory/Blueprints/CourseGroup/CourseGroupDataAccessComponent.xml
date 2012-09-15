@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<dataAccessComponent name="CourseGroup">
+  <columns>
+    <column name="CourseGroupID" csharpType="int" sqlDbType="Int" isPrimaryKey="true" />
+    <column name="CourseGroupCode" csharpType="string" sqlDbType="NVarChar" sqlDbTypeSize="50" isUnique="true">
+      <testValues>
+        <testValue1>"5s1cgndj6e5x0uvz"</testValue1>
+        <testValue2>"78zcn25ynkaz50ef"</testValue2>
+        <testValue3>"q5692qwy70qde9uv"</testValue3>
+      </testValues>
+    </column>
+    <column name="CourseScheduleID" csharpType="int" sqlDbType="Int" isForeignKey="true">
+      <masterDataAccessComponent name="CourseSchedule" />
+    </column>
+    <column name="PlacesCount" csharpType="int" sqlDbType="Int">
+      <testValues>
+        <testValue1>1</testValue1>
+        <testValue2>2</testValue2>
+        <testValue3>3</testValue3>
+      </testValues>
+    </column>
+  </columns>
+  <queries>
+    <query name="ReadByCourseGroupID" results="single">
+      <summary>Reads the single CourseGroup data row matching the specified CourseGroupID.</summary>
+      <parameters>
+        <parameter name="CourseGroupID" csharpType="int" sqlDbType="Int" />
+      </parameters>
+    </query>
+    <query name="ReadByCourseGroupCode" results="single">
+      <summary>Reads the single CourseGroup data row matching the specified CourseGroupCode.</summary>
+      <parameters>
+        <parameter name="CourseGroupCode" csharpType="string" sqlDbType="NVarChar" sqlDbTypeSize="50" />
+      </parameters>
+    </query>
+    <query name="ReadByCourseScheduleID" results="multiple">
+      <summary>Reads the multiple CourseGroup data rows matching the specified CourseScheduleID.</summary>
+      <parameters>
+        <parameter name="CourseScheduleID" csharpType="int" sqlDbType="Int" />
+      </parameters>
+    </query>
+  </queries>
+</dataAccessComponent>

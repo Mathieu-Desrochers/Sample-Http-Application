@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using SampleHttpApplication.DataAccessComponents.Tests.Session;
 
 namespace SampleHttpApplication.DataAccessComponents.Tests.CourseSchedule

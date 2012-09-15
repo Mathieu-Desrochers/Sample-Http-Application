@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CourseGroup\CourseGroupDataAccessComponentTests.cs" />
+    <Compile Include="CourseGroup\CourseGroupTestTable.cs" />
     <Compile Include="CourseSchedule\CourseScheduleDataAccessComponentTests.cs" />
     <Compile Include="CourseSchedule\CourseScheduleTestTable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
