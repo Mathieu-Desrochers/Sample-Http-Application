@@ -12,6 +12,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SampleHttpApplication.DataAccessComponents.Code;
 using SampleHttpApplication.DataAccessComponents.Code.CourseSchedule;
 using SampleHttpApplication.DataAccessComponents.Interface.CourseSchedule;
+using SampleHttpApplication.DataAccessComponents.Tests.CourseGroup;
 using SampleHttpApplication.DataAccessComponents.Tests.Session;
 
 namespace SampleHttpApplication.DataAccessComponents.Tests.CourseSchedule
@@ -481,6 +482,56 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.CourseSchedule
 
             // Validate the CourseSchedule data row was deleted in the database.
             CourseScheduleTestTable.AssertAbsence(courseScheduleID);
+        }
+
+        /// <summary>
+        /// Tests the Delete method.
+        /// </summary>
+        [TestMethod]
+        public void Delete_ShouldThrowException_GivenCourseGroupDetails()
+        {
+            // Insert the master data rows in the database.
+            int sessionID = SessionTestTable.InsertPlaceholder();
+
+            // Insert the CourseSchedule data row in the database.
+            int courseScheduleID = CourseScheduleTestTable.InsertWithValues(
+                "zzcj32kpd6huzp1n",
+                sessionID,
+                1,
+                new TimeSpan(9, 15, 0));
+
+            // Insert the details CourseGroup data row in the database.
+            int courseGroupID = CourseGroupTestTable.InsertPlaceholder(courseScheduleID: courseScheduleID);
+
+            // Build the CourseSchedule data row.
+            CourseScheduleDataRow courseScheduleDataRow = new CourseScheduleDataRow();
+            courseScheduleDataRow.CourseScheduleID = courseScheduleID;
+            courseScheduleDataRow.CourseScheduleCode = "zzcj32kpd6huzp1n";
+            courseScheduleDataRow.SessionID = sessionID;
+            courseScheduleDataRow.DayOfWeek = 1;
+            courseScheduleDataRow.Time = new TimeSpan(9, 15, 0);
+
+            // Build the database connection.
+            using (DatabaseConnection databaseConnection = new DatabaseConnection(TestDatabase.ConnectionString))
+            {
+                // Open the database connection.
+                databaseConnection.Open().Wait();
+
+                try
+                {
+                    // Delete the CourseSchedule data row.
+                    CourseScheduleDataAccessComponent courseScheduleDataAccessComponent = new CourseScheduleDataAccessComponent();
+                    courseScheduleDataAccessComponent.Delete(databaseConnection, courseScheduleDataRow).Wait();
+
+                    // Validate an exception was thrown.
+                    Assert.Fail();
+                }
+                catch (AggregateException ex)
+                {
+                    // Validate an SQL exception was thrown.
+                    Assert.IsInstanceOfType(ex.InnerExceptions[0], typeof(SqlException));
+                }
+            }
         }
 
         /// <summary>

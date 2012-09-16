@@ -1,7 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <dataAccessComponent name="CourseSchedule">
   <columns>
-    <column name="CourseScheduleID" csharpType="int" sqlDbType="Int" isPrimaryKey="true" />
+    <column name="CourseScheduleID" csharpType="int" sqlDbType="Int" isPrimaryKey="true">
+      <detailsDataAccessComponents>
+        <detailsDataAccessComponent name="CourseGroup" />
+      </detailsDataAccessComponents>
+    </column>
     <column name="CourseScheduleCode" csharpType="string" sqlDbType="NVarChar" sqlDbTypeSize="50" isUnique="true">
       <testValues>
         <testValue1>"zzcj32kpd6huzp1n"</testValue1>

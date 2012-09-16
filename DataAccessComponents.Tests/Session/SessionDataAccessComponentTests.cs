@@ -257,8 +257,8 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.Session
         [TestMethod]
         public void ReadAll_ShouldReturnOneDataRow()
         {
-            // Insert the first Session data row in the database.
-            int firstSessionID = SessionTestTable.InsertWithValues(
+            // Insert the Session data row in the database.
+            int sessionID = SessionTestTable.InsertWithValues(
                 "6dk61ufcuzp3f7vs",
                 "Session Alpha",
                 new DateTime(2001, 1, 1));
@@ -280,7 +280,7 @@ namespace SampleHttpApplication.DataAccessComponents.Tests.Session
             Assert.AreEqual(1, sessionDataRows.Length);
 
             // Validate the first Session data row.
-            Assert.AreEqual(firstSessionID, sessionDataRows[0].SessionID);
+            Assert.AreEqual(sessionID, sessionDataRows[0].SessionID);
             Assert.AreEqual("6dk61ufcuzp3f7vs", sessionDataRows[0].SessionCode);
             Assert.AreEqual("Session Alpha", sessionDataRows[0].Name);
             Assert.AreEqual(new DateTime(2001, 1, 1), sessionDataRows[0].StartDate);
