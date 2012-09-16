@@ -21,6 +21,11 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
         /// </summary>
         public SessionDataRow SessionDataRow;
         public CourseScheduleDataRow CourseScheduleDataRow;
-        public List<CourseGroupDataRow> CourseGroupDataRows;
+        public CourseGroupDataRow CourseGroupDataRow;
+
+        /// <summary>
+        /// The data.
+        /// </summary>
+        public string[] CourseGroupCodes;
     }
 }

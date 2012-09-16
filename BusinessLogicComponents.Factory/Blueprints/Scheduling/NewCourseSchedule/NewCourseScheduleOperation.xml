@@ -31,7 +31,7 @@
       <error code="InvalidSessionCode" />
       <error code="InvalidCourseSchedule" />
       <error code="InvalidTime" />
-      <error code="InvalidCourseGroup" />
+      <error code="InvalidCourseGroups" />
       <error code="InvalidPlacesCount" />
     </errors>
     <dataAccessComponents>

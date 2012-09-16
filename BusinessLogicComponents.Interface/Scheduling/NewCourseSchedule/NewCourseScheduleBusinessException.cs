@@ -21,7 +21,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling.New
             InvalidSessionCode,
             InvalidCourseSchedule,
             InvalidTime,
-            InvalidCourseGroup,
+            InvalidCourseGroups,
             InvalidPlacesCount
         }
 

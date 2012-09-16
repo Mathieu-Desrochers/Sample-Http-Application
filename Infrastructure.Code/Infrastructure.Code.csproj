@@ -57,7 +57,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataAnnotations\ValidationAttributes\RequiredArrayItemsAttribute.cs" />
     <Compile Include="DataAnnotations\ValidationAttributes\TimeSpanRangeAttribute.cs" />
     <Compile Include="DataAnnotations\ValidatorHelper.cs" />
     <Compile Include="DependencyInjection\DependencyResolverBuilder.cs" />

@@ -45,7 +45,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
                 this.ValidateNewCourseScheduleRequestProperty(courseScheduleBusinessRequestElement, "Time", courseScheduleBusinessRequestElement.Time, NewCourseScheduleBusinessException.ErrorCodes.InvalidTime, errorBusinessExceptionElements);
 
                 // Validate the CourseGroup business request elements.
-                this.ValidateNewCourseScheduleRequestProperty(courseScheduleBusinessRequestElement, "CourseGroups", courseScheduleBusinessRequestElement.CourseGroups, NewCourseScheduleBusinessException.ErrorCodes.InvalidCourseGroup, errorBusinessExceptionElements);
+                this.ValidateNewCourseScheduleRequestProperty(courseScheduleBusinessRequestElement, "CourseGroups", courseScheduleBusinessRequestElement.CourseGroups, NewCourseScheduleBusinessException.ErrorCodes.InvalidCourseGroups, errorBusinessExceptionElements);
                 if (courseScheduleBusinessRequestElement.CourseGroups != null)
                 {
                     // Skip the null business request elements.
@@ -107,21 +107,22 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
             operationData.CourseScheduleDataRow.Time = businessRequest.CourseSchedule.Time;
             await this.courseScheduleDataAccessComponent.Create(databaseConnection, operationData.CourseScheduleDataRow);
 
-            // Create the CourseGroup data rows.
-            foreach (NewCourseScheduleBusinessRequest.CourseScheduleBusinessRequestElement.CourseGroupBusinessRequestElement courseGroupBusinessRequestElement in businessRequest.CourseSchedule.CourseGroups)
+            // Generate the unique CourseGroup codes.
+            operationData.CourseGroupCodes = new string[businessRequest.CourseSchedule.CourseGroups.Length];
+            for (int courseGroupIndex = 0; courseGroupIndex < businessRequest.CourseSchedule.CourseGroups.Length; courseGroupIndex++)
             {
-                // Generate a unique CourseGroup code.
                 string courseGroupCode = this.uniqueTokenGenerator.GenerateUniqueToken();
+                operationData.CourseGroupCodes[courseGroupIndex] = courseGroupCode;
+            }
 
-                // Build the CourseGroup data row.
+            // Create the CourseGroup data rows.
+            for (int courseGroupIndex = 0; courseGroupIndex < businessRequest.CourseSchedule.CourseGroups.Length; courseGroupIndex++)
+            {
                 CourseGroupDataRow courseGroupDataRow = new CourseGroupDataRow();
-                operationData.CourseGroupDataRows.Add(courseGroupDataRow);
-
-                // Create the CourseGroup data row.
                 courseGroupDataRow = new CourseGroupDataRow();
-                courseGroupDataRow.CourseGroupCode = courseGroupCode;
+                courseGroupDataRow.CourseGroupCode = operationData.CourseGroupCodes[courseGroupIndex];
                 courseGroupDataRow.CourseScheduleID = operationData.CourseScheduleDataRow.CourseScheduleID;
-                courseGroupDataRow.PlacesCount = courseGroupBusinessRequestElement.PlacesCount;
+                courseGroupDataRow.PlacesCount = businessRequest.CourseSchedule.CourseGroups[courseGroupIndex].PlacesCount;
                 await this.courseGroupDataAccessComponent.Create(databaseConnection, courseGroupDataRow);
             }
 
@@ -137,14 +138,13 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
             List<NewCourseScheduleBusinessResponse.CourseScheduleBusinessResponseElement.CourseGroupBusinessResponseElement> courseGroupBusinessResponseElements = new List<NewCourseScheduleBusinessResponse.CourseScheduleBusinessResponseElement.CourseGroupBusinessResponseElement>();
             for (int courseGroupIndex = 0; courseGroupIndex < businessRequest.CourseSchedule.CourseGroups.Length; courseGroupIndex++)
             {
-                // Get the CourseGroup code.
-                string courseGroupCode = operationData.CourseGroupDataRows[courseGroupIndex].CourseGroupCode;
-
-                // Build the CourseGroup business response element.
                 NewCourseScheduleBusinessResponse.CourseScheduleBusinessResponseElement.CourseGroupBusinessResponseElement courseGroupBusinessResponseElement = new NewCourseScheduleBusinessResponse.CourseScheduleBusinessResponseElement.CourseGroupBusinessResponseElement();
-                courseGroupBusinessResponseElement.CourseGroupCode = courseGroupCode;
+                courseGroupBusinessResponseElement.CourseGroupCode = operationData.CourseGroupCodes[courseGroupIndex];
                 courseGroupBusinessResponseElements.Add(courseGroupBusinessResponseElement);
             }
+
+            // Set the CourseGroup business response elements.
+            courseScheduleBusinessResponseElement.CourseGroups = courseGroupBusinessResponseElements.ToArray();
 
             // Return the business response.
             return businessResponse;

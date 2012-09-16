@@ -51,7 +51,7 @@ namespace SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling.New
             /// <summary>
             /// The new course groups.
             /// </summary>
-            [RequiredArrayItems]
+            [Required]
             public CourseGroupBusinessRequestElement[] CourseGroups { get; set; }
             public class CourseGroupBusinessRequestElement
             {
