@@ -20,7 +20,9 @@ namespace SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling.New
             InvalidSession,
             InvalidSessionCode,
             InvalidCourseSchedule,
-            InvalidTime
+            InvalidTime,
+            InvalidCourseGroup,
+            InvalidPlacesCount
         }
 
         /// <summary>

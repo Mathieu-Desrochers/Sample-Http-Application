@@ -1,0 +1,25 @@
+﻿
+    // Create the CourseGroup data row.
+    operationData.CourseGroupDataRow = new CourseGroupDataRow();
+    operationData.CourseGroupDataRow.CourseGroupCode = ;
+    operationData.CourseGroupDataRow.CourseScheduleID = ;
+    operationData.CourseGroupDataRow.PlacesCount = ;
+    await this.courseGroupDataAccessComponent.Create(databaseConnection, operationData.CourseGroupDataRow);
+
+    // Read the CourseGroup data row.
+    operationData.CourseGroupDataRow = await this.courseGroupDataAccessComponent.ReadByCourseGroupID(databaseConnection, );
+
+    // Read the CourseGroup data row.
+    operationData.CourseGroupDataRow = await this.courseGroupDataAccessComponent.ReadByCourseGroupCode(databaseConnection, );
+
+    // Read the CourseGroup data rows.
+    operationData.CourseGroupDataRows = await this.courseGroupDataAccessComponent.ReadByCourseScheduleID(databaseConnection, );
+
+    // Update the CourseGroup data row.
+    operationData.CourseGroupDataRow.CourseGroupCode = ;
+    operationData.CourseGroupDataRow.CourseScheduleID = ;
+    operationData.CourseGroupDataRow.PlacesCount = ;
+    await this.courseGroupDataAccessComponent.Update(databaseConnection, operationData.CourseGroupDataRow);
+
+    // Delete the CourseGroup data row.
+    await this.courseGroupDataAccessComponent.Delete(databaseConnection, operationData.CourseGroupDataRow);

@@ -22,76 +22,166 @@ namespace SampleHttpApplication.BusinessLogicComponents.Tests.Scheduling.NewCour
     [TestClass]
     public class NewCourseScheduleOperationTests
     {
-        /// <summary>
-        /// Should return the CourseSchedule response element.
-        /// </summary>
-        [TestMethod]
-        public void ShouldReturnCourseScheduleResponseElement()
-        {
-            // Build the test harness.
-            SchedulingBusinessLogicComponentTestHarness testHarness = new SchedulingBusinessLogicComponentTestHarness();
+        ///// <summary>
+        ///// Should return the CourseSchedule response element.
+        ///// </summary>
+        //[TestMethod]
+        //public void ShouldReturnCourseScheduleResponseElement()
+        //{
+        //    // Build the test harness.
+        //    SchedulingBusinessLogicComponentTestHarness testHarness = new SchedulingBusinessLogicComponentTestHarness();
 
-            // Mock the reading of the Session data row.
-            testHarness.MockedSessionDataAccessComponent
-                .Setup(mock => mock.ReadBySessionCode(It.IsAny<IDatabaseConnection>(), "6dk61ufcuzp3f7vs"))
-                .Returns(Task.FromResult(new SessionDataRow()
-                {
-                    SessionID = 10001,
-                    SessionCode = "6dk61ufcuzp3f7vs",
-                    Name = "Session Alpha",
-                    StartDate = new DateTime(2001, 1, 1)
-                }))
-                .Verifiable();
+        //    // Mock the reading of the Session data row.
+        //    testHarness.MockedSessionDataAccessComponent
+        //        .Setup(mock => mock.ReadBySessionCode(It.IsAny<IDatabaseConnection>(), "6dk61ufcuzp3f7vs"))
+        //        .Returns(Task.FromResult(new SessionDataRow()
+        //        {
+        //            SessionID = 10001,
+        //            SessionCode = "6dk61ufcuzp3f7vs",
+        //            Name = "Session Alpha",
+        //            StartDate = new DateTime(2001, 1, 1)
+        //        }))
+        //        .Verifiable();
 
-            // Mock the generation of the unique token.
-            testHarness.MockedUniqueTokenGenerator
-                .Setup(mock => mock.GenerateUniqueToken())
-                .Returns("zzcj32kpd6huzp1n")
-                .Verifiable();
+        //    // Mock the generation of the unique token.
+        //    testHarness.MockedUniqueTokenGenerator
+        //        .Setup(mock => mock.GenerateUniqueToken())
+        //        .Returns("zzcj32kpd6huzp1n")
+        //        .Verifiable();
 
-            // Mock the creation of the CourseSchedule data row.
-            testHarness.MockedCourseScheduleDataAccessComponent
-                .Setup(mock => mock.Create(
-                    It.IsAny<IDatabaseConnection>(),
-                    It.Is<CourseScheduleDataRow>(courseScheduleDataRow =>
-                    (
-                        courseScheduleDataRow.CourseScheduleCode == "zzcj32kpd6huzp1n" &&
-                        courseScheduleDataRow.SessionID == 10001 &&
-                        courseScheduleDataRow.DayOfWeek == (int)DayOfWeek.Monday &&
-                        courseScheduleDataRow.Time == new TimeSpan(9, 15, 0)
-                    ))))
-                .Returns(Task.FromResult<object>(null))
-                .Callback((IDatabaseConnection databaseConnection, CourseScheduleDataRow courseScheduleDataRow) =>
-                {
-                    courseScheduleDataRow.CourseScheduleID = 20001;
-                })
-                .Verifiable();
+        //    // Mock the creation of the CourseSchedule data row.
+        //    testHarness.MockedCourseScheduleDataAccessComponent
+        //        .Setup(mock => mock.Create(
+        //            It.IsAny<IDatabaseConnection>(),
+        //            It.Is<CourseScheduleDataRow>(courseScheduleDataRow =>
+        //            (
+        //                courseScheduleDataRow.CourseScheduleCode == "zzcj32kpd6huzp1n" &&
+        //                courseScheduleDataRow.SessionID == 10001 &&
+        //                courseScheduleDataRow.DayOfWeek == (int)DayOfWeek.Monday &&
+        //                courseScheduleDataRow.Time == new TimeSpan(9, 15, 0)
+        //            ))))
+        //        .Returns(Task.FromResult<object>(null))
+        //        .Callback((IDatabaseConnection databaseConnection, CourseScheduleDataRow courseScheduleDataRow) =>
+        //        {
+        //            courseScheduleDataRow.CourseScheduleID = 20001;
+        //        })
+        //        .Verifiable();
 
-            // Build the NewCourseSchedule business request.
-            NewCourseScheduleBusinessRequest newCourseScheduleBusinessRequest = new NewCourseScheduleBusinessRequest();
+        //    // Build the NewCourseSchedule business request.
+        //    NewCourseScheduleBusinessRequest newCourseScheduleBusinessRequest = new NewCourseScheduleBusinessRequest();
 
-            // Build the Session business request element.
-            NewCourseScheduleBusinessRequest.SessionBusinessRequestElement sessionBusinessRequestElement = new NewCourseScheduleBusinessRequest.SessionBusinessRequestElement();
-            sessionBusinessRequestElement.SessionCode = "6dk61ufcuzp3f7vs";
-            newCourseScheduleBusinessRequest.Session = sessionBusinessRequestElement;
+        //    // Build the Session business request element.
+        //    NewCourseScheduleBusinessRequest.SessionBusinessRequestElement sessionBusinessRequestElement = new NewCourseScheduleBusinessRequest.SessionBusinessRequestElement();
+        //    sessionBusinessRequestElement.SessionCode = "6dk61ufcuzp3f7vs";
+        //    newCourseScheduleBusinessRequest.Session = sessionBusinessRequestElement;
 
-            // Build the CourseSchedule business request element.
-            NewCourseScheduleBusinessRequest.CourseScheduleBusinessRequestElement courseScheduleBusinessRequestElement = new NewCourseScheduleBusinessRequest.CourseScheduleBusinessRequestElement();
-            courseScheduleBusinessRequestElement.DayOfWeek = DayOfWeek.Monday;
-            courseScheduleBusinessRequestElement.Time = new TimeSpan(9, 15, 0);
-            newCourseScheduleBusinessRequest.CourseSchedule = courseScheduleBusinessRequestElement;
+        //    // Build the CourseSchedule business request element.
+        //    NewCourseScheduleBusinessRequest.CourseScheduleBusinessRequestElement courseScheduleBusinessRequestElement = new NewCourseScheduleBusinessRequest.CourseScheduleBusinessRequestElement();
+        //    courseScheduleBusinessRequestElement.DayOfWeek = DayOfWeek.Monday;
+        //    courseScheduleBusinessRequestElement.Time = new TimeSpan(9, 15, 0);
+        //    newCourseScheduleBusinessRequest.CourseSchedule = courseScheduleBusinessRequestElement;
 
-            // Invoke the NewCourseSchedule business operation.
-            NewCourseScheduleBusinessResponse newCourseScheduleBusinessResponse = testHarness.SchedulingBusinessLogicComponent.NewCourseSchedule(testHarness.MockedDatabaseConnection, newCourseScheduleBusinessRequest).Result;
+        //    // Invoke the NewCourseSchedule business operation.
+        //    NewCourseScheduleBusinessResponse newCourseScheduleBusinessResponse = testHarness.SchedulingBusinessLogicComponent.NewCourseSchedule(testHarness.MockedDatabaseConnection, newCourseScheduleBusinessRequest).Result;
 
-            // Verify the mocked components.
-            testHarness.VerifyMockedComponents();
+        //    // Verify the mocked components.
+        //    testHarness.VerifyMockedComponents();
 
-            // Validate the CourseSchedule business response element.
-            Assert.IsNotNull(newCourseScheduleBusinessResponse);
-            Assert.IsNotNull(newCourseScheduleBusinessResponse.CourseSchedule);
-            Assert.AreEqual("zzcj32kpd6huzp1n", newCourseScheduleBusinessResponse.CourseSchedule.CourseScheduleCode);
-        }
+        //    // Validate the CourseSchedule business response element.
+        //    Assert.IsNotNull(newCourseScheduleBusinessResponse);
+        //    Assert.IsNotNull(newCourseScheduleBusinessResponse.CourseSchedule);
+        //    Assert.AreEqual("zzcj32kpd6huzp1n", newCourseScheduleBusinessResponse.CourseSchedule.CourseScheduleCode);
+        //}
+
+        ///// <summary>
+        ///// Should return multiple CourseGroup response elements.
+        ///// </summary>
+        //[TestMethod]
+        //public void ShouldReturnMultipleCourseGroupsResponseElements()
+        //{
+        //    // Build the test harness.
+        //    SchedulingBusinessLogicComponentTestHarness testHarness = new SchedulingBusinessLogicComponentTestHarness();
+
+        //    // Mock the reading of the Session data row.
+        //    testHarness.MockedSessionDataAccessComponent
+        //        .Setup(mock => mock.ReadBySessionCode(It.IsAny<IDatabaseConnection>(), "6dk61ufcuzp3f7vs"))
+        //        .Returns(Task.FromResult(new SessionDataRow()
+        //        {
+        //            SessionID = 10001,
+        //            SessionCode = "6dk61ufcuzp3f7vs",
+        //            Name = "Session Alpha",
+        //            StartDate = new DateTime(2001, 1, 1)
+        //        }))
+        //        .Verifiable();
+
+        //    // Mock the generation of the unique token.
+        //    testHarness.MockedUniqueTokenGenerator
+        //        .Setup(mock => mock.GenerateUniqueToken())
+        //        .Returns("zzcj32kpd6huzp1n")
+        //        .Verifiable();
+
+        //    // Mock the creation of the CourseSchedule data row.
+        //    testHarness.MockedCourseScheduleDataAccessComponent
+        //        .Setup(mock => mock.Create(
+        //            It.IsAny<IDatabaseConnection>(),
+        //            It.Is<CourseScheduleDataRow>(courseScheduleDataRow =>
+        //            (
+        //                courseScheduleDataRow.CourseScheduleCode == "zzcj32kpd6huzp1n" &&
+        //                courseScheduleDataRow.SessionID == 10001 &&
+        //                courseScheduleDataRow.DayOfWeek == (int)DayOfWeek.Monday &&
+        //                courseScheduleDataRow.Time == new TimeSpan(9, 15, 0)
+        //            ))))
+        //        .Returns(Task.FromResult<object>(null))
+        //        .Callback((IDatabaseConnection databaseConnection, CourseScheduleDataRow courseScheduleDataRow) =>
+        //        {
+        //            courseScheduleDataRow.CourseScheduleID = 20001;
+        //        })
+        //        .Verifiable();
+
+        //    // Build the NewCourseSchedule business request.
+        //    NewCourseScheduleBusinessRequest newCourseScheduleBusinessRequest = new NewCourseScheduleBusinessRequest();
+
+        //    // Build the Session business request element.
+        //    NewCourseScheduleBusinessRequest.SessionBusinessRequestElement sessionBusinessRequestElement = new NewCourseScheduleBusinessRequest.SessionBusinessRequestElement();
+        //    sessionBusinessRequestElement.SessionCode = "6dk61ufcuzp3f7vs";
+        //    newCourseScheduleBusinessRequest.Session = sessionBusinessRequestElement;
+
+        //    // Build the CourseSchedule business request element.
+        //    NewCourseScheduleBusinessRequest.CourseScheduleBusinessRequestElement courseScheduleBusinessRequestElement = new NewCourseScheduleBusinessRequest.CourseScheduleBusinessRequestElement();
+        //    courseScheduleBusinessRequestElement.DayOfWeek = DayOfWeek.Monday;
+        //    courseScheduleBusinessRequestElement.Time = new TimeSpan(9, 15, 0);
+        //    newCourseScheduleBusinessRequest.CourseSchedule = courseScheduleBusinessRequestElement;
+
+        //    // Build the CourseGroup business request elements.
+        //    List<NewCourseScheduleBusinessRequest.CourseScheduleBusinessRequestElement.CourseGroupBusinessRequestElement> courseGroupBusinessRequestElements = new List<NewCourseScheduleBusinessRequest.CourseScheduleBusinessRequestElement.CourseGroupBusinessRequestElement>();
+        //    foreach ( in )
+        //    {
+        //        // Build the CourseGroup business request element.
+        //        NewCourseScheduleBusinessRequest.CourseGroupBusinessRequestElement courseGroupBusinessRequestElement = new NewCourseScheduleBusinessRequest.CourseGroupBusinessRequestElement();
+        //        courseGroupBusinessRequestElement.PlacesCount = ;
+        //        courseGroupBusinessRequestElements.Add(courseGroupBusinessRequestElement);
+        //    }
+
+        //    // Invoke the NewCourseSchedule business operation.
+        //    NewCourseScheduleBusinessResponse newCourseScheduleBusinessResponse = testHarness.SchedulingBusinessLogicComponent.NewCourseSchedule(testHarness.MockedDatabaseConnection, newCourseScheduleBusinessRequest).Result;
+
+        //    // Verify the mocked components.
+        //    testHarness.VerifyMockedComponents();
+
+        //    // Validate the CourseGroup business response elements count.
+        //    Assert.IsNotNull(newCourseScheduleBusinessResponse);
+        //    Assert.IsNotNull(newCourseScheduleBusinessResponse.CourseGroups);
+        //    Assert.AreEqual(3, newCourseScheduleBusinessResponse.CourseGroups.Length);
+
+        //    // Validate the first CourseGroup business response element.
+        //    Assert.IsNotNull(newCourseScheduleBusinessResponse.CourseGroups[0]);
+
+        //    // Validate the second CourseGroup business response element.
+        //    Assert.IsNotNull(newCourseScheduleBusinessResponse.CourseGroups[1]);
+
+        //    // Validate the third CourseGroup business response element.
+        //    Assert.IsNotNull(newCourseScheduleBusinessResponse.CourseGroups[2]);
+        //}
 
         /// <summary>
         /// Should throw the InvalidSession error code.

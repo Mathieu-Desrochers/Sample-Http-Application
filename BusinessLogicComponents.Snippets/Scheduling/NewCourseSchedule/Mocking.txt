@@ -11,6 +11,10 @@
                 // Match the CourseSchedule business request element.
                 newCourseScheduleBusinessRequest.CourseSchedule.DayOfWeek ==  &&
                 newCourseScheduleBusinessRequest.CourseSchedule.Time ==  &&
+
+                // Match the CourseGroup business request elements.
+                newCourseScheduleBusinessRequest.CourseSchedule.CourseGroups.Count ==  &&
+                newCourseScheduleBusinessRequest.CourseSchedule.CourseGroups[0].PlacesCount ==  &&
             ))))
         .Returns(Task.FromResult(new NewCourseScheduleBusinessResponse()
         {
@@ -18,6 +22,16 @@
             CourseSchedule = new NewCourseScheduleBusinessResponse.CourseScheduleBusinessResponseElement()
             {
                 CourseScheduleCode = ,
+
+                // Mock the CourseGroup business response elements.
+                CourseGroups = new NewCourseScheduleBusinessResponse.CourseScheduleBusinessResponseElement.CourseGroupBusinessResponseElement[]
+                {
+                    // Mock the CourseGroup business response element.
+                    new NewCourseScheduleBusinessResponse.CourseScheduleBusinessResponseElement.CourseGroupBusinessResponseElement()
+                    {
+                        CourseGroupCode = ,
+                    }
+                }
             }
         }))
         .Verifiable();
@@ -33,7 +47,9 @@
                 new NewCourseScheduleBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewCourseScheduleBusinessException.ErrorCodes.InvalidSession, ErroneousValue =  },
                 new NewCourseScheduleBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewCourseScheduleBusinessException.ErrorCodes.InvalidSessionCode, ErroneousValue =  },
                 new NewCourseScheduleBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewCourseScheduleBusinessException.ErrorCodes.InvalidCourseSchedule, ErroneousValue =  },
-                new NewCourseScheduleBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewCourseScheduleBusinessException.ErrorCodes.InvalidTime, ErroneousValue =  }
+                new NewCourseScheduleBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewCourseScheduleBusinessException.ErrorCodes.InvalidTime, ErroneousValue =  },
+                new NewCourseScheduleBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewCourseScheduleBusinessException.ErrorCodes.InvalidCourseGroup, ErroneousValue =  },
+                new NewCourseScheduleBusinessException.ErrorBusinessExceptionElement() { ErrorCode = NewCourseScheduleBusinessException.ErrorCodes.InvalidPlacesCount, ErroneousValue =  }
             }
         })
         .Verifiable();

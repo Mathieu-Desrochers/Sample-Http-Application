@@ -13,5 +13,18 @@
     courseScheduleBusinessRequestElement.Time = ;
     newCourseScheduleBusinessRequest.CourseSchedule = courseScheduleBusinessRequestElement;
 
+    // Build the CourseGroup business request elements.
+    List<NewCourseScheduleBusinessRequest.CourseGroupBusinessRequestElement> courseGroupBusinessRequestElements = new List<NewCourseScheduleBusinessRequest.CourseGroupBusinessRequestElement>();
+    foreach ( in )
+    {
+        // Build the CourseGroup business request element.
+        NewCourseScheduleBusinessRequest.CourseGroupBusinessRequestElement courseGroupBusinessRequestElement = new NewCourseScheduleBusinessRequest.CourseGroupBusinessRequestElement();
+        courseGroupBusinessRequestElement.PlacesCount = ;
+        courseGroupBusinessRequestElements.Add(courseGroupBusinessRequestElement);
+    }
+
+    // Set the CourseGroup business request elements.
+    courseScheduleBusinessRequestElement.CourseGroups = courseGroupBusinessRequestElements.ToArray();
+
     // Invoke the NewCourseSchedule business operation.
     NewCourseScheduleBusinessResponse newCourseScheduleBusinessResponse = await this.schedulingBusinessLogicComponent.NewCourseSchedule(databaseConnection, newCourseScheduleBusinessRequest);

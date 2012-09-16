@@ -22,6 +22,18 @@ namespace SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling.New
             /// Gets or sets the CourseScheduleCode.
             /// </summary>
             public string CourseScheduleCode { get; set; }
+
+            /// <summary>
+            /// The new course groups.
+            /// </summary>
+            public CourseGroupBusinessResponseElement[] CourseGroups { get; set; }
+            public class CourseGroupBusinessResponseElement
+            {
+                /// <summary>
+                /// Gets or sets the CourseGroupCode.
+                /// </summary>
+                public string CourseGroupCode { get; set; }
+            }
         }
     }
 }

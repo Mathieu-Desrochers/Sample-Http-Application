@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 using SampleHttpApplication.Infrastructure.Code.DataAnnotations.ValidationAttributes;
-using SampleHttpApplication.Infrastructure.Interface.UniqueToken;
 
 namespace SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling.NewCourseSchedule
 {
@@ -48,6 +47,20 @@ namespace SampleHttpApplication.BusinessLogicComponents.Interface.Scheduling.New
             /// </summary>
             [TimeSpanRange("00:00:00", "23:59:59")]
             public TimeSpan Time { get; set; }
+
+            /// <summary>
+            /// The new course groups.
+            /// </summary>
+            [RequiredArrayItems]
+            public CourseGroupBusinessRequestElement[] CourseGroups { get; set; }
+            public class CourseGroupBusinessRequestElement
+            {
+                /// <summary>
+                /// Gets or sets the PlacesCount.
+                /// </summary>
+                [Range(0, Int32.MaxValue)]
+                public int PlacesCount { get; set; }
+            }
         }
     }
 }

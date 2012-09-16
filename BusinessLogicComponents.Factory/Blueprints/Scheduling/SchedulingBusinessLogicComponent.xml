@@ -12,6 +12,7 @@
     </operation>
   </operations>
   <dataAccessComponents>
+    <dataAccessComponent name="CourseGroup" />
     <dataAccessComponent name="CourseSchedule" />
     <dataAccessComponent name="Session" />
   </dataAccessComponents>

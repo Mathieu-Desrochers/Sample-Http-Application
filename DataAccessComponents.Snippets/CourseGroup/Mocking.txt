@@ -1,0 +1,81 @@
+﻿
+    // Mock the creation of the CourseGroup data row.
+    testHarness.MockedCourseGroupDataAccessComponent
+        .Setup(mock => mock.Create(
+            It.IsAny<IDatabaseConnection>(),
+            It.Is<CourseGroupDataRow>(courseGroupDataRow =>
+            (
+                courseGroupDataRow.CourseGroupCode ==  &&
+                courseGroupDataRow.CourseScheduleID ==  &&
+                courseGroupDataRow.PlacesCount == 
+            ))))
+        .Returns(Task.FromResult<object>(null))
+        .Callback((IDatabaseConnection databaseConnection, CourseGroupDataRow courseGroupDataRow) =>
+        {
+            courseGroupDataRow.CourseGroupID = ;
+        })
+        .Verifiable();
+
+    // Mock the reading of the CourseGroup data row.
+    testHarness.MockedCourseGroupDataAccessComponent
+        .Setup(mock => mock.ReadByCourseGroupID(It.IsAny<IDatabaseConnection>(), ))
+        .Returns(Task.FromResult(new CourseGroupDataRow()
+        {
+            CourseGroupID = ,
+            CourseGroupCode = ,
+            CourseScheduleID = ,
+            PlacesCount = 
+        }))
+        .Verifiable();
+
+    // Mock the reading of the CourseGroup data row.
+    testHarness.MockedCourseGroupDataAccessComponent
+        .Setup(mock => mock.ReadByCourseGroupCode(It.IsAny<IDatabaseConnection>(), ))
+        .Returns(Task.FromResult(new CourseGroupDataRow()
+        {
+            CourseGroupID = ,
+            CourseGroupCode = ,
+            CourseScheduleID = ,
+            PlacesCount = 
+        }))
+        .Verifiable();
+
+    // Mock the reading of the CourseGroup data rows.
+    testHarness.MockedCourseGroupDataAccessComponent
+        .Setup(mock => mock.ReadByCourseScheduleID(It.IsAny<IDatabaseConnection>(), ))
+        .Returns(Task.FromResult(new CourseGroupDataRow[]
+        {
+            new CourseGroupDataRow()
+            {
+                CourseGroupID = ,
+                CourseGroupCode = ,
+                CourseScheduleID = ,
+                PlacesCount = 
+            }
+        }))
+        .Verifiable();
+
+    // Mock the update of the CourseGroup data row.
+    testHarness.MockedCourseGroupDataAccessComponent
+        .Setup(mock => mock.Update(
+            It.IsAny<IDatabaseConnection>(),
+            It.Is<CourseGroupDataRow>(courseGroupDataRow =>
+            (
+                courseGroupDataRow.CourseGroupID ==  &&
+                courseGroupDataRow.CourseGroupCode ==  &&
+                courseGroupDataRow.CourseScheduleID ==  &&
+                courseGroupDataRow.PlacesCount == 
+            ))))
+        .Returns(Task.FromResult<object>(null))
+        .Verifiable();
+
+    // Mock the deletion of the CourseGroup data row.
+    testHarness.MockedCourseGroupDataAccessComponent
+        .Setup(mock => mock.Delete(
+            It.IsAny<IDatabaseConnection>(),
+            It.Is<CourseGroupDataRow>(courseGroupDataRow =>
+            (
+                courseGroupDataRow.CourseGroupID == 
+            ))))
+        .Returns(Task.FromResult<object>(null))
+        .Verifiable();

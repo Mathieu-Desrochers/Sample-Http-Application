@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using SampleHttpApplication.DataAccessComponents.Interface.Session;
+using SampleHttpApplication.DataAccessComponents.Interface.CourseGroup;
 using SampleHttpApplication.DataAccessComponents.Interface.CourseSchedule;
 
 namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
@@ -20,5 +21,6 @@ namespace SampleHttpApplication.BusinessLogicComponents.Code.Scheduling
         /// </summary>
         public SessionDataRow SessionDataRow;
         public CourseScheduleDataRow CourseScheduleDataRow;
+        public List<CourseGroupDataRow> CourseGroupDataRows;
     }
 }
